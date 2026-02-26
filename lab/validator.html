@@ -1,0 +1,81 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>DGZ Spatial Lab — Cadastral Validator</title>
+  <link rel="stylesheet" href="/assets/css/index.css">
+  <style>
+    body{background:#050505;color:#fff;font-family:Inter, sans-serif;padding:2rem}
+    .validator-wrap{max-width:980px;margin:0 auto;background:rgba(10,10,12,0.85);border:1px solid rgba(255,255,255,0.04);padding:1rem;border-radius:8px}
+    .controls{display:flex;gap:1rem;align-items:center;margin-bottom:1rem}
+    .parcel-grid{display:grid;grid-template-columns:repeat(6,1fr);gap:8px}
+    .parcel-cell{background:#0b0b0d;border:1px solid rgba(255,255,255,0.03);padding:8px;font-size:12px;text-align:center}
+    .parcel-cell.valid{outline:2px solid #4ade80}
+    .parcel-cell.error{outline:2px solid #ff4b2b}
+    #validator-output{height:180px;overflow:auto;padding:8px;background:#060606;border-radius:6px;border:1px solid rgba(255,255,255,0.03)}
+    #run-validator{background:#00e5ff;border:none;padding:10px 14px;border-radius:6px;cursor:pointer}
+  </style>
+</head>
+<body>
+  <div class="validator-wrap">
+    <h2>DGZ — Cadastral Validator (Demo)</h2>
+    <p>Esta página genera predios sintéticos y los valida contra el endpoint `/validate` del API.</p>
+
+    <div class="controls">
+      <button id="run-validator">⏳ RUN VALIDATION</button>
+      <label style="font-size:0.9rem;color:rgba(255,255,255,0.6)">API base:
+        <input id="api-base" type="text" value="http://127.0.0.1:8000" style="margin-left:8px;padding:6px;border-radius:6px;border:1px solid #222;background:#0b0b0d;color:#fff">
+      </label>
+    </div>
+
+    <div class="parcel-grid" id="validator-parcels"></div>
+    <h3 style="margin-top:12px">Output</h3>
+    <div id="validator-output"></div>
+  </div>
+
+  <!-- Use jsDelivr CDN for Turf (more reliable TLS) -->
+  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
+  <script src="/assets/js/main.js"></script>
+  <script>
+    // Generate simple synthetic parcels and a global GeoJSON for the validator
+    function genValidatorParcels(){
+      const features = [];
+      const container = document.getElementById('validator-parcels');
+      container.innerHTML = '';
+      const baseX = -75.5812 - 0.02;
+      const baseY = 6.2442 - 0.01;
+      let id = 200001;
+      for(let r=0;r<3;r++){
+        for(let c=0;c<6;c++){
+          const x = baseX + c*0.002 + (Math.random()*0.0003-0.00015);
+          const y = baseY + r*0.002 + (Math.random()*0.0003-0.00015);
+          const w = 0.0012 + Math.random()*0.0004;
+          const h = 0.0012 + Math.random()*0.0004;
+          const npu = `05001${id++}000`;
+          const uso = ['Residencial','Comercial','Mixto'][Math.floor(Math.random()*3)];
+          const props = {npu, area_m2: (Math.random()*200+50).toFixed(1), uso, estrato: [1,2,3,4,5,6][Math.floor(Math.random()*6)], municipio:'Medellín'};
+          const geom = {type:'Polygon',coordinates:[[[x,y],[x+w,y],[x+w,y+h],[x,y+h],[x,y]]]};
+          features.push({type:'Feature',properties:props,geometry:geom});
+
+          const cell = document.createElement('div');
+          cell.className = 'parcel-cell';
+          cell.textContent = props.npu;
+          container.appendChild(cell);
+        }
+      }
+      window.validatorGeoJSON = {type:'FeatureCollection',features};
+    }
+
+    genValidatorParcels();
+
+    // Bind button to existing global function defined in assets/js/main.js
+    document.getElementById('run-validator').addEventListener('click', () => {
+      const apiBase = document.getElementById('api-base').value.trim() || 'http://127.0.0.1:8000';
+      window.API_BASE = apiBase;
+      // call global runCadastralValidation
+      if(typeof runCadastralValidation === 'function') runCadastralValidation();
+    });
+  </script>
+</body>
+</html>
