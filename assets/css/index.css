@@ -1163,3 +1163,1214 @@ section {
     opacity: 1;
     transform: translateY(0);
 }
+
+/* ============================================================
+   MASTER BLUEPRINT V6.0 — NEW SECTION STYLES
+   ============================================================ */
+
+/* --- HERO V6 IDENTITY UPGRADE --- */
+.hero-identity-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(0, 229, 255, 0.06);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 100px;
+    padding: 0.5rem 1.2rem;
+    margin-bottom: 2rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    color: var(--accent-electric);
+    text-transform: uppercase;
+}
+
+.hero-badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: badgePulse 2s infinite;
+    flex-shrink: 0;
+}
+
+@keyframes badgePulse {
+
+    0%,
+    100% {
+        opacity: 1;
+        box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.4);
+    }
+
+    50% {
+        opacity: 0.7;
+        box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
+    }
+}
+
+.hero-tech-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+    justify-content: center;
+    margin-top: 2.5rem;
+}
+
+.hero-badge-pill {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    color: var(--text-secondary);
+    background: rgba(255, 255, 255, 0.02);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    transition: all 0.3s;
+}
+
+.hero-badge-pill:hover {
+    border-color: var(--accent-electric);
+    color: var(--accent-electric);
+    background: rgba(0, 229, 255, 0.05);
+}
+
+/* --- TERRITORIAL CHALLENGES SECTION --- */
+.challenges-section {
+    padding: 10rem 5%;
+    position: relative;
+}
+
+.challenges-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    max-width: 1200px;
+    margin: 0 auto;
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.challenge-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    grid-column: 1 / -1;
+}
+
+.challenge-header-cell {
+    background: rgba(0, 229, 255, 0.08);
+    padding: 1.5rem 2.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent-electric);
+    border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.challenge-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    grid-column: 1 / -1;
+    transition: all 0.3s;
+}
+
+.challenge-row:hover .challenge-cell {
+    background: rgba(0, 229, 255, 0.04);
+}
+
+.challenge-cell {
+    padding: 2rem 2.5rem;
+    border-bottom: 1px solid var(--border-glass);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    background: var(--bg-surface);
+    transition: all 0.3s;
+}
+
+.challenge-cell:last-child {
+    border-left: 1px solid rgba(0, 229, 255, 0.1);
+}
+
+.challenge-icon {
+    font-size: 1.4rem;
+    width: 40px;
+    text-align: center;
+    flex-shrink: 0;
+}
+
+.challenge-problem {
+    font-size: 0.9rem;
+    color: rgba(255, 100, 100, 0.9);
+    font-weight: 600;
+}
+
+.challenge-solution {
+    font-size: 0.9rem;
+    color: #4ade80;
+    font-weight: 600;
+}
+
+.challenge-arrow {
+    font-size: 0.7rem;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+    margin-right: 0.5rem;
+}
+
+/* --- DGZ SPATIAL LAB SECTION --- */
+.spatial-lab-section {
+    padding: 10rem 5%;
+    position: relative;
+}
+
+.lab-header {
+    max-width: 1400px;
+    margin: 0 auto 5rem;
+}
+
+.lab-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: rgba(255, 180, 0, 0.08);
+    border: 1px solid rgba(255, 180, 0, 0.3);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--accent-gold);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 1rem;
+}
+
+.lab-star {
+    color: var(--accent-gold);
+    animation: starGlow 2s ease-in-out infinite alternate;
+}
+
+@keyframes starGlow {
+    from {
+        text-shadow: 0 0 5px rgba(255, 180, 0, 0.5);
+    }
+
+    to {
+        text-shadow: 0 0 20px rgba(255, 180, 0, 0.9), 0 0 40px rgba(255, 180, 0, 0.5);
+    }
+}
+
+.lab-projects-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.lab-project-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 28px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease-apple);
+    display: flex;
+    flex-direction: column;
+}
+
+.lab-project-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.06) 0%, transparent 60%);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.lab-project-card:hover::before {
+    opacity: 1;
+}
+
+.lab-project-card:hover {
+    border-color: rgba(0, 229, 255, 0.4);
+    transform: translateY(-8px);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5), 0 0 30px rgba(0, 229, 255, 0.1);
+}
+
+.lab-project-card.gold-accent:hover {
+    border-color: rgba(255, 180, 0, 0.4);
+}
+
+.lab-project-card.gold-accent::before {
+    background: radial-gradient(circle at top right, rgba(255, 180, 0, 0.06) 0%, transparent 60%);
+}
+
+.lab-card-id {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: var(--text-tertiary);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 1.5rem;
+}
+
+.lab-card-icon {
+    width: 60px;
+    height: 60px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    margin-bottom: 1.5rem;
+    transition: all 0.3s;
+}
+
+.lab-project-card:hover .lab-card-icon {
+    background: rgba(0, 229, 255, 0.15);
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.2);
+}
+
+.lab-card-icon.gold {
+    background: rgba(255, 180, 0, 0.08);
+    border-color: rgba(255, 180, 0, 0.2);
+}
+
+.lab-project-card:hover .lab-card-icon.gold {
+    background: rgba(255, 180, 0, 0.15);
+    box-shadow: 0 0 20px rgba(255, 180, 0, 0.2);
+}
+
+.lab-card-title {
+    font-size: 1.4rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 1rem;
+    line-height: 1.2;
+}
+
+.lab-card-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1.5rem;
+    flex: 1;
+}
+
+.lab-tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+    margin-bottom: 2rem;
+}
+
+.lab-tech-pill {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    color: var(--accent-electric);
+    background: rgba(0, 229, 255, 0.03);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.lab-tech-pill.gold {
+    border-color: rgba(255, 180, 0, 0.25);
+    color: var(--accent-gold);
+    background: rgba(255, 180, 0, 0.03);
+}
+
+/* --- CADASTRAL VALIDATOR INTERACTIVE --- */
+.validator-demo {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 16px;
+    padding: 1.5rem;
+    margin-top: auto;
+}
+
+.validator-parcels {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 4px;
+    margin-bottom: 1rem;
+}
+
+.parcel-cell {
+    height: 30px;
+    border-radius: 3px;
+    background: rgba(0, 229, 255, 0.1);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    transition: all 0.3s;
+    position: relative;
+}
+
+.parcel-cell.valid {
+    background: rgba(74, 222, 128, 0.15);
+    border-color: rgba(74, 222, 128, 0.4);
+}
+
+.parcel-cell.error {
+    background: rgba(255, 75, 43, 0.15);
+    border-color: rgba(255, 75, 43, 0.4);
+    animation: errorFlash 1s infinite;
+}
+
+.parcel-cell.warning {
+    background: rgba(255, 180, 0, 0.15);
+    border-color: rgba(255, 180, 0, 0.4);
+}
+
+@keyframes errorFlash {
+
+    0%,
+    100% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+}
+
+.validator-run-btn {
+    width: 100%;
+    padding: 0.8rem;
+    background: var(--accent-electric);
+    color: #000;
+    border: none;
+    border-radius: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 800;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.3s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.validator-run-btn:hover {
+    box-shadow: 0 5px 20px rgba(0, 229, 255, 0.4);
+    transform: translateY(-2px);
+}
+
+.validator-output {
+    margin-top: 0.8rem;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: var(--text-tertiary);
+    min-height: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+}
+
+/* --- PIPELINE ANIMATION DEMO --- */
+.pipeline-demo {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: auto;
+}
+
+.pipeline-step {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    border-left: 2px solid rgba(0, 229, 255, 0.2);
+    position: relative;
+    transition: all 0.3s;
+}
+
+.pipeline-step.active-step {
+    border-left-color: var(--accent-electric);
+}
+
+.pipeline-step.active-step .pipeline-step-dot {
+    background: var(--accent-electric);
+    box-shadow: 0 0 10px rgba(0, 229, 255, 0.6);
+}
+
+.pipeline-step-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0, 229, 255, 0.3);
+    position: absolute;
+    left: -5px;
+    flex-shrink: 0;
+    transition: all 0.3s;
+}
+
+.pipeline-step-label {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: all 0.3s;
+}
+
+.pipeline-step.active-step .pipeline-step-label {
+    color: var(--accent-electric);
+}
+
+.pipeline-step-icon {
+    font-size: 0.9rem;
+    margin-left: auto;
+}
+
+/* --- MAP VIEWER DEMO --- */
+.map-preview-mini {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 229, 255, 0.2);
+    border-radius: 12px;
+    height: 160px;
+    position: relative;
+    overflow: hidden;
+    margin-top: auto;
+}
+
+.map-preview-grid {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0, 229, 255, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.04) 1px, transparent 1px);
+    background-size: 20px 20px;
+}
+
+.map-preview-polygons {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.mini-polygon {
+    position: absolute;
+    border: 1px solid rgba(0, 229, 255, 0.5);
+    background: rgba(0, 229, 255, 0.06);
+    border-radius: 3px;
+    transition: all 0.3s;
+}
+
+.mini-polygon:hover {
+    background: rgba(0, 229, 255, 0.15);
+    border-color: var(--accent-electric);
+}
+
+.map-preview-hud {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    font-family: var(--font-mono);
+    font-size: 0.45rem;
+    color: var(--accent-electric);
+    background: rgba(0, 0, 0, 0.7);
+    padding: 0.3rem 0.5rem;
+    border-radius: 4px;
+    border: 1px solid rgba(0, 229, 255, 0.2);
+}
+
+.map-preview-pulse {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background: var(--accent-electric);
+    border-radius: 50%;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    animation: miniPulse 2s infinite;
+}
+
+@keyframes miniPulse {
+    0% {
+        box-shadow: 0 0 0 0 rgba(0, 229, 255, 0.6);
+    }
+
+    100% {
+        box-shadow: 0 0 0 20px rgba(0, 229, 255, 0);
+    }
+}
+
+.lab-launch-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.8rem 1.5rem;
+    background: transparent;
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 8px;
+    color: var(--accent-electric);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s;
+    margin-top: 1.5rem;
+}
+
+.lab-launch-btn:hover {
+    background: rgba(0, 229, 255, 0.1);
+    border-color: var(--accent-electric);
+    transform: translateX(4px);
+}
+
+/* --- GEOAI MODULE SECTION --- */
+.geoai-section {
+    padding: 10rem 5%;
+    background: radial-gradient(ellipse at center top, rgba(0, 229, 255, 0.04) 0%, transparent 60%);
+}
+
+.geoai-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.geoai-content-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 5rem;
+    align-items: center;
+    margin-top: 4rem;
+}
+
+.geoai-text h3 {
+    font-size: 2.2rem;
+    font-weight: 800;
+    letter-spacing: -0.04em;
+    margin-bottom: 1.5rem;
+    line-height: 1.1;
+}
+
+.geoai-text p {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    margin-bottom: 2rem;
+    font-size: 0.95rem;
+}
+
+.geoai-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin-top: 2rem;
+}
+
+.geoai-step {
+    display: flex;
+    gap: 1.5rem;
+    position: relative;
+    padding-bottom: 2rem;
+}
+
+.geoai-step:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 19px;
+    top: 40px;
+    width: 2px;
+    height: calc(100% - 20px);
+    background: linear-gradient(to bottom, rgba(0, 229, 255, 0.3), transparent);
+}
+
+.geoai-step-num {
+    width: 40px;
+    height: 40px;
+    background: rgba(0, 229, 255, 0.08);
+    border: 1px solid rgba(0, 229, 255, 0.3);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--accent-electric);
+    font-weight: 800;
+    flex-shrink: 0;
+    position: relative;
+    z-index: 1;
+}
+
+.geoai-step-text h4 {
+    font-size: 0.9rem;
+    font-weight: 800;
+    margin-bottom: 0.4rem;
+}
+
+.geoai-step-text p {
+    font-size: 0.75rem;
+    color: var(--text-tertiary);
+    margin-bottom: 0;
+}
+
+.geoai-visualization {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 28px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    height: 500px;
+}
+
+.geoai-viz-header {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--accent-electric);
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.15em;
+}
+
+.geoai-satellite-view {
+    width: 100%;
+    height: 200px;
+    background: linear-gradient(135deg, #0a1628 0%, #0d2137 50%, #091522 100%);
+    border-radius: 12px;
+    position: relative;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+}
+
+.satellite-grid {
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(rgba(0, 229, 255, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0, 229, 255, 0.03) 1px, transparent 1px);
+    background-size: 15px 15px;
+}
+
+.change-detection-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+    flex-wrap: wrap;
+    padding: 1rem;
+}
+
+.change-pixel {
+    width: 14px;
+    height: 14px;
+    border-radius: 1px;
+    background: rgba(0, 229, 255, 0.1);
+    transition: all 0.3s;
+}
+
+.change-pixel.detected {
+    background: rgba(255, 75, 43, 0.7);
+    box-shadow: 0 0 5px rgba(255, 75, 43, 0.5);
+}
+
+.change-pixel.stable {
+    background: rgba(74, 222, 128, 0.2);
+}
+
+.geoai-metrics-row {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.geoai-metric {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+}
+
+.geoai-metric-val {
+    font-size: 1.6rem;
+    font-weight: 900;
+    background: linear-gradient(180deg, #fff, var(--accent-electric));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 1;
+}
+
+.geoai-metric-label {
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-top: 0.4rem;
+}
+
+.geoai-tools {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+/* --- ENGINEERING ARCHITECTURE SECTION --- */
+.arch-section {
+    padding: 10rem 5%;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.arch-inner {
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+.arch-diagram {
+    margin-top: 4rem;
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 32px;
+    padding: 4rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.arch-diagram::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at center, rgba(0, 229, 255, 0.03) 0%, transparent 70%);
+    pointer-events: none;
+}
+
+.arch-flow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    align-items: center;
+    position: relative;
+}
+
+.arch-node {
+    background: rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(0, 229, 255, 0.25);
+    border-radius: 16px;
+    padding: 1.5rem 3rem;
+    text-align: center;
+    position: relative;
+    min-width: 280px;
+    transition: all 0.3s;
+    cursor: default;
+}
+
+.arch-node:hover {
+    border-color: var(--accent-electric);
+    background: rgba(0, 229, 255, 0.06);
+    transform: scale(1.02);
+    box-shadow: 0 0 30px rgba(0, 229, 255, 0.15);
+}
+
+.arch-node.gold-node {
+    border-color: rgba(255, 180, 0, 0.25);
+}
+
+.arch-node.gold-node:hover {
+    border-color: var(--accent-gold);
+    background: rgba(255, 180, 0, 0.06);
+    box-shadow: 0 0 30px rgba(255, 180, 0, 0.15);
+}
+
+.arch-node-icon {
+    font-size: 1.8rem;
+    margin-bottom: 0.6rem;
+}
+
+.arch-node-title {
+    font-size: 1rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.3rem;
+}
+
+.arch-node-sub {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: var(--accent-electric);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+}
+
+.arch-node.gold-node .arch-node-sub {
+    color: var(--accent-gold);
+}
+
+.arch-connector {
+    width: 2px;
+    height: 40px;
+    background: linear-gradient(to bottom, rgba(0, 229, 255, 0.5), rgba(0, 229, 255, 0.1));
+    position: relative;
+}
+
+.arch-connector::after {
+    content: '▼';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 0.5rem;
+    color: var(--accent-electric);
+}
+
+.arch-connector-label {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-family: var(--font-mono);
+    font-size: 0.45rem;
+    color: var(--text-tertiary);
+    white-space: nowrap;
+}
+
+.arch-bottom-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    margin-top: 4rem;
+    padding-top: 4rem;
+    border-top: 1px solid var(--border-glass);
+}
+
+.arch-tech-card {
+    background: rgba(0, 0, 0, 0.4);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 1.5rem;
+    text-align: center;
+    transition: all 0.3s;
+}
+
+.arch-tech-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+    background: rgba(0, 229, 255, 0.03);
+    transform: translateY(-3px);
+}
+
+.arch-tech-icon {
+    font-size: 1.5rem;
+    margin-bottom: 0.8rem;
+}
+
+.arch-tech-name {
+    font-size: 0.8rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.arch-tech-desc {
+    font-size: 0.6rem;
+    color: var(--text-tertiary);
+    font-family: var(--font-mono);
+}
+
+/* --- ENHANCED METRICS (V6 IMPACT CORE) --- */
+.metrics-v6-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2px;
+    max-width: 1200px;
+    margin: 4rem auto 0;
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    overflow: hidden;
+}
+
+.metric-v6-card {
+    background: var(--bg-surface);
+    padding: 3.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+}
+
+.metric-v6-card:hover {
+    background: rgba(0, 229, 255, 0.03);
+}
+
+.metric-v6-card:nth-child(2) {
+    border-left: 1px solid var(--border-glass);
+}
+
+.metric-v6-card:nth-child(3) {
+    border-top: 1px solid var(--border-glass);
+}
+
+.metric-v6-card:nth-child(4) {
+    border-top: 1px solid var(--border-glass);
+    border-left: 1px solid var(--border-glass);
+}
+
+.metric-v6-icon {
+    font-size: 2.5rem;
+    width: 72px;
+    height: 72px;
+    background: rgba(0, 229, 255, 0.06);
+    border: 1px solid rgba(0, 229, 255, 0.15);
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.metric-v6-data {
+    flex: 1;
+}
+
+.metric-v6-num {
+    font-size: 3.5rem;
+    font-weight: 900;
+    line-height: 1;
+    background: linear-gradient(135deg, #fff 0%, var(--accent-electric) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.3rem;
+}
+
+.metric-v6-label {
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 0.3rem;
+}
+
+.metric-v6-sub {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+/* --- TIMELINE ENHANCED --- */
+.timeline-wrapper {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 4rem;
+    max-width: 1200px;
+    margin: 4rem auto 0;
+    align-items: start;
+}
+
+.timeline-line {
+    display: none;
+}
+
+.timeline-items {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    min-width: 180px;
+    border-left: 1px solid var(--border-glass);
+}
+
+.timeline-node {
+    padding: 1rem 1.5rem;
+    cursor: pointer;
+    transition: all 0.3s;
+    border-left: 2px solid transparent;
+    margin-left: -1px;
+    position: relative;
+}
+
+.timeline-node:hover {
+    background: rgba(255, 255, 255, 0.02);
+}
+
+.timeline-node.active {
+    border-left-color: var(--accent-electric);
+    background: rgba(0, 229, 255, 0.04);
+}
+
+.node-dot {
+    display: none;
+}
+
+.node-year {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    transition: all 0.3s;
+    letter-spacing: 0.05em;
+}
+
+.timeline-node.active .node-year {
+    color: var(--accent-electric);
+    font-weight: 800;
+}
+
+.timeline-content-display {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 3rem;
+    transition: opacity 0.3s var(--ease-apple);
+}
+
+.timeline-text h3 {
+    font-size: 1.8rem;
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    margin-bottom: 0.5rem;
+}
+
+.timeline-text p {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 0.5rem;
+}
+
+#timeline-subtitle {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--accent-electric);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 1rem !important;
+}
+
+/* --- CAPABILITY CARDS ENHANCED --- */
+.capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    max-width: 1400px;
+    margin: 4rem auto 0;
+}
+
+.capability-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    border-radius: 24px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s var(--ease-apple);
+    text-align: left;
+}
+
+.capability-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--accent-electric), transparent);
+    opacity: 0;
+    transition: opacity 0.5s;
+}
+
+.capability-card:hover::before {
+    opacity: 1;
+}
+
+.capability-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+    transform: translateY(-8px);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+}
+
+.capability-icon {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.capability-stat {
+    font-size: 2.5rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    background: linear-gradient(135deg, #fff, var(--accent-electric));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 1rem;
+}
+
+.capability-tags {
+    display: flex;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+}
+
+/* --- NAV ENHANCEMENTS --- */
+.nav-links a[href="#lab"] {
+    color: var(--accent-gold);
+}
+
+/* ============================================================
+   RESPONSIVE — MASTER BLUEPRINT V6
+   ============================================================ */
+@media (max-width: 1024px) {
+    .lab-projects-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .geoai-content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .challenges-grid,
+    .challenge-header,
+    .challenge-row {
+        grid-template-columns: 1fr;
+    }
+
+    .challenge-cell:last-child {
+        border-left: none;
+        border-top: 1px solid rgba(0, 229, 255, 0.1);
+    }
+
+    .arch-bottom-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .metrics-v6-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .metric-v6-card:nth-child(2),
+    .metric-v6-card:nth-child(3),
+    .metric-v6-card:nth-child(4) {
+        border: none;
+        border-top: 1px solid var(--border-glass);
+    }
+
+    .timeline-wrapper {
+        grid-template-columns: 1fr;
+    }
+
+    .capabilities-grid {
+        grid-template-columns: 1fr;
+    }
+}

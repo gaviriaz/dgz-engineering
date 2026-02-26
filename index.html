@@ -351,10 +351,11 @@
             </a>
 
             <nav class="nav-links">
-                <a href="#about" data-i18n="nav_about">Nature</a>
+                <a href="#about" data-i18n="nav_about">About</a>
+                <a href="#lab">⭐ Spatial Lab</a>
                 <a href="#projects" data-i18n="nav_projects">Assets</a>
                 <a href="#map" data-i18n="nav_map">Intel Map</a>
-                <a href="#contact" data-i18n="nav_contact">Link</a>
+                <a href="#contact" data-i18n="nav_contact">Contact</a>
             </nav>
 
             <div style="display: flex; gap: 2rem; align-items: center;">
@@ -385,16 +386,35 @@
     </header>
 
     <main>
-        <!-- HERO -->
+        <!-- HERO V6 -->
         <section class="hero">
             <div class="hero-content reveal">
-                <span class="section-label" data-i18n="hero_tag">// SPATIAL_SYSTEMS_ENGINEERING</span>
-                <h1 data-i18n="hero_title">DESIGNING THE FUTURE OF SPATIAL DATA</h1>
-                <p data-i18n="hero_desc">High-Performance Geospatial Engineering & Automated Systems
-                    Architecture.</p>
-                <div style="display: flex; gap: 2rem; justify-content: center;">
-                    <a href="#projects" class="btn-premium" data-i18n="hero_btn_projects">Explore System</a>
+                <div class="hero-identity-badge">
+                    <div class="hero-badge-dot"></div>
+                    Spatial Systems Engineer — Latin America
+                </div>
+                <span class="section-label" data-i18n="hero_tag" style="margin-bottom: 1.5rem;">//
+                    SPATIAL_SYSTEMS_ENGINEERING</span>
+                <h1 style="margin-bottom: 1rem;">ALBERT GAVIRIA ZAPATA</h1>
+                <p
+                    style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-electric), #fff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; margin-bottom: 1.5rem;">
+                    Automating Multipurpose Cadastre &amp;<br>Territorial Intelligence Systems
+                </p>
+                <p data-i18n="hero_desc" style="font-size: 1rem; margin-bottom: 2.5rem;">High-Performance Geospatial
+                    Engineering &amp; Automated Systems Architecture.</p>
+                <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="#lab" class="btn-premium">⭐ Explore Spatial Lab</a>
                     <a href="#contact" class="btn-premium btn-outline" data-i18n="hero_btn_contact">Link_Direct</a>
+                </div>
+                <div class="hero-tech-badges">
+                    <span class="hero-badge-pill">Python</span>
+                    <span class="hero-badge-pill">PostGIS</span>
+                    <span class="hero-badge-pill">GIS Automation</span>
+                    <span class="hero-badge-pill">LADM-COL</span>
+                    <span class="hero-badge-pill">FastAPI</span>
+                    <span class="hero-badge-pill">MapLibre GL</span>
+                    <span class="hero-badge-pill">PyQGIS</span>
+                    <span class="hero-badge-pill">GeoPandas</span>
                 </div>
             </div>
         </section>
@@ -434,6 +454,55 @@
                         <div class="capability-tags">
                             <span class="tech-tag">AutoCAD</span> <span class="tech-tag">MS Project</span>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TERRITORIAL CHALLENGES -->
+        <section id="challenges" class="challenges-section">
+            <div class="reveal">
+                <span class="section-label">// TERRITORIAL_CHALLENGES</span>
+                <h2 class="section-title">Problemas que Resuelvo</h2>
+                <p
+                    style="color: var(--text-secondary); max-width: 700px; margin-bottom: 4rem; font-size: 1rem; line-height: 1.7;">
+                    Los gobiernos y entidades territoriales enfrentan desafíos críticos de datos espaciales que frenan
+                    el desarrollo. Estos son los problemas que transformo en soluciones automatizadas.</p>
+
+                <div class="challenges-grid">
+                    <div class="challenge-header">
+                        <div class="challenge-header-cell">⚠️ &nbsp; Territorial Problem</div>
+                        <div class="challenge-header-cell">✅ &nbsp; DGZ Engineering Solution</div>
+                    </div>
+                    <div class="challenge-row">
+                        <div class="challenge-cell"><span class="challenge-icon">🔴</span><span
+                                class="challenge-problem">QA manual lento y propenso a errores</span></div>
+                        <div class="challenge-cell"><span class="challenge-arrow">>>></span><span
+                                class="challenge-solution">Validación automática con Python + PostGIS</span></div>
+                    </div>
+                    <div class="challenge-row">
+                        <div class="challenge-cell"><span class="challenge-icon">🔴</span><span
+                                class="challenge-problem">Datos prediales inconsistentes</span></div>
+                        <div class="challenge-cell"><span class="challenge-arrow">>>></span><span
+                                class="challenge-solution">Modelado espacial LADM-COL estructurado</span></div>
+                    </div>
+                    <div class="challenge-row">
+                        <div class="challenge-cell"><span class="challenge-icon">🔴</span><span
+                                class="challenge-problem">Procesos de digitalización lentos</span></div>
+                        <div class="challenge-cell"><span class="challenge-arrow">>>></span><span
+                                class="challenge-solution">Pipelines SIG automatizados con GDAL/FME</span></div>
+                    </div>
+                    <div class="challenge-row">
+                        <div class="challenge-cell"><span class="challenge-icon">🔴</span><span
+                                class="challenge-problem">Topología catastral rota</span></div>
+                        <div class="challenge-cell"><span class="challenge-arrow">>>></span><span
+                                class="challenge-solution">Motores de validación topológica automatizados</span></div>
+                    </div>
+                    <div class="challenge-row">
+                        <div class="challenge-cell"><span class="challenge-icon">🔴</span><span
+                                class="challenge-problem">Sin visibilidad sobre cambios de cobertura</span></div>
+                        <div class="challenge-cell"><span class="challenge-arrow">>>></span><span
+                                class="challenge-solution">GeoAI: detección cambios con Sentinel + Rasterio</span></div>
                     </div>
                 </div>
             </div>
@@ -480,28 +549,174 @@
             </div>
         </section>
 
-        <!-- NEURAL IMPACT METRICS (Quantifiable Achievements) -->
+        <!-- NEURAL IMPACT METRICS V6 -->
         <section id="metrics" style="padding: 10rem 5%;">
             <div class="reveal">
                 <span class="section-label" data-i18n="metrics_label">// PROVEN_PERFORMANCE</span>
-                <h2 class="section-title" data-i18n="metrics_title">Neural Impact Core</h2>
+                <h2 class="section-title" data-i18n="metrics_title">Impact Metrics</h2>
 
-                <div class="metrics-grid">
-                    <div class="metric-card reveal" data-tilt>
-                        <div class="metric-num">115%</div>
-                        <div class="metric-label" data-i18n="metric_roi">Operational Efficiency</div>
+                <div class="metrics-v6-grid">
+                    <div class="metric-v6-card reveal">
+                        <div class="metric-v6-icon">🗺️</div>
+                        <div class="metric-v6-data">
+                            <div class="metric-v6-num">50k+</div>
+                            <div class="metric-v6-label">Spatial Records Processed</div>
+                            <div class="metric-v6-sub">Predios // Cartografía // Catastro</div>
+                        </div>
                     </div>
-                    <div class="metric-card reveal" data-tilt>
-                        <div class="metric-num">-30%</div>
-                        <div class="metric-label" data-i18n="metric_error">Error Margin Reduction</div>
+                    <div class="metric-v6-card reveal">
+                        <div class="metric-v6-icon">⚡</div>
+                        <div class="metric-v6-data">
+                            <div class="metric-v6-num">-30%</div>
+                            <div class="metric-v6-label">Error Margin Reduction</div>
+                            <div class="metric-v6-sub">QA/QC // Automation // Validation</div>
+                        </div>
                     </div>
-                    <div class="metric-card reveal" data-tilt>
-                        <div class="metric-num">15+</div>
-                        <div class="metric-label" data-i18n="metric_team">Personnel Managed</div>
+                    <div class="metric-v6-card reveal">
+                        <div class="metric-v6-icon">🏗️</div>
+                        <div class="metric-v6-data">
+                            <div class="metric-v6-num">115%</div>
+                            <div class="metric-v6-label">Operational Efficiency</div>
+                            <div class="metric-v6-sub">ROI // Automatización Workflow</div>
+                        </div>
                     </div>
-                    <div class="metric-card reveal" data-tilt>
-                        <div class="metric-num">5+</div>
-                        <div class="metric-label" data-i18n="metric_nodes">Primary Data Nodes</div>
+                    <div class="metric-v6-card reveal">
+                        <div class="metric-v6-icon">🌎</div>
+                        <div class="metric-v6-data">
+                            <div class="metric-v6-num">6+</div>
+                            <div class="metric-v6-label">Multipurpose Cadastre Projects</div>
+                            <div class="metric-v6-sub">LADM-COL // IGAC Standards</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- DGZ SPATIAL LAB ⭐ -->
+        <section id="lab" class="spatial-lab-section">
+            <div class="lab-header reveal">
+                <div class="lab-badge"><span class="lab-star">⭐</span> DGZ SPATIAL LAB — LIVE DEMOS</div>
+                <h2 class="section-title">Laboratorio de Inteligencia Espacial</h2>
+                <p style="color: var(--text-secondary); max-width: 700px; font-size: 1rem; line-height: 1.7;">Proyectos
+                    reales demostrando capacidades GIS, automatización catastral y arquitectura de sistemas espaciales.
+                    Esto NO es un portafolio — es un laboratorio activo.</p>
+            </div>
+
+            <div class="lab-projects-grid">
+                <!-- PROJECT 1: SPATIAL VIEWER -->
+                <div class="lab-project-card reveal" data-tilt>
+                    <div class="lab-card-id">SYSTEM_ID: SPATIAL_VIEWER_01</div>
+                    <div class="lab-card-icon">🗺️</div>
+                    <h3 class="lab-card-title">Spatial Viewer</h3>
+                    <p class="lab-card-desc">Visor GIS interactivo con capas de predios, límites urbanos y atributos
+                        catastrales. Datos reales exportados desde QGIS en formato GeoJSON con popups de información
+                        predial.</p>
+                    <div class="lab-tech-stack">
+                        <span class="lab-tech-pill">MapLibre GL JS</span>
+                        <span class="lab-tech-pill">GeoJSON</span>
+                        <span class="lab-tech-pill">QGIS Export</span>
+                        <span class="lab-tech-pill">PostGIS</span>
+                    </div>
+                    <div class="map-preview-mini">
+                        <div class="map-preview-grid"></div>
+                        <div class="map-preview-polygons">
+                            <div class="mini-polygon" style="width:55px;height:40px;top:30px;left:40px;"></div>
+                            <div class="mini-polygon" style="width:40px;height:55px;top:25px;left:105px;"></div>
+                            <div class="mini-polygon" style="width:50px;height:35px;top:80px;left:60px;"></div>
+                            <div class="mini-polygon" style="width:35px;height:45px;top:70px;left:120px;"></div>
+                            <div class="mini-polygon" style="width:60px;height:30px;top:50px;left:180px;"></div>
+                        </div>
+                        <div class="map-preview-hud">PREDIOS_LAYER: 247 FEATURES</div>
+                        <div class="map-preview-pulse"></div>
+                    </div>
+                    <a href="lab/map.html" class="lab-launch-btn">
+                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5">
+                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
+                            <polyline points="15,3 21,3 21,9" />
+                            <line x1="10" y1="14" x2="21" y2="3" />
+                        </svg>
+                        Launch Spatial Viewer
+                    </a>
+                </div>
+
+                <!-- PROJECT 2: CADASTRAL VALIDATOR -->
+                <div class="lab-project-card reveal gold-accent" data-tilt>
+                    <div class="lab-card-id">SYSTEM_ID: CADASTRAL_VALIDATOR_02</div>
+                    <div class="lab-card-icon gold">⚙️</div>
+                    <h3 class="lab-card-title">Cadastral Validator</h3>
+                    <p class="lab-card-desc">Motor automático de validación catastral. Detecta overlaps, geometrías
+                        inválidas y áreas inconsistentes en tiempo real. Simula un endpoint FastAPI /validate_parcel.
+                    </p>
+                    <div class="lab-tech-stack">
+                        <span class="lab-tech-pill gold">JavaScript</span>
+                        <span class="lab-tech-pill gold">FastAPI</span>
+                        <span class="lab-tech-pill gold">Topology Check</span>
+                        <span class="lab-tech-pill gold">Python</span>
+                    </div>
+                    <div class="validator-demo">
+                        <div class="validator-parcels" id="validator-parcels">
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                            <div class="parcel-cell"></div>
+                        </div>
+                        <button class="validator-run-btn" id="run-validator" onclick="runCadastralValidation()">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <polygon points="5,3 19,12 5,21"></polygon>
+                            </svg>
+                            RUN_VALIDATION
+                        </button>
+                        <div class="validator-output" id="validator-output"></div>
+                    </div>
+                </div>
+
+                <!-- PROJECT 3: AUTOMATION PIPELINE -->
+                <div class="lab-project-card reveal" data-tilt>
+                    <div class="lab-card-id">SYSTEM_ID: AUTOMATION_PIPELINE_03</div>
+                    <div class="lab-card-icon">🔄</div>
+                    <h3 class="lab-card-title">Automation Pipeline</h3>
+                    <p class="lab-card-desc">Visualización del flujo completo de automatización territorial: desde
+                        captura en campo hasta actualización de base de datos catastral con validación topológica
+                        integrada.</p>
+                    <div class="lab-tech-stack">
+                        <span class="lab-tech-pill">ETL Pipeline</span>
+                        <span class="lab-tech-pill">GDAL</span>
+                        <span class="lab-tech-pill">PostGIS</span>
+                        <span class="lab-tech-pill">PyQGIS</span>
+                    </div>
+                    <div class="pipeline-demo" id="pipeline-demo">
+                        <div class="pipeline-step active-step" data-step="0">
+                            <div class="pipeline-step-dot"></div>
+                            <span class="pipeline-step-label">📡 Field Survey Capture</span>
+                            <span class="pipeline-step-icon">✅</span>
+                        </div>
+                        <div class="pipeline-step" data-step="1">
+                            <div class="pipeline-step-dot"></div>
+                            <span class="pipeline-step-label">🔄 ETL Transform</span>
+                            <span class="pipeline-step-icon" id="step-icon-1">⏳</span>
+                        </div>
+                        <div class="pipeline-step" data-step="2">
+                            <div class="pipeline-step-dot"></div>
+                            <span class="pipeline-step-label">🔍 Topology Check</span>
+                            <span class="pipeline-step-icon" id="step-icon-2">⏳</span>
+                        </div>
+                        <div class="pipeline-step" data-step="3">
+                            <div class="pipeline-step-dot"></div>
+                            <span class="pipeline-step-label">🗄️ PostGIS Update</span>
+                            <span class="pipeline-step-icon" id="step-icon-3">⏳</span>
+                        </div>
+                        <div class="pipeline-step" data-step="4">
+                            <div class="pipeline-step-dot"></div>
+                            <span class="pipeline-step-label">🌐 Web GIS Publish</span>
+                            <span class="pipeline-step-icon" id="step-icon-4">⏳</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -542,6 +757,169 @@
                             </div>
                             <img src="assets/img/logo-construmetrix.svg" alt="ConstruMetrix Logo"
                                 style="width: 300px; position: relative; z-index: 2; filter: drop-shadow(0 0 40px rgba(0,229,255,0.3)); animation: float 6s ease-in-out infinite;">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GEOAI MODULE -->
+        <section id="geoai" class="geoai-section">
+            <div class="geoai-inner reveal">
+                <span class="section-label">// GEOAI_MODULE</span>
+                <h2 class="section-title">GeoAI Intelligence</h2>
+
+                <div class="geoai-content-grid">
+                    <div class="geoai-text">
+                        <h3>Urban Change Detection<br>con Imagenería Sentinel</h3>
+                        <p>Aplicación de inteligencia artificial geoespacial para detectar cambios de cobertura urbana y
+                            rural comparando imágenes satelitales multitemporales. Pipeline completo desde descarga
+                            Sentinel hasta exportación GeoJSON.</p>
+
+                        <div class="geoai-steps">
+                            <div class="geoai-step">
+                                <div class="geoai-step-num">01</div>
+                                <div class="geoai-step-text">
+                                    <h4>Descarga Imagenería Sentinel-2</h4>
+                                    <p>API Copernicus // Bandas espectrales B04, B08, B11 // resolución 10m</p>
+                                </div>
+                            </div>
+                            <div class="geoai-step">
+                                <div class="geoai-step-num">02</div>
+                                <div class="geoai-step-text">
+                                    <h4>Procesamiento con Rasterio + GeoPandas</h4>
+                                    <p>Normalización radiométrica // Comparación multitemporal // NumPy arrays</p>
+                                </div>
+                            </div>
+                            <div class="geoai-step">
+                                <div class="geoai-step-num">03</div>
+                                <div class="geoai-step-text">
+                                    <h4>Clasificación con Scikit-learn</h4>
+                                    <p>Random Forest // Detección de cambios // Vectorización de polígonos</p>
+                                </div>
+                            </div>
+                            <div class="geoai-step">
+                                <div class="geoai-step-num">04</div>
+                                <div class="geoai-step-text">
+                                    <h4>Exportación GeoJSON → Web GIS</h4>
+                                    <p>Visualización en MapLibre GL // Integración PostGIS // API REST</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="geoai-tools">
+                            <span class="lab-tech-pill">Rasterio</span>
+                            <span class="lab-tech-pill">GeoPandas</span>
+                            <span class="lab-tech-pill">NumPy</span>
+                            <span class="lab-tech-pill">Scikit-learn</span>
+                            <span class="lab-tech-pill">Sentinel-2</span>
+                            <span class="lab-tech-pill">Shapely</span>
+                        </div>
+                    </div>
+
+                    <div class="geoai-visualization">
+                        <div class="geoai-viz-header">[CHANGE_DETECTION_ENGINE] STATUS: PROCESSING_DEMO</div>
+                        <div class="geoai-satellite-view">
+                            <div class="satellite-grid"></div>
+                            <div class="change-detection-overlay" id="change-pixels"></div>
+                        </div>
+                        <div class="geoai-metrics-row">
+                            <div class="geoai-metric">
+                                <div class="geoai-metric-val">94%</div>
+                                <div class="geoai-metric-label">Accuracy</div>
+                            </div>
+                            <div class="geoai-metric">
+                                <div class="geoai-metric-val">2.3km²</div>
+                                <div class="geoai-metric-label">Area Detected</div>
+                            </div>
+                            <div class="geoai-metric">
+                                <div class="geoai-metric-val">847</div>
+                                <div class="geoai-metric-label">Polygons</div>
+                            </div>
+                        </div>
+                        <div
+                            style="margin-top:1.5rem; font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-tertiary); line-height: 2;">
+                            >>> SENTINEL_BAND: B08+B04+B11<br>
+                            >>> DATE_COMPARISON: 2023-01-15 vs 2025-01-15<br>
+                            >>> CHANGE_PIXELS_DETECTED: <span style="color: #ff4b2b;">RED</span> = URBAN_EXPANSION<br>
+                            >>> STABLE_PIXELS: <span style="color: #4ade80;">GREEN</span> = NO_CHANGE
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ENGINEERING ARCHITECTURE -->
+        <section id="architecture" class="arch-section">
+            <div class="arch-inner reveal">
+                <span class="section-label">// ENGINEERING_ARCHITECTURE</span>
+                <h2 class="section-title">System Architecture</h2>
+                <p
+                    style="color: var(--text-secondary); max-width: 700px; margin-bottom: 0; font-size: 1rem; line-height: 1.7;">
+                    La arquitectura completa del stack GovTech moderno — desde captura en campo hasta publicación web.
+                    Diseñado para escalar a nivel de municipio, departamento o nación.</p>
+
+                <div class="arch-diagram">
+                    <div class="arch-flow">
+                        <div class="arch-node">
+                            <div class="arch-node-icon">📡</div>
+                            <div class="arch-node-title">Field Capture</div>
+                            <div class="arch-node-sub">GPS // 360° Survey // Drones</div>
+                        </div>
+                        <div class="arch-connector" style="position:relative;">
+                            <span class="arch-connector-label">ETL Process</span>
+                        </div>
+                        <div class="arch-node gold-node">
+                            <div class="arch-node-icon">🐍</div>
+                            <div class="arch-node-title">Python Validation Engine</div>
+                            <div class="arch-node-sub">GDAL // GeoPandas // Shapely</div>
+                        </div>
+                        <div class="arch-connector" style="position:relative;">
+                            <span class="arch-connector-label">Topology Check</span>
+                        </div>
+                        <div class="arch-node">
+                            <div class="arch-node-icon">🗄️</div>
+                            <div class="arch-node-title">PostGIS Database</div>
+                            <div class="arch-node-sub">PostgreSQL // LADM-COL Schema</div>
+                        </div>
+                        <div class="arch-connector" style="position:relative;">
+                            <span class="arch-connector-label">REST API</span>
+                        </div>
+                        <div class="arch-node gold-node">
+                            <div class="arch-node-icon">⚡</div>
+                            <div class="arch-node-title">FastAPI Spatial API</div>
+                            <div class="arch-node-sub">/validate // /topology // /parcel_score</div>
+                        </div>
+                        <div class="arch-connector" style="position:relative;">
+                            <span class="arch-connector-label">GeoJSON Tiles</span>
+                        </div>
+                        <div class="arch-node">
+                            <div class="arch-node-icon">🌐</div>
+                            <div class="arch-node-title">Web GIS Interface</div>
+                            <div class="arch-node-sub">MapLibre GL JS // Chart.js</div>
+                        </div>
+                    </div>
+
+                    <div class="arch-bottom-grid">
+                        <div class="arch-tech-card">
+                            <div class="arch-tech-icon">🐘</div>
+                            <div class="arch-tech-name">PostgreSQL + PostGIS</div>
+                            <div class="arch-tech-desc">Spatial DB Engine</div>
+                        </div>
+                        <div class="arch-tech-card">
+                            <div class="arch-tech-icon">🐍</div>
+                            <div class="arch-tech-name">Python Ecosystem</div>
+                            <div class="arch-tech-desc">GeoPandas // Rasterio // Shapely</div>
+                        </div>
+                        <div class="arch-tech-card">
+                            <div class="arch-tech-icon">⚡</div>
+                            <div class="arch-tech-name">FastAPI</div>
+                            <div class="arch-tech-desc">Spatial REST API</div>
+                        </div>
+                        <div class="arch-tech-card">
+                            <div class="arch-tech-icon">🗺️</div>
+                            <div class="arch-tech-name">MapLibre GL JS</div>
+                            <div class="arch-tech-desc">Web GIS Frontend</div>
                         </div>
                     </div>
                 </div>
@@ -717,18 +1095,26 @@
     <footer class="site-footer">
         <div class="footer-grid">
             <div class="footer-brand">
-                <div class="footer-title">DGZ_ENGINEERING_V5.2</div>
+                <div class="footer-title">DGZ_ENGINEERING_V6.0</div>
                 <p style="color: var(--text-tertiary); font-size: 0.8rem; line-height: 1.8; max-width: 300px;">
-                    Developing high-performance geospatial architectures for global spatial data dominance.</p>
+                    Spatial Intelligence Platform — GovTech GIS Automation &amp; Territorial Systems for Latin America.
+                </p>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap; margin-top: 1rem;">
+                    <span class="hero-badge-pill">Spatial Engineer</span>
+                    <span class="hero-badge-pill">GIS Automation</span>
+                    <span class="hero-badge-pill">Latin America</span>
+                </div>
             </div>
 
             <div class="footer-column">
                 <h3
                     style="font-size: 0.9rem; margin-bottom: 2rem; color: #fff; text-transform: uppercase; letter-spacing: 0.2em;">
-                    System_Nav</h3>
+                    Platform_Nav</h3>
                 <a href="#about" class="footer-link">Architecture</a>
+                <a href="#lab" class="footer-link" style="color: var(--accent-gold);">⭐ Spatial Lab</a>
+                <a href="#geoai" class="footer-link">GeoAI Module</a>
                 <a href="#projects" class="footer-link">Assets</a>
-                <a href="#map" class="footer-link">Intel</a>
+                <a href="#map" class="footer-link">Intel Map</a>
             </div>
 
             <div class="footer-column">
@@ -744,7 +1130,8 @@
 
         <div class="footer-bottom">
             <div data-i18n="footer_copy">© 2026 ALBERT DANIEL GAVIRIA ZAPATA. ALL RIGHTS RESERVED.</div>
-            <div style="font-family: var(--font-mono); letter-spacing: 0.2em;">SYSTEM_STATUS: STABLE_V5.2</div>
+            <div style="font-family: var(--font-mono); letter-spacing: 0.2em;">DGZ_SPATIAL_INTELLIGENCE_V6.0 // STATUS:
+                ACTIVE</div>
         </div>
     </footer>
 

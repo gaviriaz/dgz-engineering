@@ -493,11 +493,87 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { passive: true });
 
     // 9. PERFORMANCE LOG (Innovation)
-    console.log("%c DGZ_ENGINEERING_V5.2 %c NODE_CONNECTED %c ACCESS_LEVEL: SOVEREIGN ",
+    console.log("%c DGZ_ENGINEERING_V6.0 %c SPATIAL_INTELLIGENCE %c ACCESS_LEVEL: SOVEREIGN ",
         "background: #00e5ff; color: #000; font-weight: 800; padding: 2px 5px; border-radius: 3px 0 0 3px;",
         "background: #ffb400; color: #000; font-weight: 800; padding: 2px 5px;",
         "background: #222; color: #00e5ff; padding: 2px 5px; border-radius: 0 3px 3px 0;");
-    console.log(">>> [STATUS] Neural_Architecture: Synchronized // Spatial_Handshake: Stable // Kernel: 0x" + Math.random().toString(16).slice(2, 10).toUpperCase());
+    console.log(">>> [STATUS] Spatial_Lab: ACTIVE // GeoAI_Module: READY // Architecture: V6.0 // Kernel: 0x" + Math.random().toString(16).slice(2, 10).toUpperCase());
+
+    // 11. PIPELINE ANIMATION (Automation Pipeline Demo)
+    const pipelineSteps = document.querySelectorAll('.pipeline-step');
+    if (pipelineSteps.length > 0) {
+        let currentPipelineStep = 0;
+        const stepIcons = ['step-icon-1', 'step-icon-2', 'step-icon-3', 'step-icon-4'];
+
+        const advancePipeline = () => {
+            if (currentPipelineStep < pipelineSteps.length - 1) {
+                currentPipelineStep++;
+                pipelineSteps.forEach((s, i) => {
+                    if (i <= currentPipelineStep) {
+                        s.classList.add('active-step');
+                        const iconId = `step-icon-${i}`;
+                        const iconEl = document.getElementById(iconId);
+                        if (iconEl && i > 0) iconEl.textContent = '✅';
+                    }
+                });
+                if (currentPipelineStep < pipelineSteps.length - 1) {
+                    setTimeout(advancePipeline, 1200);
+                } else {
+                    const lastIcon = document.getElementById('step-icon-4');
+                    if (lastIcon) lastIcon.textContent = '✅';
+                    // Reset after 3 seconds
+                    setTimeout(() => {
+                        currentPipelineStep = 0;
+                        pipelineSteps.forEach((s, i) => {
+                            if (i > 0) s.classList.remove('active-step');
+                        });
+                        stepIcons.forEach(id => {
+                            const el = document.getElementById(id);
+                            if (el) el.textContent = '⏳';
+                        });
+                        setTimeout(advancePipeline, 1200);
+                    }, 3000);
+                }
+            }
+        };
+
+        // Start pipeline animation when in view
+        const pipelineObserver = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                setTimeout(advancePipeline, 800);
+                pipelineObserver.disconnect();
+            }
+        }, { threshold: 0.3 });
+        const pipelineContainer = document.getElementById('pipeline-demo');
+        if (pipelineContainer) pipelineObserver.observe(pipelineContainer);
+    }
+
+    // 12. GEOAI CHANGE DETECTION PIXELS
+    const changePixelsContainer = document.getElementById('change-pixels');
+    if (changePixelsContainer) {
+        // Generate pixel grid
+        const totalPixels = 80;
+        for (let i = 0; i < totalPixels; i++) {
+            const pixel = document.createElement('div');
+            pixel.className = 'change-pixel';
+            changePixelsContainer.appendChild(pixel);
+        }
+
+        const animatePixels = () => {
+            const pixels = changePixelsContainer.querySelectorAll('.change-pixel');
+            pixels.forEach(p => p.className = 'change-pixel');
+
+            // Randomly assign detected/stable/neutral
+            pixels.forEach(pixel => {
+                const rand = Math.random();
+                if (rand < 0.2) pixel.classList.add('detected');
+                else if (rand < 0.6) pixel.classList.add('stable');
+            });
+        };
+
+        animatePixels();
+        setInterval(animatePixels, 2500);
+    }
 
     // 10. INTERACTIVE TIMELINE LOGIC
     const timelineNodes = document.querySelectorAll('.timeline-node');
@@ -559,3 +635,61 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 });
+
+// ============================================================
+// GLOBAL FUNCTIONS (called from HTML inline events)
+// ============================================================
+
+// CADASTRAL VALIDATOR ENGINE
+function runCadastralValidation() {
+    const parcels = document.getElementById('validator-parcels');
+    const output = document.getElementById('validator-output');
+    const btn = document.getElementById('run-validator');
+    if (!parcels || !output || !btn) return;
+
+    // Reset
+    const cells = parcels.querySelectorAll('.parcel-cell');
+    cells.forEach(c => c.className = 'parcel-cell');
+    output.innerHTML = '';
+    btn.textContent = '⏳ SCANNING...';
+    btn.disabled = true;
+
+    // Log initial state
+    const addLog = (msg, color = 'var(--text-tertiary)') => {
+        const line = document.createElement('div');
+        line.style.color = color;
+        line.textContent = msg;
+        output.appendChild(line);
+    };
+
+    addLog('>>> INITIATING_CADASTRAL_VALIDATION...');
+
+    // Randomly assign states with a staggered animation
+    const states = ['valid', 'valid', 'valid', 'valid', 'error', 'warning', 'valid', 'valid', 'valid'];
+    const shuffled = states.sort(() => Math.random() - 0.5);
+    let errorCount = 0, warningCount = 0;
+
+    cells.forEach((cell, i) => {
+        setTimeout(() => {
+            cell.classList.add(shuffled[i]);
+            if (shuffled[i] === 'error') errorCount++;
+            if (shuffled[i] === 'warning') warningCount++;
+
+            if (i === cells.length - 1) {
+                setTimeout(() => {
+                    if (errorCount > 0) {
+                        addLog(`>>> TOPOLOGY_ERROR: ${errorCount} overlap(s) detected`, '#ff4b2b');
+                    }
+                    if (warningCount > 0) {
+                        addLog(`>>> WARNING: ${warningCount} area inconsistenc(y)`, '#ffb400');
+                    }
+                    addLog(`>>> VALID_PARCELS: ${cells.length - errorCount - warningCount}/${cells.length}`, '#4ade80');
+                    addLog('>>> VALIDATION_COMPLETE_V2.1');
+
+                    btn.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polygon points="5,3 19,12 5,21"></polygon></svg> RUN_VALIDATION`;
+                    btn.disabled = false;
+                }, 200);
+            }
+        }, i * 120);
+    });
+}

@@ -1,0 +1,1152 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ Spatial Lab — Cadastral Viewer | DGZ Engineering</title>
+    <meta name="description"
+        content="Interactive cadastral GIS viewer powered by MapLibre GL JS. Real spatial data visualization for multipurpose cadastre systems.">
+
+    <link rel="icon" type="image/x-icon" href="../favicon.ico">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+
+    <!-- MapLibre GL JS -->
+    <link href="https://unpkg.com/maplibre-gl@4.1.3/dist/maplibre-gl.css" rel="stylesheet">
+    <script src="https://unpkg.com/maplibre-gl@4.1.3/dist/maplibre-gl.js"></script>
+
+    <style>
+        :root {
+            --bg-black: #000000;
+            --bg-dark: #050505;
+            --bg-surface: #0a0a0c;
+            --accent-electric: #00e5ff;
+            --accent-gold: #ffb400;
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255, 255, 255, 0.6);
+            --text-tertiary: rgba(255, 255, 255, 0.4);
+            --border-glass: rgba(255, 255, 255, 0.08);
+            --font-mono: 'JetBrains Mono', monospace;
+            --font-main: 'Inter', sans-serif;
+            --ease: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        body {
+            background: var(--bg-black);
+            color: var(--text-primary);
+            font-family: var(--font-main);
+            height: 100vh;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* TOP BAR */
+        .lab-topbar {
+            height: 56px;
+            background: rgba(5, 5, 7, 0.95);
+            border-bottom: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            gap: 1.5rem;
+            z-index: 1000;
+            flex-shrink: 0;
+            backdrop-filter: blur(20px);
+        }
+
+        .topbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            text-decoration: none;
+            color: #fff;
+            font-weight: 900;
+            font-size: 0.75rem;
+            letter-spacing: 0.1em;
+        }
+
+        .topbar-logo-dot {
+            width: 6px;
+            height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulseDot 2s infinite;
+        }
+
+        @keyframes pulseDot {
+
+            0%,
+            100% {
+                box-shadow: 0 0 0 0 rgba(74, 222, 128, 0.5);
+            }
+
+            50% {
+                box-shadow: 0 0 0 4px rgba(74, 222, 128, 0);
+            }
+        }
+
+        .topbar-divider {
+            width: 1px;
+            height: 24px;
+            background: var(--border-glass);
+        }
+
+        .topbar-title {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            color: var(--accent-electric);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+        }
+
+        .topbar-spacer {
+            flex: 1;
+        }
+
+        .topbar-status {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            color: var(--text-tertiary);
+        }
+
+        .status-ok {
+            color: #4ade80;
+        }
+
+        .topbar-back {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            padding: 0.4rem 0.9rem;
+            background: transparent;
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 6px;
+            color: var(--accent-electric);
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .topbar-back:hover {
+            background: rgba(0, 229, 255, 0.1);
+            border-color: var(--accent-electric);
+        }
+
+        /* MAP CONTAINER */
+        .map-wrapper {
+            flex: 1;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #spatial-map {
+            flex: 1;
+        }
+
+        /* LEFT PANEL */
+        .left-panel {
+            width: 280px;
+            background: rgba(5, 5, 7, 0.92);
+            border-right: 1px solid var(--border-glass);
+            display: flex;
+            flex-direction: column;
+            z-index: 100;
+            backdrop-filter: blur(20px);
+            overflow-y: auto;
+            scrollbar-width: none;
+        }
+
+        .left-panel::-webkit-scrollbar {
+            display: none;
+        }
+
+        .panel-section {
+            padding: 1.2rem 1.5rem;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .panel-label {
+            font-family: var(--font-mono);
+            font-size: 0.45rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
+        }
+
+        /* LAYER CONTROLS */
+        .layer-toggle {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0.6rem 0;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .layer-toggle:hover {
+            opacity: 0.8;
+        }
+
+        .layer-name {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .layer-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 2px;
+            flex-shrink: 0;
+        }
+
+        .layer-switch {
+            width: 32px;
+            height: 16px;
+            background: rgba(0, 229, 255, 0.3);
+            border-radius: 100px;
+            position: relative;
+            transition: background 0.3s;
+        }
+
+        .layer-switch.on {
+            background: var(--accent-electric);
+        }
+
+        .layer-switch::after {
+            content: '';
+            position: absolute;
+            width: 12px;
+            height: 12px;
+            background: #fff;
+            border-radius: 50%;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s;
+        }
+
+        .layer-switch.on::after {
+            transform: translateX(16px);
+        }
+
+        /* BASE MAP SELECTOR */
+        .basemap-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 0.5rem;
+        }
+
+        .basemap-option {
+            height: 50px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-mono);
+            font-size: 0.4rem;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            cursor: pointer;
+            border: 1px solid var(--border-glass);
+            color: var(--text-tertiary);
+            transition: all 0.3s;
+            text-align: center;
+        }
+
+        .basemap-option:hover {
+            border-color: var(--accent-electric);
+            color: var(--accent-electric);
+        }
+
+        .basemap-option.active {
+            border-color: var(--accent-electric);
+            background: rgba(0, 229, 255, 0.08);
+            color: var(--accent-electric);
+        }
+
+        /* PARCEL INFO PANEL (bottom) */
+        .info-panel {
+            padding: 1.2rem 1.5rem;
+            flex: 1;
+        }
+
+        .info-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 200px;
+            text-align: center;
+            opacity: 0.4;
+        }
+
+        .info-empty-icon {
+            font-size: 2rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .info-empty-text {
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+        }
+
+        .parcel-info {
+            display: none;
+        }
+
+        .parcel-info.active {
+            display: block;
+        }
+
+        .parcel-attr {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+            font-size: 0.65rem;
+        }
+
+        .parcel-attr-key {
+            font-family: var(--font-mono);
+            color: var(--text-tertiary);
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .parcel-attr-val {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .parcel-status-chip {
+            font-family: var(--font-mono);
+            font-size: 0.45rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 100px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        .chip-valid {
+            background: rgba(74, 222, 128, 0.15);
+            color: #4ade80;
+            border: 1px solid rgba(74, 222, 128, 0.3);
+        }
+
+        .chip-pending {
+            background: rgba(255, 180, 0, 0.15);
+            color: #ffb400;
+            border: 1px solid rgba(255, 180, 0, 0.3);
+        }
+
+        .chip-error {
+            background: rgba(255, 75, 43, 0.15);
+            color: #ff4b2b;
+            border: 1px solid rgba(255, 75, 43, 0.3);
+        }
+
+        /* RIGHT HUD */
+        .right-hud {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 200;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .hud-card {
+            background: rgba(5, 5, 7, 0.9);
+            border: 1px solid var(--border-glass);
+            border-radius: 10px;
+            padding: 0.8rem 1rem;
+            backdrop-filter: blur(20px);
+            font-family: var(--font-mono);
+            min-width: 200px;
+        }
+
+        .hud-card-title {
+            font-size: 0.45rem;
+            color: var(--accent-electric);
+            letter-spacing: 0.2em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+            padding-bottom: 0.4rem;
+        }
+
+        .hud-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.5rem;
+            margin-bottom: 0.4rem;
+            color: var(--text-tertiary);
+        }
+
+        .hud-val {
+            color: var(--accent-electric);
+            font-weight: 800;
+        }
+
+        /* MAP CONTROL BUTTONS */
+        .map-controls {
+            position: absolute;
+            bottom: 2rem;
+            right: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            z-index: 200;
+        }
+
+        .ctrl-btn {
+            width: 40px;
+            height: 40px;
+            background: rgba(5, 5, 7, 0.9);
+            border: 1px solid var(--border-glass);
+            border-radius: 8px;
+            color: var(--text-secondary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s;
+            font-size: 1rem;
+        }
+
+        .ctrl-btn:hover {
+            border-color: var(--accent-electric);
+            color: var(--accent-electric);
+            background: rgba(0, 229, 255, 0.08);
+        }
+
+        /* SCAN LINE */
+        .scan-line-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 50;
+            background: linear-gradient(rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.04) 50%);
+            background-size: 100% 4px;
+            opacity: 0.3;
+        }
+
+        /* POPUP STYLE */
+        .maplibregl-popup-content {
+            background: rgba(5, 5, 7, 0.95) !important;
+            border: 1px solid var(--accent-electric) !important;
+            border-radius: 12px !important;
+            padding: 0 !important;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(0, 229, 255, 0.2) !important;
+            font-family: var(--font-mono) !important;
+            color: #fff !important;
+            min-width: 220px;
+        }
+
+        .maplibregl-popup-tip {
+            border-top-color: var(--accent-electric) !important;
+        }
+
+        .maplibregl-popup-close-button {
+            color: var(--text-tertiary) !important;
+            font-size: 1rem !important;
+            padding: 0.5rem !important;
+        }
+
+        .popup-inner {
+            padding: 1rem 1.2rem;
+        }
+
+        .popup-header {
+            font-size: 0.5rem;
+            color: var(--accent-electric);
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            margin-bottom: 0.6rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+        }
+
+        .popup-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.55rem;
+            margin-bottom: 0.3rem;
+            color: var(--text-secondary);
+        }
+
+        .popup-row strong {
+            color: #fff;
+        }
+
+        /* BOTTOM STATUS BAR */
+        .status-bar {
+            height: 28px;
+            background: rgba(5, 5, 7, 0.98);
+            border-top: 1px solid var(--border-glass);
+            display: flex;
+            align-items: center;
+            padding: 0 1.5rem;
+            gap: 2rem;
+            font-family: var(--font-mono);
+            font-size: 0.45rem;
+            color: var(--text-tertiary);
+            flex-shrink: 0;
+            z-index: 1000;
+        }
+
+        .status-item {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .status-val {
+            color: var(--accent-electric);
+            font-weight: 800;
+        }
+
+        /* LEGEND */
+        .legend-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+        }
+
+        .legend-box {
+            width: 14px;
+            height: 10px;
+            border-radius: 2px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            flex-shrink: 0;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- TOP BAR -->
+    <div class="lab-topbar">
+        <a href="../index.html" class="topbar-logo">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-electric)"
+                stroke-width="2.5">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+            </svg>
+            DGZ ENGINEERING
+        </a>
+        <div class="topbar-divider"></div>
+        <div class="topbar-title">⭐ Spatial Lab — Cadastral Viewer v1.0</div>
+        <div class="topbar-spacer"></div>
+        <div class="topbar-status">
+            <span class="status-ok">● MAPLIBRE_ACTIVE</span>
+            <span>LAYERS: LOADED</span>
+            <span>ENGINE: LADM-COL</span>
+        </div>
+        <a href="../index.html#lab" class="topbar-back">
+            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="15,18 9,12 15,6" />
+            </svg>
+            Back to Lab
+        </a>
+    </div>
+
+    <!-- MAP WRAPPER -->
+    <div class="map-wrapper">
+
+        <!-- LEFT CONTROL PANEL -->
+        <div class="left-panel">
+            <!-- LAYERS -->
+            <div class="panel-section">
+                <div class="panel-label">Map Layers</div>
+                <div id="layer-controls">
+                    <div class="layer-toggle" onclick="toggleLayer('predios')">
+                        <div class="layer-name">
+                            <div class="layer-color"
+                                style="background: rgba(0,229,255,0.5); border: 1px solid #00e5ff;"></div>
+                            Predios Catastrales
+                        </div>
+                        <div class="layer-switch on" id="switch-predios"></div>
+                    </div>
+                    <div class="layer-toggle" onclick="toggleLayer('vias')">
+                        <div class="layer-name">
+                            <div class="layer-color"
+                                style="background: rgba(255,180,0,0.5); border: 1px solid #ffb400;"></div>
+                            Red Vial
+                        </div>
+                        <div class="layer-switch on" id="switch-vias"></div>
+                    </div>
+                    <div class="layer-toggle" onclick="toggleLayer('boundary')">
+                        <div class="layer-name">
+                            <div class="layer-color"
+                                style="background: rgba(255,75,43,0.3); border: 1px solid #ff4b2b;"></div>
+                            Límite Urbano
+                        </div>
+                        <div class="layer-switch on" id="switch-boundary"></div>
+                    </div>
+                    <div class="layer-toggle" onclick="toggleLayer('labels')">
+                        <div class="layer-name">
+                            <div class="layer-color"
+                                style="background: rgba(255,255,255,0.2); border: 1px solid rgba(255,255,255,0.4);">
+                            </div>
+                            Etiquetas
+                        </div>
+                        <div class="layer-switch on" id="switch-labels"></div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- BASE MAP -->
+            <div class="panel-section">
+                <div class="panel-label">Base Map</div>
+                <div class="basemap-grid">
+                    <div class="basemap-option active" onclick="switchBasemap('dark', this)" style="background: #111;">
+                        VOID<br>DARK</div>
+                    <div class="basemap-option" onclick="switchBasemap('satellite', this)"
+                        style="background: linear-gradient(135deg, #1a3a2a, #0d2137);">GEO<br>SAT</div>
+                    <div class="basemap-option" onclick="switchBasemap('topo', this)"
+                        style="background: linear-gradient(135deg, #2a2a1a, #1a2a0d);">TOPO<br>MAP</div>
+                </div>
+            </div>
+
+            <!-- LEGEND -->
+            <div class="panel-section">
+                <div class="panel-label">Leyenda</div>
+                <div class="legend-grid">
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:rgba(74,222,128,0.3); border-color: #4ade80;"></div>
+                        Predio Validado
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:rgba(255,180,0,0.3); border-color: #ffb400;"></div>En
+                        Proceso
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:rgba(255,75,43,0.3); border-color: #ff4b2b;"></div>
+                        Error Topológico
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-box" style="background:rgba(0,229,255,0.15); border-color: #00e5ff;"></div>
+                        Sin Clasificar
+                    </div>
+                </div>
+            </div>
+
+            <!-- PARCEL INFO -->
+            <div class="info-panel">
+                <div class="panel-label">Información Predial</div>
+                <div class="info-empty" id="info-empty">
+                    <div class="info-empty-icon">🖱️</div>
+                    <div class="info-empty-text">Click en un predio<br>para ver atributos</div>
+                </div>
+                <div class="parcel-info" id="parcel-info">
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">NPU</span>
+                        <span class="parcel-attr-val" id="info-npu">—</span>
+                    </div>
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">Área (m²)</span>
+                        <span class="parcel-attr-val" id="info-area">—</span>
+                    </div>
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">Uso Suelo</span>
+                        <span class="parcel-attr-val" id="info-uso">—</span>
+                    </div>
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">Estrato</span>
+                        <span class="parcel-attr-val" id="info-estrato">—</span>
+                    </div>
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">Estado</span>
+                        <span id="info-estado">—</span>
+                    </div>
+                    <div class="parcel-attr">
+                        <span class="parcel-attr-key">Municipio</span>
+                        <span class="parcel-attr-val" id="info-municipio">—</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- MAP -->
+        <div id="spatial-map"></div>
+        <div class="scan-line-overlay"></div>
+
+        <!-- RIGHT HUD -->
+        <div class="right-hud">
+            <div class="hud-card">
+                <div class="hud-card-title">[SPATIAL_INTEL]</div>
+                <div class="hud-row"><span>LATITUDE</span><span class="hud-val" id="hud-lat">6.2442°N</span></div>
+                <div class="hud-row"><span>LONGITUDE</span><span class="hud-val" id="hud-lng">75.5812°W</span></div>
+                <div class="hud-row"><span>ZOOM</span><span class="hud-val" id="hud-zoom">14.0</span></div>
+                <div class="hud-row"><span>CRS</span><span class="hud-val">WGS84</span></div>
+            </div>
+            <div class="hud-card">
+                <div class="hud-card-title">[DATASET_STATUS]</div>
+                <div class="hud-row"><span>PREDIOS</span><span class="hud-val status-ok" id="feature-count">0</span>
+                </div>
+                <div class="hud-row"><span>VALID</span><span class="hud-val" style="color:#4ade80;"
+                        id="valid-count">0</span></div>
+                <div class="hud-row"><span>ERRORS</span><span class="hud-val" style="color:#ff4b2b;"
+                        id="error-count">0</span></div>
+                <div class="hud-row"><span>STATUS</span><span class="hud-val status-ok">SYNC_OK</span></div>
+            </div>
+        </div>
+
+        <!-- MAP CONTROLS -->
+        <div class="map-controls">
+            <div class="ctrl-btn" onclick="map.flyTo({center: [HQ_LNG, HQ_LAT], zoom: 14, duration: 1500})"
+                title="Center on Medellín HQ">🏠</div>
+            <div class="ctrl-btn" onclick="runScan()" title="Neural Scan">📡</div>
+            <div class="ctrl-btn" onclick="map.zoomIn()" title="Zoom In">＋</div>
+            <div class="ctrl-btn" onclick="map.zoomOut()" title="Zoom Out">－</div>
+        </div>
+    </div>
+
+    <!-- BOTTOM STATUS BAR -->
+    <div class="status-bar">
+        <div class="status-item">DGZ_SPATIAL_LAB_V1.0</div>
+        <div class="status-item">ENGINE: <span class="status-val">MAPLIBRE_GL_4.1</span></div>
+        <div class="status-item">SCHEMA: <span class="status-val">LADM-COL_v2</span></div>
+        <div class="status-item">FEATURES: <span class="status-val" id="status-features">—</span></div>
+        <div class="status-item">CURSOR: <span class="status-val" id="status-cursor">—</span></div>
+        <div style="flex:1;"></div>
+        <div class="status-item">© 2026 DGZ ENGINEERING</div>
+    </div>
+
+    <script>
+        // ============================================================
+        // DGZ SPATIAL LAB — MAPLIBRE GIS ENGINE
+        // ============================================================
+
+        const HQ_LAT = 6.2442;
+        const HQ_LNG = -75.5812;
+
+        // --- GENERATE SYNTHETIC PREDIOS GEOJSON ---
+        function generatePredios() {
+            const baseX = HQ_LNG;
+            const baseY = HQ_LAT;
+            const features = [];
+            const uses = ['Residencial', 'Comercial', 'Industrial', 'Institucional', 'Mixto'];
+            const statuses = ['validated', 'validated', 'validated', 'pending', 'error'];
+            const estratos = [1, 2, 3, 4, 5, 6];
+
+            let id = 100001;
+            for (let row = 0; row < 12; row++) {
+                for (let col = 0; col < 18; col++) {
+                    const x = baseX - 0.02 + col * 0.002 + (Math.random() * 0.0005 - 0.00025);
+                    const y = baseY - 0.01 + row * 0.002 + (Math.random() * 0.0005 - 0.00025);
+                    const w = 0.0015 + Math.random() * 0.0006;
+                    const h = 0.0015 + Math.random() * 0.0006;
+
+                    const status = statuses[Math.floor(Math.random() * statuses.length)];
+                    const uso = uses[Math.floor(Math.random() * uses.length)];
+                    const estrato = estratos[Math.floor(Math.random() * estratos.length)];
+                    const area = Math.round((w * h * 111000 * 111000 * Math.cos(y * Math.PI / 180)) * 100) / 100;
+
+                    features.push({
+                        type: 'Feature',
+                        properties: {
+                            npu: `05001${id++}000`,
+                            area_m2: area.toFixed(1),
+                            uso: uso,
+                            estrato: estrato,
+                            status: status,
+                            municipio: 'Medellín',
+                            barrio: [`El Poblado`, `Laureles`, `El Centro`, `Belén`, `Aranjuez`, `Castilla`][Math.floor(Math.random() * 6)]
+                        },
+                        geometry: {
+                            type: 'Polygon',
+                            coordinates: [[
+                                [x, y],
+                                [x + w, y],
+                                [x + w, y + h],
+                                [x, y + h],
+                                [x, y]
+                            ]]
+                        }
+                    });
+                }
+            }
+            return { type: 'FeatureCollection', features };
+        }
+
+        // --- GENERATE VIAS (LINES) ---
+        function generateVias() {
+            const features = [];
+            const baseX = HQ_LNG - 0.02;
+            const baseY = HQ_LAT - 0.01;
+
+            // Horizontal streets
+            for (let r = 0; r <= 12; r++) {
+                features.push({
+                    type: 'Feature',
+                    properties: { tipo: r % 4 === 0 ? 'Avenida' : 'Calle' },
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: [
+                            [baseX, baseY + r * 0.002],
+                            [baseX + 0.036, baseY + r * 0.002]
+                        ]
+                    }
+                });
+            }
+
+            // Vertical streets
+            for (let c = 0; c <= 18; c++) {
+                features.push({
+                    type: 'Feature',
+                    properties: { tipo: c % 4 === 0 ? 'Carrera' : 'Transversal' },
+                    geometry: {
+                        type: 'LineString',
+                        coordinates: [
+                            [baseX + c * 0.002, baseY],
+                            [baseX + c * 0.002, baseY + 0.024]
+                        ]
+                    }
+                });
+            }
+
+            return { type: 'FeatureCollection', features };
+        }
+
+        // --- BOUNDARY ---
+        const boundaryGeoJSON = {
+            type: 'FeatureCollection',
+            features: [{
+                type: 'Feature',
+                properties: { nombre: 'Límite Urbano - Medellín' },
+                geometry: {
+                    type: 'Polygon',
+                    coordinates: [[
+                        [HQ_LNG - 0.025, HQ_LAT - 0.013],
+                        [HQ_LNG + 0.02, HQ_LAT - 0.013],
+                        [HQ_LNG + 0.02, HQ_LAT + 0.015],
+                        [HQ_LNG - 0.025, HQ_LAT + 0.015],
+                        [HQ_LNG - 0.025, HQ_LAT - 0.013]
+                    ]]
+                }
+            }]
+        };
+
+        const prediosData = generatePredios();
+        const viasData = generateVias();
+
+        // Feature stats
+        const totalFeatures = prediosData.features.length;
+        const validFeatures = prediosData.features.filter(f => f.properties.status === 'validated').length;
+        const errorFeatures = prediosData.features.filter(f => f.properties.status === 'error').length;
+
+        // --- INIT MAP ---
+        const map = new maplibregl.Map({
+            container: 'spatial-map',
+            style: {
+                version: 8,
+                sources: {
+                    'carto-dark': {
+                        type: 'raster',
+                        tiles: ['https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png'],
+                        tileSize: 256,
+                        attribution: '© CartoDB'
+                    }
+                },
+                layers: [{ id: 'background', type: 'raster', source: 'carto-dark' }]
+            },
+            center: [HQ_LNG, HQ_LAT],
+            zoom: 14,
+            attributionControl: false
+        });
+
+        // ADD ATTRIBUTION
+        map.addControl(new maplibregl.AttributionControl({ compact: true }));
+
+        // Track layer visibility
+        const layerVisible = { predios: true, vias: true, boundary: true, labels: true };
+
+        map.on('load', () => {
+            // BOUNDARY LAYER
+            map.addSource('boundary-src', { type: 'geojson', data: boundaryGeoJSON });
+            map.addLayer({ id: 'boundary-fill', type: 'fill', source: 'boundary-src', paint: { 'fill-color': '#ff4b2b', 'fill-opacity': 0.04 } });
+            map.addLayer({ id: 'boundary-line', type: 'line', source: 'boundary-src', paint: { 'line-color': '#ff4b2b', 'line-width': 2, 'line-dasharray': [4, 4], 'line-opacity': 0.7 } });
+
+            // VIAS LAYER
+            map.addSource('vias-src', { type: 'geojson', data: viasData });
+            map.addLayer({
+                id: 'vias-line',
+                type: 'line',
+                source: 'vias-src',
+                paint: {
+                    'line-color': ['case', ['==', ['get', 'tipo'], 'Avenida'], '#ffb400', '#555'],
+                    'line-width': ['case', ['==', ['get', 'tipo'], 'Avenida'], 1.5, 0.7],
+                    'line-opacity': 0.7
+                }
+            });
+
+            // PREDIOS LAYERS
+            map.addSource('predios-src', { type: 'geojson', data: prediosData });
+
+            // Fill by status
+            map.addLayer({
+                id: 'predios-fill',
+                type: 'fill',
+                source: 'predios-src',
+                paint: {
+                    'fill-color': [
+                        'case',
+                        ['==', ['get', 'status'], 'validated'], 'rgba(74,222,128,0.15)',
+                        ['==', ['get', 'status'], 'error'], 'rgba(255,75,43,0.25)',
+                        ['==', ['get', 'status'], 'pending'], 'rgba(255,180,0,0.15)',
+                        'rgba(0,229,255,0.07)'
+                    ],
+                    'fill-opacity': 0.9
+                }
+            });
+
+            // Outline
+            map.addLayer({
+                id: 'predios-outline',
+                type: 'line',
+                source: 'predios-src',
+                paint: {
+                    'line-color': [
+                        'case',
+                        ['==', ['get', 'status'], 'validated'], '#4ade80',
+                        ['==', ['get', 'status'], 'error'], '#ff4b2b',
+                        ['==', ['get', 'status'], 'pending'], '#ffb400',
+                        '#00e5ff'
+                    ],
+                    'line-width': 0.8,
+                    'line-opacity': 0.7
+                }
+            });
+
+            // Hover highlight layer (initially empty)
+            map.addSource('hover-src', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+            map.addLayer({
+                id: 'predios-hover',
+                type: 'line',
+                source: 'hover-src',
+                paint: { 'line-color': '#fff', 'line-width': 2, 'line-opacity': 0.9 }
+            });
+
+            // LABELS
+            map.addLayer({
+                id: 'predios-labels',
+                type: 'symbol',
+                source: 'predios-src',
+                layout: {
+                    'text-field': ['get', 'barrio'],
+                    'text-font': ['Open Sans Regular'],
+                    'text-size': 7,
+                    'text-anchor': 'center'
+                },
+                paint: { 'text-color': 'rgba(255,255,255,0.4)', 'text-halo-color': '#000', 'text-halo-width': 1 },
+                minzoom: 15
+            });
+
+            // Update HUD stats
+            document.getElementById('feature-count').textContent = totalFeatures;
+            document.getElementById('valid-count').textContent = validFeatures;
+            document.getElementById('error-count').textContent = errorFeatures;
+            document.getElementById('status-features').textContent = `${totalFeatures} PREDIOS LOADED`;
+
+            // HOVER
+            let hoveredId = null;
+            map.on('mousemove', 'predios-fill', (e) => {
+                if (e.features.length > 0) {
+                    map.getCanvas().style.cursor = 'pointer';
+                    map.getSource('hover-src').setData({
+                        type: 'FeatureCollection',
+                        features: [e.features[0]]
+                    });
+                }
+            });
+
+            map.on('mouseleave', 'predios-fill', () => {
+                map.getCanvas().style.cursor = '';
+                map.getSource('hover-src').setData({ type: 'FeatureCollection', features: [] });
+            });
+
+            // CLICK — Parcel Info
+            map.on('click', 'predios-fill', (e) => {
+                if (!e.features.length) return;
+                const props = e.features[0].properties;
+                showParcelInfo(props);
+
+                const statusChip = getStatusChip(props.status);
+                new maplibregl.Popup({ closeButton: true, closeOnClick: false })
+                    .setLngLat(e.lngLat)
+                    .setHTML(`
+                    <div class="popup-inner">
+                        <div class="popup-header">[PREDIO_CATASTRAL]</div>
+                        <div class="popup-row"><span>NPU</span><strong>${props.npu}</strong></div>
+                        <div class="popup-row"><span>Área</span><strong>${props.area_m2} m²</strong></div>
+                        <div class="popup-row"><span>Uso</span><strong>${props.uso}</strong></div>
+                        <div class="popup-row"><span>Estrato</span><strong>${props.estrato}</strong></div>
+                    </div>
+                `)
+                    .addTo(map);
+            });
+        });
+
+        // --- REAL-TIME HUD UPDATE ---
+        map.on('mousemove', (e) => {
+            const lat = e.lngLat.lat.toFixed(5);
+            const lng = e.lngLat.lng.toFixed(5);
+            document.getElementById('hud-lat').textContent = Math.abs(lat) + (lat >= 0 ? '°N' : '°S');
+            document.getElementById('hud-lng').textContent = Math.abs(lng) + (lng >= 0 ? '°E' : '°W');
+            document.getElementById('status-cursor').textContent = `${lat}, ${lng}`;
+        });
+
+        map.on('zoom', () => {
+            document.getElementById('hud-zoom').textContent = map.getZoom().toFixed(2);
+        });
+
+        // --- PARCEL INFO PANEL ---
+        function showParcelInfo(props) {
+            document.getElementById('info-empty').style.display = 'none';
+            const info = document.getElementById('parcel-info');
+            info.classList.add('active');
+
+            document.getElementById('info-npu').textContent = props.npu;
+            document.getElementById('info-area').textContent = props.area_m2 + ' m²';
+            document.getElementById('info-uso').textContent = props.uso;
+            document.getElementById('info-estrato').textContent = props.estrato;
+            document.getElementById('info-municipio').textContent = props.municipio + ' — ' + props.barrio;
+
+            const estadoEl = document.getElementById('info-estado');
+            estadoEl.innerHTML = getStatusChip(props.status);
+        }
+
+        function getStatusChip(status) {
+            const map = {
+                'validated': '<span class="parcel-status-chip chip-valid">✓ Validado</span>',
+                'pending': '<span class="parcel-status-chip chip-pending">⏳ En Proceso</span>',
+                'error': '<span class="parcel-status-chip chip-error">✗ Error Topológico</span>'
+            };
+            return map[status] || status;
+        }
+
+        // --- LAYER TOGGLE ---
+        const layerMap = {
+            predios: ['predios-fill', 'predios-outline', 'predios-hover'],
+            vias: ['vias-line'],
+            boundary: ['boundary-fill', 'boundary-line'],
+            labels: ['predios-labels']
+        };
+
+        function toggleLayer(name) {
+            layerVisible[name] = !layerVisible[name];
+            const vis = layerVisible[name] ? 'visible' : 'none';
+            const sw = document.getElementById(`switch-${name}`);
+            if (sw) sw.classList.toggle('on', layerVisible[name]);
+
+            if (map.isStyleLoaded()) {
+                (layerMap[name] || []).forEach(lid => {
+                    if (map.getLayer(lid)) map.setLayoutProperty(lid, 'visibility', vis);
+                });
+            }
+        }
+
+        // --- BASEMAP SWITCH ---
+        const basemapUrls = {
+            dark: 'https://basemaps.cartocdn.com/dark_all/{z}/{x}/{y}.png',
+            satellite: 'https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}',
+            topo: 'https://tile.opentopomap.org/{z}/{x}/{y}.png'
+        };
+
+        function switchBasemap(type, el) {
+            document.querySelectorAll('.basemap-option').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+
+            if (map.isStyleLoaded() && map.getSource('carto-dark')) {
+                map.getSource('carto-dark').setTiles([basemapUrls[type]]);
+            }
+        }
+
+        // --- NEURAL SCAN ---
+        let scanCircle = null;
+        function runScan() {
+            let r = 0;
+            const center = map.getCenter();
+
+            if (!map.getSource('scan-src')) {
+                map.addSource('scan-src', { type: 'geojson', data: { type: 'FeatureCollection', features: [] } });
+                map.addLayer({
+                    id: 'scan-circle',
+                    type: 'line',
+                    source: 'scan-src',
+                    paint: { 'line-color': '#00e5ff', 'line-width': 2, 'line-opacity': 0.5 }
+                });
+            }
+
+            const interval = setInterval(() => {
+                r += 0.001;
+                const pts = [];
+                for (let a = 0; a <= 360; a += 5) {
+                    pts.push([
+                        center.lng + r * Math.cos(a * Math.PI / 180),
+                        center.lat + r * Math.sin(a * Math.PI / 180)
+                    ]);
+                }
+                pts.push(pts[0]);
+                map.getSource('scan-src').setData({
+                    type: 'FeatureCollection',
+                    features: [{ type: 'Feature', geometry: { type: 'LineString', coordinates: pts } }]
+                });
+                map.setPaintProperty('scan-circle', 'line-opacity', 1 - (r / 0.05));
+
+                if (r > 0.05) {
+                    clearInterval(interval);
+                    map.getSource('scan-src').setData({ type: 'FeatureCollection', features: [] });
+                }
+            }, 16);
+        }
+
+        // Fix flyTo center reference (button onclick uses string)
+        window.map = map;
+        window.HQ_LAT = HQ_LAT;
+        window.HQ_LNG = HQ_LNG;
+        window.runScan = runScan;
+        window.toggleLayer = toggleLayer;
+        window.switchBasemap = switchBasemap;
+    </script>
+</body>
+
+</html>
