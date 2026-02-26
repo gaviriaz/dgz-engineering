@@ -1,0 +1,489 @@
+/* --- ELITE NEURAL CV INTERFACE (V5.2 Sovereign) --- */
+
+:root {
+    --cv-bg: rgba(2, 3, 5, 0.98);
+    --cv-accent: #00e5ff;
+    --cv-accent-gold: #ffb400;
+    --cv-glass: rgba(255, 255, 255, 0.03);
+    --cv-border: rgba(255, 255, 255, 0.08);
+    --cv-card-bg: linear-gradient(135deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.01));
+    --status-success: #4ade80;
+}
+
+/* --- CAPABILITIES SECTION (Neural HUD) --- */
+.capabilities-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: 4rem;
+}
+
+.capability-card {
+    background: var(--bg-surface);
+    border: 1px solid var(--border-glass);
+    padding: 3rem;
+    border-radius: 40px;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.capability-card:hover {
+    border-color: var(--accent-electric);
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 20px rgba(0, 229, 255, 0.1);
+}
+
+.capability-icon {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--accent-electric);
+}
+
+.capability-stat {
+    font-family: var(--font-mono);
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #fff;
+    margin: 1.5rem 0;
+}
+
+.capability-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-top: 1.5rem;
+}
+
+.v-check {
+    color: var(--status-success);
+    margin-right: 10px;
+}
+
+.recognition-node {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--cv-border);
+    border-radius: 15px;
+    margin-bottom: 1rem;
+    transition: all 0.3s;
+}
+
+.recognition-node:hover {
+    background: rgba(255, 255, 255, 0.05);
+    border-color: var(--cv-accent-gold);
+}
+
+.recognition-icon {
+    font-size: 1.5rem;
+}
+
+.recognition-info {
+    font-family: var(--font-mono);
+}
+
+.recognition-title {
+    font-size: 0.65rem;
+    color: #fff;
+    font-weight: 800;
+}
+
+.recognition-date {
+    font-size: 0.5rem;
+    color: var(--cv-accent-gold);
+}
+
+.cv-overlay {
+    position: fixed;
+    inset: 0;
+    background: var(--cv-bg);
+    backdrop-filter: blur(50px) saturate(180%);
+    z-index: 20000;
+    display: none;
+    opacity: 0;
+    transition: all 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    padding: 2vh 5%;
+    overflow-y: auto;
+}
+
+.cv-overlay.active {
+    display: block;
+    opacity: 1;
+}
+
+.cv-container {
+    max-width: 1600px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(180px, auto);
+    gap: 1.5rem;
+    padding: 60px 0 120px;
+}
+
+.cv-card {
+    background: var(--cv-card-bg);
+    border: 1px solid var(--cv-border);
+    border-radius: 30px;
+    padding: 2.5rem;
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.cv-card:hover {
+    border-color: rgba(0, 229, 255, 0.3);
+    background: rgba(255, 255, 255, 0.05);
+    transform: translateY(-5px) scale(1.01);
+}
+
+.cv-card::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at center, rgba(0, 229, 255, 0.03), transparent 70%);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+}
+
+.cv-card:hover::before {
+    opacity: 1;
+}
+
+.card-label {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--cv-accent);
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    opacity: 0.6;
+}
+
+.card-label::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    background: currentColor;
+    border-radius: 50%;
+    box-shadow: 0 0 10px currentColor;
+}
+
+/* Specific Card Layouts */
+.cv-profile {
+    grid-column: span 1;
+    grid-row: span 4;
+}
+
+.cv-skills-master {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.cv-exp-primary {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.cv-polyglot {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.cv-metrics-hero {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.cv-academic {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.cv-credentials {
+    grid-column: span 1;
+    grid-row: span 2;
+}
+
+.cv-experience-log {
+    grid-column: span 2;
+    grid-row: span 2;
+}
+
+.cv-future-nodes {
+    grid-column: span 1;
+    grid-row: span 1;
+}
+
+.profile-image-container {
+    width: 160px;
+    height: 160px;
+    margin: 0 auto 2.5rem;
+    position: relative;
+    border-radius: 50%;
+    border: 1px solid var(--cv-accent);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.profile-image-container svg {
+    filter: drop-shadow(0 0 20px rgba(0, 229, 255, 0.4));
+}
+
+.dna-label {
+    display: flex;
+    justify-content: space-between;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.8rem;
+}
+
+.dna-bar-bg {
+    height: 4px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.dna-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--cv-accent), #7000ff);
+    box-shadow: 0 0 15px rgba(0, 229, 255, 0.5);
+}
+
+.metric-value {
+    font-size: 3.5rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    background: linear-gradient(180deg, #fff, var(--cv-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+}
+
+.history-item {
+    padding-left: 2rem;
+    border-left: 1px solid rgba(255, 255, 255, 0.1);
+    position: relative;
+    margin-bottom: 2.5rem;
+}
+
+.history-item::after {
+    content: '';
+    position: absolute;
+    left: -5px;
+    top: 5px;
+    width: 9px;
+    height: 9px;
+    background: var(--cv-accent);
+    border-radius: 50%;
+    box-shadow: 0 0 15px var(--cv-accent);
+}
+
+.close-interface {
+    position: fixed;
+    top: 2rem;
+    right: 3rem;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid var(--cv-border);
+    backdrop-filter: blur(20px);
+    color: #fff;
+    padding: 0.8rem 2rem;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.3em;
+    cursor: pointer;
+    z-index: 21000;
+    transition: all 0.3s;
+}
+
+.close-interface:hover {
+    background: #fff;
+    color: #000;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+}
+
+@media (max-width: 1400px) {
+    .cv-container {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 1100px) {
+    .cv-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .cv-container {
+        grid-template-columns: 1fr;
+        padding-top: 100px;
+    }
+
+    .cv-profile,
+    .cv-skills-master,
+    .cv-exp-primary,
+    .cv-experience-log {
+        grid-column: span 1;
+    }
+}
+
+/* --- INTERACTIVE TIMELINE (Neural Evolution) --- */
+.timeline-wrapper {
+    position: relative;
+    padding: 60px 0;
+    margin-top: 4rem;
+}
+
+.timeline-line {
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--cv-border), var(--cv-accent), var(--cv-border), transparent);
+    z-index: 1;
+}
+
+.timeline-items {
+    display: flex;
+    justify-content: space-between;
+    position: relative;
+    z-index: 2;
+}
+
+.timeline-node {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+    position: relative;
+}
+
+.node-dot {
+    width: 12px;
+    height: 12px;
+    background: var(--cv-bg);
+    border: 2px solid var(--cv-border);
+    border-radius: 50%;
+    margin-bottom: 1.5rem;
+    transition: all 0.4s;
+    box-shadow: 0 0 0 rgba(0, 229, 255, 0);
+}
+
+.timeline-node:hover .node-dot,
+.timeline-node.active .node-dot {
+    background: var(--cv-accent);
+    border-color: #fff;
+    box-shadow: 0 0 20px var(--cv-accent);
+    transform: scale(1.5);
+}
+
+.node-year {
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+}
+
+.timeline-node.active .node-year {
+    color: var(--cv-accent);
+    font-weight: 800;
+}
+
+.timeline-content-display {
+    margin-top: 5rem;
+    padding: 3rem;
+    background: var(--cv-card-bg);
+    border: 1px solid var(--cv-border);
+    border-radius: 40px;
+    backdrop-filter: blur(20px);
+    min-height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    animation: fadeIn 0.5s ease-out;
+}
+
+.timeline-text h3 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(to right, #fff, var(--cv-accent));
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.timeline-text p#timeline-subtitle {
+    font-family: var(--font-mono);
+    color: var(--cv-accent-gold);
+    font-size: 0.8rem;
+    margin-bottom: 1.5rem;
+    letter-spacing: 0.1em;
+}
+
+.timeline-text p#timeline-description {
+    color: var(--text-secondary);
+    line-height: 1.8;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
+    .timeline-items {
+        flex-direction: column;
+        gap: 3rem;
+        align-items: flex-start;
+        padding-left: 30px;
+    }
+
+    .timeline-line {
+        left: 35px;
+        top: 0;
+        width: 1px;
+        height: 100%;
+        background: linear-gradient(180deg, transparent, var(--cv-accent), transparent);
+    }
+
+    .timeline-node {
+        flex-direction: row;
+        gap: 1.5rem;
+    }
+
+    .node-dot {
+        margin-bottom: 0;
+    }
+}

@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://gaviriaz.github.io/dgz-engineering/sitemap.xml
