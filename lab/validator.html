@@ -1,136 +1,330 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="es">
 
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>DGZ Spatial Lab — Cadastral Validator</title>
-  <link rel="stylesheet" href="/assets/css/index.css">
+  <title>DGZ Spatial Lab — QA/QC Engine V2.0</title>
+  <link rel="stylesheet" href="../assets/css/index.css">
+  <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" />
+  <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
   <style>
     body {
       background: #050505;
       color: #fff;
-      font-family: Inter, sans-serif;
-      padding: 2rem
-    }
-
-    .validator-wrap {
-      max-width: 980px;
-      margin: 0 auto;
-      background: rgba(10, 10, 12, 0.85);
-      border: 1px solid rgba(255, 255, 255, 0.04);
-      padding: 1rem;
-      border-radius: 8px
-    }
-
-    .controls {
+      margin: 0;
+      overflow: hidden;
       display: flex;
-      gap: 1rem;
+      flex-direction: column;
+      height: 100vh;
+      font-family: Inter, sans-serif;
+    }
+
+    .top-nav {
+      height: 60px;
+      background: rgba(5, 5, 7, 0.9);
+      display: flex;
       align-items: center;
-      margin-bottom: 1rem
+      padding: 0 2rem;
+      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
+      z-index: 100;
     }
 
-    .parcel-grid {
+    .back-link {
+      color: var(--accent-electric);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      text-transform: uppercase;
+    }
+
+    .workspace {
+      flex: 1;
       display: grid;
-      grid-template-columns: repeat(6, 1fr);
-      gap: 8px
+      grid-template-columns: 350px 1fr;
+      gap: 1px;
+      background: rgba(255, 255, 255, 0.05);
     }
 
-    .parcel-cell {
-      background: #0b0b0d;
-      border: 1px solid rgba(255, 255, 255, 0.03);
-      padding: 8px;
-      font-size: 12px;
-      text-align: center
+    .sidebar {
+      background: #08080a;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      overflow-y: auto;
     }
 
-    .parcel-cell.valid {
-      outline: 2px solid #4ade80
+    .upload-zone {
+      border: 2px dashed rgba(0, 229, 255, 0.4);
+      border-radius: 12px;
+      padding: 2rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: rgba(0, 229, 255, 0.02);
+      position: relative;
     }
 
-    .parcel-cell.error {
-      outline: 2px solid #ff4b2b
+    .upload-zone:hover,
+    .upload-zone.dragover {
+      background: rgba(0, 229, 255, 0.1);
+      border-color: var(--accent-electric);
     }
 
-    #validator-output {
-      height: 180px;
-      overflow: auto;
-      padding: 8px;
-      background: #060606;
-      border-radius: 6px;
-      border: 1px solid rgba(255, 255, 255, 0.03)
+    .upload-icon {
+      font-size: 2rem;
+      color: var(--accent-electric);
+      margin-bottom: 1rem;
     }
 
-    #run-validator {
-      background: #00e5ff;
-      border: none;
-      padding: 10px 14px;
-      border-radius: 6px;
-      cursor: pointer
+    .report-card {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1rem;
+      font-size: 0.8rem;
+    }
+
+    .report-card h4 {
+      margin: 0 0 10px 0;
+      color: #ffb400;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+    }
+
+    .stat-line {
+      display: flex;
+      justify-content: space-between;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding: 5px 0;
+    }
+
+    .stat-line span.val {
+      color: var(--status-success);
+      font-family: var(--font-mono);
+      font-weight: bold;
+    }
+
+    .stat-line span.err {
+      color: #ff4444;
+      font-family: var(--font-mono);
+      font-weight: bold;
+    }
+
+    #map-container {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      background: #000;
+    }
+
+    .llm-report {
+      margin-top: 1rem;
+      line-height: 1.6;
+      color: #ccc;
+      background: rgba(0, 0, 0, 0.5);
+      padding: 1rem;
+      border-radius: 8px;
+      border-left: 3px solid var(--accent-electric);
+      font-size: 0.8rem;
+    }
+
+    @keyframes customPulse {
+
+      0%,
+      100% {
+        opacity: 1;
+      }
+
+      50% {
+        opacity: 0.5;
+        text-shadow: 0 0 10px var(--accent-electric);
+      }
+    }
+
+    .loader {
+      display: none;
+      margin-top: 1rem;
+      color: var(--accent-electric);
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      text-align: center;
+    }
+
+    .loader-anim {
+      animation: customPulse 1.5s infinite;
     }
   </style>
 </head>
 
 <body class="dgz-secure-shield">
-  <div class="validator-wrap">
-    <h2>DGZ — Cadastral Validator (Demo)</h2>
-    <p>Esta página genera predios sintéticos y los valida contra el endpoint `/validate` del API.</p>
-
-    <div class="controls">
-      <button id="run-validator">⏳ RUN VALIDATION</button>
-      <label style="font-size:0.9rem;color:rgba(255,255,255,0.6)">API base:
-        <input id="api-base" type="text" value="https://dgz-engineering.onrender.com"
-          style="margin-left:8px;padding:6px;border-radius:6px;border:1px solid #222;background:#0b0b0d;color:#fff">
-      </label>
-    </div>
-
-    <div class="parcel-grid" id="validator-parcels"></div>
-    <h3 style="margin-top:12px">Output</h3>
-    <div id="validator-output"></div>
+  <div class="top-nav">
+    <a href="../index.html#lab" class="back-link">← EXIT CADASTRAL ENGINE</a>
+    <div style="flex:1"></div>
+    <div style="font-family: var(--font-mono); font-size: 0.6rem; color: #fff;">LADM-COL QA/QC NODE V2.0 // DGZ
+      ENGINEERING</div>
   </div>
 
-  <!-- Use jsDelivr CDN for Turf (more reliable TLS) -->
-  <script src="https://cdn.jsdelivr.net/npm/@turf/turf@6.5.0/turf.min.js"></script>
-  <script src="/assets/js/main.js"></script>
-  <script>
-    // Generate simple synthetic parcels and a global GeoJSON for the validator
-    function genValidatorParcels() {
-      const features = [];
-      const container = document.getElementById('validator-parcels');
-      container.innerHTML = '';
-      const baseX = -75.5812 - 0.02;
-      const baseY = 6.2442 - 0.01;
-      let id = 200001;
-      for (let r = 0; r < 3; r++) {
-        for (let c = 0; c < 6; c++) {
-          const x = baseX + c * 0.002 + (Math.random() * 0.0003 - 0.00015);
-          const y = baseY + r * 0.002 + (Math.random() * 0.0003 - 0.00015);
-          const w = 0.0012 + Math.random() * 0.0004;
-          const h = 0.0012 + Math.random() * 0.0004;
-          const npu = `05001${id++}000`;
-          const uso = ['Residencial', 'Comercial', 'Mixto'][Math.floor(Math.random() * 3)];
-          const props = { npu, area_m2: (Math.random() * 200 + 50).toFixed(1), uso, estrato: [1, 2, 3, 4, 5, 6][Math.floor(Math.random() * 6)], municipio: 'Medellín' };
-          const geom = { type: 'Polygon', coordinates: [[[x, y], [x + w, y], [x + w, y + h], [x, y + h], [x, y]]] };
-          features.push({ type: 'Feature', properties: props, geometry: geom });
+  <div class="workspace">
+    <div class="sidebar">
+      <h2 style="font-size: 1.2rem; margin:0;">Inteligencia Topológica</h2>
+      <p style="font-size: 0.8rem; color: #aaa; margin:0; line-height:1.5;">Arrastra un archivo vectorial y deja que el
+        Backend analice los traslapes LADM-COL e interaccione con Groq LLM.</p>
 
-          const cell = document.createElement('div');
-          cell.className = 'parcel-cell';
-          cell.textContent = props.npu;
-          container.appendChild(cell);
+      <div class="upload-zone" id="drop-zone">
+        <div class="upload-icon">📂</div>
+        <div style="font-weight: bold; font-size: 0.9rem;">Drop Spatial File Here</div>
+        <div style="font-size: 0.7rem; color: #888; margin-top: 5px;">.zip, .kml, .geojson, .shp, .gpkg permitidos</div>
+        <input type="file" id="file-input" style="display:none;" accept=".zip,.kml,.geojson,.json,.shp,.gpkg">
+      </div>
+
+      <div class="loader" id="loader">
+        <div class="loader-anim">⚙️ Analizando Geometrías y Consultando Geo-LLM en el Backend (FastAPI)...</div>
+      </div>
+
+      <div id="results" style="display:none; flex-direction:column; gap:1rem;">
+        <div class="report-card">
+          <h4>MÉTRICAS TOPOLÓGICAS (GEOPANDAS)</h4>
+          <div class="stat-line"><span>Total Polígonos:</span> <span class="val" id="res-total">0</span></div>
+          <div class="stat-line"><span>Geomatrías Inválidas:</span> <span class="err" id="res-invalid">0</span></div>
+          <div class="stat-line"><span>Slivers (<5m2):< /span> <span class="err" id="res-slivers">0</span></div>
+          <div class="stat-line"><span>Traslapes (Overlaps):</span> <span class="err" id="res-overlaps">0</span></div>
+        </div>
+
+        <div class="report-card">
+          <h4>EVALUACIÓN C-LEVEL (GROQ LLAMA-3)</h4>
+          <div class="llm-report" id="llm-text">Cargando reporte...</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="map-container">
+      <div
+        style="position:absolute; bottom:20px; right:20px; z-index:10; font-family:var(--font-mono); font-size:0.6rem; color:#fff; background:rgba(0,0,0,0.8); padding:5px; border: 1px solid var(--accent-electric);">
+        MAP_NODE: ACTIVE // RENDER_MODE: VECTOR_CANVAS</div>
+    </div>
+  </div>
+
+  <script src="../assets/js/main.js"></script>
+  <script>
+    // Init MapLibre
+    const map = new maplibregl.Map({
+      container: 'map-container',
+      style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+      center: [-74.0721, 4.7110], // Colombia center
+      zoom: 5,
+      attributionControl: false
+    });
+
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const loader = document.getElementById('loader');
+    const results = document.getElementById('results');
+
+    // Drag & Drop Handlers
+    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
+    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
+    dropZone.addEventListener('drop', (e) => {
+      e.preventDefault();
+      dropZone.classList.remove('dragover');
+      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    });
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    fileInput.addEventListener('change', (e) => {
+      if (e.target.files.length) processFile(e.target.files[0]);
+    });
+
+    async function processFile(file) {
+      results.style.display = 'none';
+      loader.style.display = 'block';
+
+      const formData = new FormData();
+      formData.append('file', file);
+
+      // FastAPI REST ENDPOINTS
+      const PROD_URL = "https://dgz-engineering.onrender.com/api/v1/analyze-shapefile";
+      const DEV_URL = "http://127.0.0.1:8000/api/v1/analyze-shapefile";
+
+      try {
+        let res;
+        try {
+          // Primero intentamos local para desarrollo super rapido
+          res = await fetch(DEV_URL, { method: 'POST', body: formData });
+        } catch (e) {
+          // Fallback a prod
+          res = await fetch(PROD_URL, { method: 'POST', body: formData });
         }
+
+        if (!res || !res.ok) {
+          throw new Error("El Backend Python no está encendido o finalizó con error.");
+        }
+
+        const data = await res.json();
+
+        // Update UI Metrics
+        document.getElementById('res-total').textContent = data.qaqc_metrics.total_features;
+        document.getElementById('res-invalid').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
+        document.getElementById('res-slivers').textContent = data.qaqc_metrics.slivers_val.slivers_count;
+        document.getElementById('res-overlaps').textContent = data.qaqc_metrics.topology_val.overlaps_count;
+        document.getElementById('llm-text').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
+
+        // Plot JSON on MAP
+        if (data.geojson && data.geojson.features && data.geojson.features.length > 0) {
+          renderOnMap(data.geojson);
+        } else {
+          alert("El motor topológico procesó el archivo, pero no devolvió geometrías renderizables.");
+        }
+
+        loader.style.display = 'none';
+        results.style.display = 'flex';
+
+      } catch (err) {
+        console.error(err);
+        alert("Error de validación: " + err.message + "\n\nAsegúrate de que el Backend backend/qa_engine/main.py esté ejecutándose ('uvicorn backend.qa_engine.main:app --reload').");
+        loader.style.display = 'none';
       }
-      window.validatorGeoJSON = { type: 'FeatureCollection', features };
     }
 
-    genValidatorParcels();
+    function renderOnMap(geojson) {
+      if (map.getSource('uploaded-data')) {
+        map.getSource('uploaded-data').setData(geojson);
+      } else {
+        map.addSource('uploaded-data', { type: 'geojson', data: geojson });
+        map.addLayer({
+          id: 'uploaded-fill',
+          type: 'fill',
+          source: 'uploaded-data',
+          paint: {
+            'fill-color': 'rgba(0, 229, 255, 0.15)',
+            'fill-outline-color': '#00e5ff'
+          }
+        });
+      }
 
-    // Bind button to existing global function defined in assets/js/main.js
-    document.getElementById('run-validator').addEventListener('click', () => {
-      const apiBase = document.getElementById('api-base').value.trim() || 'https://dgz-engineering.onrender.com';
-      window.API_BASE = apiBase;
-      // call global runCadastralValidation
-      if (typeof runCadastralValidation === 'function') runCadastralValidation();
-    });
+      // Auto fit bounds logic
+      try {
+        const bounds = new maplibregl.LngLatBounds();
+        let hasCoords = false;
+
+        geojson.features.forEach(f => {
+          if (f.geometry && f.geometry.coordinates) {
+            if (f.geometry.type === 'Polygon') {
+              f.geometry.coordinates[0].forEach(coord => { bounds.extend(coord); hasCoords = true; });
+            } else if (f.geometry.type === 'MultiPolygon') {
+              f.geometry.coordinates.forEach(poly => poly[0].forEach(coord => { bounds.extend(coord); hasCoords = true; }));
+            }
+          }
+        });
+
+        if (hasCoords) {
+          map.fitBounds(bounds, { padding: 50 });
+        }
+      } catch (e) {
+        console.warn("Could not calculate bounds for zooming:", e);
+      }
+    }
   </script>
 </body>
 

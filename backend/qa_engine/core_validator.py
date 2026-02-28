@@ -97,12 +97,14 @@ class GeoQAValidator:
         if not mandatory_fields:
             mandatory_fields = ['npu', 'uso_suelo', 'codigo_homologado']
             
+        ladm_compliance = self.check_ladm_mandatories(gdf, mandatory_fields)
+        
         report = {
             "total_features": len(gdf),
             "geometry_val": self.validate_geometries(gdf),
             "slivers_val": self.detect_slivers(gdf),
             "topology_val": self.detect_overlaps(gdf),
-            "ladm_col_compliance": self.check_status_ladm := self.check_ladm_mandatories(gdf, mandatory_fields)
+            "ladm_col_compliance": ladm_compliance
         }
         return report
 

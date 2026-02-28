@@ -20,8 +20,10 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Integración Simulada Groq (A la espera de KEY oficial)
-from groq import Groq if os.getenv('GROQ_API_KEY') else None
+try:
+    from groq import Groq
+except ImportError:
+    Groq = None
 
 @app.get("/healthz")
 def read_root():
@@ -31,11 +33,11 @@ def read_root():
 def generar_reporte_llm(json_qaqc: dict) -> str:
     """Invoca Groq/Llama-3 para interpretar el reporte topológico."""
     # Dummy system prompt until real keys are provided
-    system_prompt = \"\"\"
+    system_prompt = """
     Eres un auditor catastral Senior. Recibes este perfil JSON de errores espaciales.
     Tu trabajo es redactar un informe profesional diagnosticando la pérdida,
     riesgos y acciones correctivas. Todo en 3 viñetas.
-    \"\"\"
+    """
     try:
         if "GROQ_API_KEY" in os.environ:
             client = Groq()
@@ -53,44 +55,72 @@ def generar_reporte_llm(json_qaqc: dict) -> str:
     except Exception as e:
         return f"Error LLM Connection: {str(e)}"
 
+import tempfile
+import zipfile
+import shutil
+
 @app.post("/api/v1/analyze-shapefile")
 async def analyze_shapefile(file: UploadFile = File(...)):
     """
     Endpoint masivo:
-    El cliente Frontend manda el shapefile en formato .geojson o comprimido.
-    El backend Python corre las librerías Geopandas superpesadas en el servidor,
-    devuelve un reporte topológico limpio y un análisis escrito por LLM.
+    Acepta .zip (Shapefiles), .geojson, .gpkg, .kml.
+    Retorna reporte topológico + informe LLM + GeoJSON limpio para visualización.
     """
-    if not file.filename.endswith(('.geojson', '.json')):
-         raise HTTPException(status_code=400, detail="Use GeoJSON for this API demo")
+    allowed_extensions = ('.geojson', '.json', '.zip', '.kml', '.gpkg', '.shp')
+    if not file.filename.lower().endswith(allowed_extensions):
+         raise HTTPException(status_code=400, detail=f"Extensión no soportada. Use {allowed_extensions}")
          
-    temp_path = f"/tmp/{file.filename}"
+    # Directorio temporal para manejar zips y extracciones
+    temp_dir = tempfile.mkdtemp()
+    temp_file_path = os.path.join(temp_dir, file.filename)
     
-    # Escribir temporal
-    with open(temp_path, "wb") as f:
+    with open(temp_file_path, "wb") as f:
          content = await file.read()
          f.write(content)
          
     try:
-        # Motor de Control de Calidad
-        validator = GeoQAValidator()
-        gdf = validator.load_dataset(temp_path)
+        # Si es un ZIP, extraer y buscar el .shp principal
+        target_path = temp_file_path
+        if file.filename.lower().endswith('.zip'):
+             extract_dir = os.path.join(temp_dir, "extracted")
+             os.makedirs(extract_dir, exist_ok=True)
+             with zipfile.ZipFile(temp_file_path, 'r') as zip_ref:
+                 zip_ref.extractall(extract_dir)
+             
+             # Buscar el shapefile o geojson principal
+             for root, dirs, files in os.walk(extract_dir):
+                 for name in files:
+                     if name.lower().endswith(('.shp', '.gpkg', '.geojson', '.kml')):
+                         target_path = os.path.join(root, name)
+                         break
+
+        # Instanciar el Validador
+        import fiona
+        fiona.drvsupport.supported_drivers['KML'] = 'rw'
+        fiona.drvsupport.supported_drivers['LIBKML'] = 'rw'
         
-        # Resultados Topologicos Oficiales (Overlap, Area, Metadata LADM)
+        validator = GeoQAValidator()
+        gdf = validator.load_dataset(target_path)
+        
+        # QA/QC Oficial
         qaqc_report = validator.run_full_qaqc(gdf)
         
-        # Interpretación final del LLM
+        # Reporte LLM Inteligente
         final_assessment = generar_reporte_llm(qaqc_report)
+        
+        # Convertir a GeoJSON para visualización en el frontend (proyección Web WGS84 - 4326)
+        gdf_wgs84 = gdf.to_crs("EPSG:4326")
+        geojson_data = json.loads(gdf_wgs84.to_json())
         
         return {
             "file": file.filename,
             "status": "Processed",
             "qaqc_metrics": qaqc_report,
-            "geo_llm_intelligence_report": final_assessment
+            "geo_llm_intelligence_report": final_assessment,
+            "geojson": geojson_data
         }
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
     finally:
-        if os.path.exists(temp_path):
-            os.remove(temp_path)
+        shutil.rmtree(temp_dir, ignore_errors=True)
