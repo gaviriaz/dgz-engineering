@@ -2,7 +2,7 @@ import os
 import json
 from fastapi import FastAPI, UploadFile, File, BackgroundTasks, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
-from .core_validator import GeoQAValidator
+from core_validator import GeoQAValidator
 import geopandas as gpd
 
 # Configuración FastAPI (Servicio de Backend DGZ)
