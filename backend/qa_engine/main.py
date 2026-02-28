@@ -108,6 +108,29 @@ async def analyze_shapefile(file: UploadFile = File(...)):
         # Reporte LLM Inteligente
         final_assessment = generar_reporte_llm(qaqc_report)
         
+        # Inserción Secreta a Base de Datos de Supabase (Historial Catastral LADM)
+        try:
+            if "SUPABASE_URL" in os.environ and "SUPABASE_KEY" in os.environ:
+                from supabase import create_client, Client
+                url: str = os.environ.get("SUPABASE_URL")
+                key: str = os.environ.get("SUPABASE_KEY")
+                supabase: Client = create_client(url, key)
+                
+                # Preparamos el Payload para la Tabla SQL que acabas de ejecutar
+                payload = {
+                    "user_email": "contractor.node@dgz.os",  # Temporal, luego se saca del token JWT de supabase auth.
+                    "filename": file.filename,
+                    "total_features": int(qaqc_report["total_features"]),
+                    "invalid_overlaps": int(qaqc_report["topology_val"]["overlaps_count"]),
+                    "slivers_found": int(qaqc_report["slivers_val"]["slivers_count"]),
+                    "llm_ai_diagnosis": str(final_assessment)
+                }
+                
+                # Insertamos la telemetría en la capa del Módulo SaaS
+                supabase.table("catastral_reports").insert(payload).execute()
+        except Exception as sb_err:
+            print(f"Warning - Subabase Error (No Critico para el cliente): {sb_err}")
+        
         # Convertir a GeoJSON para visualización en el frontend (proyección Web WGS84 - 4326)
         gdf_wgs84 = gdf.to_crs("EPSG:4326")
         geojson_data = json.loads(gdf_wgs84.to_json())
