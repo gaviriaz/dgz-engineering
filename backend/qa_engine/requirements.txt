@@ -2,5 +2,6 @@ fastapi==0.104.1
 uvicorn==0.24.0
 geopandas==0.14.3
 shapely==2.0.2
+fiona==1.9.5
 groq==0.4.2
 python-multipart==0.0.9
