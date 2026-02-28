@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ | Geo-LLM Intelligence Agent</title>
+    <!-- Use relative paths to global css and specific logic -->
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <style>
+        body {
+            background-color: var(--bg-black);
+            overflow-x: hidden;
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+        }
+
+        .geo-app-container {
+            flex: 1;
+            display: grid;
+            grid-template-columns: 300px 1fr 350px;
+            gap: 1px;
+            background: rgba(255, 255, 255, 0.05);
+            /* grid border */
+            height: calc(100vh - 60px);
+            /* Fill space under a fake header */
+            margin-top: 60px;
+        }
+
+        .panel {
+            background: var(--bg-dark);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-y: auto;
+        }
+
+        /* TOP NAVIGATION */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: rgba(5, 5, 7, 0.8);
+            backdrop-filter: blur(20px);
+            display: flex;
+            align-items: center;
+            padding: 0 2rem;
+            border-bottom: 1px solid var(--border-glass);
+            z-index: 100;
+        }
+
+        .back-link {
+            color: var(--accent-electric);
+            font-family: var(--font-mono);
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--accent-electric);
+        }
+
+        /* DB SCHEMA SIDEBAR (LEFT) */
+        .schema-title {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-tertiary);
+            letter-spacing: 0.1em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px solid var(--border-glass);
+        }
+
+        .table-node {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 6px;
+            margin-bottom: 1rem;
+        }
+
+        .table-head {
+            background: rgba(0, 229, 255, 0.05);
+            padding: 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-electric);
+            border-bottom: 1px solid rgba(0, 229, 255, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .table-col {
+            padding: 0.4rem 0.6rem;
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.02);
+        }
+
+        .table-col span.type {
+            color: #4ade80;
+        }
+
+        /* CHAT CENTER */
+        .chat-container {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            padding-bottom: 100px;
+        }
+
+        .message {
+            display: flex;
+            gap: 1rem;
+            max-width: 85%;
+            animation: fadeIn 0.4s ease-out;
+        }
+
+        .message.user {
+            margin-left: auto;
+            flex-direction: row-reverse;
+        }
+
+        .avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            font-size: 1.2rem;
+            flex-shrink: 0;
+        }
+
+        .avatar.ai {
+            background: rgba(0, 229, 255, 0.1);
+            border: 1px solid var(--accent-electric);
+            color: var(--accent-electric);
+        }
+
+        .avatar.user {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: #fff;
+        }
+
+        .msg-bubble {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 1rem;
+            color: #ddd;
+            line-height: 1.6;
+            font-size: 0.9rem;
+        }
+
+        .message.user .msg-bubble {
+            background: rgba(0, 229, 255, 0.05);
+            border-color: rgba(0, 229, 255, 0.2);
+        }
+
+        .chat-input-wrapper {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            right: 2rem;
+            background: rgba(5, 5, 7, 0.95);
+            border: 1px solid rgba(0, 229, 255, 0.3);
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: flex;
+            gap: 0.5rem;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);
+        }
+
+        .chat-input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0.8rem;
+            font-family: var(--font-main);
+            font-size: 0.95rem;
+            outline: none;
+        }
+
+        .send-btn {
+            background: var(--accent-electric);
+            color: #000;
+            border: none;
+            border-radius: 8px;
+            width: 45px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .send-btn:hover {
+            box-shadow: 0 0 20px rgba(0, 229, 255, 0.5);
+        }
+
+        /* SQL / REPORT PANEL (RIGHT) */
+        .code-block {
+            background: #000;
+            border: 1px solid rgba(0, 229, 255, 0.1);
+            border-radius: 8px;
+            padding: 1rem;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: #4ade80;
+            white-space: pre-wrap;
+            margin-top: 1rem;
+        }
+
+        .report-block {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid var(--border-glass);
+            padding: 1rem;
+            border-radius: 8px;
+            font-size: 0.8rem;
+            color: var(--text-secondary);
+            line-height: 1.6;
+            margin-top: 1rem;
+        }
+
+        .thinking {
+            display: flex;
+            gap: 4px;
+            align-items: center;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-electric);
+            padding: 0.5rem;
+        }
+
+        .dot {
+            width: 4px;
+            height: 4px;
+            background: var(--accent-electric);
+            border-radius: 50%;
+            animation: blink 1.4s infinite;
+        }
+
+        .dot:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .dot:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes blink {
+
+            0%,
+            100% {
+                opacity: 0.2;
+            }
+
+            50% {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media(max-width: 1024px) {
+            .geo-app-container {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 500px auto;
+                height: auto;
+            }
+        }
+    </style>
+</head>
+
+<body class="dgz-secure-shield">
+    <div class="noise-overlay"></div>
+
+    <div class="top-nav">
+        <a href="../../index.html#projects" class="back-link">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+                <polyline points="15 18 9 12 15 6"></polyline>
+            </svg>
+            VOLVER AL PORTAFOLIO
+        </a>
+        <div style="flex:1;"></div>
+        <div style="font-family:var(--font-mono); font-size:0.5rem; color:var(--text-tertiary);">SYSTEM:
+            GEO_LLM_AGENT_PROTOTYPE</div>
+    </div>
+
+    <div class="geo-app-container">
+        <!-- DB SCHEMA -->
+        <div class="panel">
+            <div class="schema-title">Vector Database Context (PostGIS)</div>
+
+            <div class="table-node">
+                <div class="table-head">🗄️ public.predios_urbanos</div>
+                <div class="table-col">id <span class="type">uuid</span></div>
+                <div class="table-col">npu <span class="type">varchar</span></div>
+                <div class="table-col">area_calc <span class="type">numeric</span></div>
+                <div class="table-col">uso_suelo <span class="type">varchar</span></div>
+                <div class="table-col">geometria <span class="type">geometry</span></div>
+            </div>
+
+            <div class="table-node">
+                <div class="table-head">🗄️ public.barrios</div>
+                <div class="table-col">id_barrio <span class="type">int</span></div>
+                <div class="table-col">nombre <span class="type">varchar</span></div>
+                <div class="table-col">geometria <span class="type">geometry</span></div>
+            </div>
+
+            <p style="font-family:var(--font-mono); font-size:0.6rem; color:var(--text-secondary); margin-top:2rem;">El
+                agente LLM conoce este esquema y genera SQL espacial válido sobre él.</p>
+        </div>
+
+        <!-- CHAT -->
+        <div class="panel" style="position:relative;">
+            <div class="chat-container" id="chat-window">
+                <div class="message ai">
+                    <div class="avatar ai">⚡</div>
+                    <div class="msg-bubble">
+                        Hola. Soy tu <strong>Geo-Delegado LLM</strong>. Estoy conectado a la réplica de base de datos de
+                        ConstruMetrix. <br><br>Puedes pedirme consultas complejas en lenguaje natural (ej.
+                        <em>"Muéstrame el área total de uso comercial en El Poblado que intersecta con vías
+                            principales"</em>).
+                        <br><br><strong>Prueba escribiendo:</strong> "¿Cuántos predios hay en el barrio El Poblado con
+                        errores en su área?"
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-input-wrapper">
+                <input type="text" class="chat-input" id="prompt-input"
+                    placeholder="Ingresa tu consulta territorial aquí (Demo)..." autocomplete="off"
+                    value="¿Cuántos predios hay en el barrio El Poblado con errores en su área?">
+                <button class="send-btn" onclick="simulateChat()">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2.5">
+                        <line x1="22" y1="2" x2="11" y2="13"></line>
+                        <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    </svg>
+                </button>
+            </div>
+        </div>
+
+        <!-- GENERATED LOGIC -->
+        <div class="panel">
+            <div class="schema-title">Generated SQL & Reports</div>
+            <div id="right-out">
+                <p style="font-size:0.8rem; color:var(--text-secondary); text-align:center; margin-top:50px;">Waiting
+                    for Agent execution...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../assets/js/main.js"></script>
+    <script>
+        function simulateChat() {
+            const input = document.getElementById('prompt-input');
+            const val = input.value.trim();
+            if (!val) return;
+
+            const chat = document.getElementById('chat-window');
+            const right = document.getElementById('right-out');
+
+            // 1. Add User Message
+            chat.innerHTML += `
+                <div class="message user">
+                    <div class="avatar user">A</div>
+                    <div class="msg-bubble">${val}</div>
+                </div>
+            `;
+            input.value = '';
+
+            // 2. Add Thinking Loader
+            const loaderId = 'loader-' + Date.now();
+            chat.innerHTML += `
+                <div class="message ai" id="${loaderId}">
+                    <div class="avatar ai">⚡</div>
+                    <div class="msg-bubble">
+                        <div class="thinking">Reasoning with GPT-4 Omni GIS <div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
+                    </div>
+                </div>
+            `;
+            chat.scrollTop = chat.scrollHeight;
+
+            // 3. Fake Response Timeout
+            setTimeout(() => {
+                document.getElementById(loaderId).remove();
+
+                chat.innerHTML += `
+                    <div class="message ai">
+                        <div class="avatar ai">⚡</div>
+                        <div class="msg-bubble">
+                            <strong>Consulta Procesada.</strong> He generado la sentencia Spatial SQL para cruzar ambas capas (ST_Intersects y ST_Area) e identifiqué <strong>1,248 predios</strong> con inconsistencias catastrales en la geocerca definida. He emitido el reporte técnico a la derecha.
+                        </div>
+                    </div>
+                `;
+                chat.scrollTop = chat.scrollHeight;
+
+                right.innerHTML = `
+                    <div class="thinking" style="color:#fff; margin-bottom:10px;">> Executing PostGIS Vector Query...</div>
+                    <div class="code-block">SELECT count(p.id) AS predios_con_error, 
+       SUM(p.area_calc) AS area_afectada
+FROM public.predios_urbanos p
+JOIN public.barrios b 
+  ON ST_Intersects(p.geometria, b.geometria)
+WHERE b.nombre = 'El Poblado' 
+  AND ABS(p.area_calc - ST_Area(p.geometria)) > 5.0;</div>
+                    <div class="thinking" style="color:#fff; margin-top:20px; font-weight:bold;">> Generando Reporte C-Level...</div>
+                    <div class="report-block">
+                        <strong>INFORME DE CALIDAD CATASTRAL</strong><br>
+                        <em>Barrio: El Poblado | Fecha: 2026-02-28</em><br><br>
+                        El análisis multivariado detectó <strong>1,248 predios</strong> que sobrepasan la tolerancia cartográfica del 5% de LADM-COL.<br><br>
+                        <strong>Impactos detectados:</strong><br>
+                        - Pérdida de recaudo tributario estimada en $45K USD.<br>
+                        - Falsos positivos en usos de suelo comercial.<br><br>
+                        <em>Acción recomendada: Operativo de dron fotogramétrico coordinado para re-levantamiento en cuadrante Nor-occidental.</em>
+                    </div>
+                `;
+            }, 3000);
+        }
+    </script>
+</body>
+
+</html>
