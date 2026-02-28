@@ -18,6 +18,7 @@
     <!-- MapLibre GL JS -->
     <link href="https://unpkg.com/maplibre-gl@4.1.3/dist/maplibre-gl.css" rel="stylesheet">
     <script src="https://unpkg.com/maplibre-gl@4.1.3/dist/maplibre-gl.js"></script>
+    <script src="../assets/js/dgz-core.js"></script>
 
     <style>
         :root {
@@ -562,45 +563,20 @@
 
 <body class="dgz-secure-shield">
 
-    <!-- TOP BAR -->
-    <div class="lab-topbar">
-        <a href="../index.html" class="topbar-logo">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-electric)"
-                stroke-width="2.5">
-                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-            </svg>
-            DGZ ENGINEERING
-        </a>
-        <div class="topbar-divider"></div>
-        <div class="topbar-title">⭐ Spatial Lab — Cadastral Viewer v1.0</div>
-        <div class="topbar-spacer"></div>
-        <div class="topbar-status">
-            <span class="status-ok">● MAPLIBRE_ACTIVE</span>
-            <span>LAYERS: LOADED</span>
-            <span>ENGINE: LADM-COL</span>
-        </div>
-        <a href="../index.html#lab" class="topbar-back">
-            <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
-                <polyline points="15,18 9,12 15,6" />
-            </svg>
-            Back to Lab
-        </a>
-    </div>
-
     <!-- MAP WRAPPER -->
-    <div class="map-wrapper">
+    <div class="map-wrapper" style="margin-top: 60px;">
 
         <!-- LEFT CONTROL PANEL -->
         <div class="left-panel">
             <!-- LAYERS -->
             <div class="panel-section">
-                <div class="panel-label">Map Layers</div>
+                <div class="panel-label" data-i18n="map_layers">Map Layers</div>
                 <div id="layer-controls">
                     <div class="layer-toggle" onclick="toggleLayer('predios')">
                         <div class="layer-name">
                             <div class="layer-color"
                                 style="background: rgba(0,229,255,0.5); border: 1px solid #00e5ff;"></div>
-                            Predios Catastrales
+                            <span data-i18n="layer_parcels">Predios Catastrales</span>
                         </div>
                         <div class="layer-switch on" id="switch-predios"></div>
                     </div>
@@ -608,7 +584,7 @@
                         <div class="layer-name">
                             <div class="layer-color"
                                 style="background: rgba(255,180,0,0.5); border: 1px solid #ffb400;"></div>
-                            Red Vial
+                            <span data-i18n="layer_roads">Red Vial</span>
                         </div>
                         <div class="layer-switch on" id="switch-vias"></div>
                     </div>
@@ -634,46 +610,52 @@
 
             <!-- BASE MAP -->
             <div class="panel-section">
-                <div class="panel-label">Base Map</div>
+                <div class="panel-label" data-i18n="map_basemap">Base Map</div>
                 <div class="basemap-grid">
                     <div class="basemap-option active" onclick="switchBasemap('dark', this)" style="background: #111;">
-                        VOID<br>DARK</div>
+                        <span data-i18n="map_void_dark">VOID<br>DARK</span>
+                    </div>
                     <div class="basemap-option" onclick="switchBasemap('satellite', this)"
-                        style="background: linear-gradient(135deg, #1a3a2a, #0d2137);">GEO<br>SAT</div>
+                        style="background: linear-gradient(135deg, #1a3a2a, #0d2137);">
+                        <span data-i18n="map_geo_sat">GEO<br>SAT</span>
+                    </div>
                     <div class="basemap-option" onclick="switchBasemap('topo', this)"
-                        style="background: linear-gradient(135deg, #2a2a1a, #1a2a0d);">TOPO<br>MAP</div>
+                        style="background: linear-gradient(135deg, #2a2a1a, #1a2a0d);">
+                        <span data-i18n="map_topo_map">TOPO<br>MAP</span>
+                    </div>
                 </div>
             </div>
 
             <!-- LEGEND -->
             <div class="panel-section">
-                <div class="panel-label">Leyenda</div>
+                <div class="panel-label" data-i18n="map_legend">Leyenda</div>
                 <div class="legend-grid">
                     <div class="legend-item">
                         <div class="legend-box" style="background:rgba(74,222,128,0.3); border-color: #4ade80;"></div>
-                        Predio Validado
+                        <span data-i18n="leg_validated">Predio Validado</span>
                     </div>
                     <div class="legend-item">
-                        <div class="legend-box" style="background:rgba(255,180,0,0.3); border-color: #ffb400;"></div>En
-                        Proceso
+                        <div class="legend-box" style="background:rgba(255,180,0,0.3); border-color: #ffb400;"></div>
+                        <span data-i18n="leg_pending">En Proceso</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-box" style="background:rgba(255,75,43,0.3); border-color: #ff4b2b;"></div>
-                        Error Topológico
+                        <span data-i18n="leg_error">Error Topológico</span>
                     </div>
                     <div class="legend-item">
                         <div class="legend-box" style="background:rgba(0,229,255,0.15); border-color: #00e5ff;"></div>
-                        Sin Clasificar
+                        <span data-i18n="leg_unclassified">Sin Clasificar</span>
                     </div>
                 </div>
             </div>
 
             <!-- PARCEL INFO -->
             <div class="info-panel">
-                <div class="panel-label">Información Predial</div>
+                <div class="panel-label" data-i18n="map_info">Información Predial</div>
                 <div class="info-empty" id="info-empty">
                     <div class="info-empty-icon">🖱️</div>
-                    <div class="info-empty-text">Click en un predio<br>para ver atributos</div>
+                    <div class="info-empty-text" data-i18n="map_click_prompt">Click en un predio<br>para ver atributos
+                    </div>
                 </div>
                 <div class="parcel-info" id="parcel-info">
                     <div class="parcel-attr">

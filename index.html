@@ -26,6 +26,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
         rel="stylesheet">
+    <script src="assets/js/dgz-core.js"></script>
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
@@ -348,53 +349,12 @@
         </div>
     </div>
 
-    <!-- ELITE NAVIGATION (V5.3 Master Core) -->
-    <header id="main-header">
-        <div class="nav-container">
-            <a href="#" class="logo">
-                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-electric)"
-                    stroke-width="2.5" style="margin-right: 12px; filter: drop-shadow(0 0 5px var(--accent-electric));">
-                    <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
-                </svg>
-                <span style="font-weight: 800; letter-spacing: 0.1em;">DGZ ENGINEERING</span>
-            </a>
-
-            <nav class="nav-links">
-                <a href="#about" data-i18n="nav_about">About</a>
-                <a href="#lab">⭐ Spatial Lab</a>
-                <a href="#projects" data-i18n="nav_projects">Assets</a>
-                <a href="#map" data-i18n="nav_map">Intel Map</a>
-                <a href="#contact" data-i18n="nav_contact">Contact</a>
-            </nav>
-
-            <div style="display: flex; gap: 2rem; align-items: center;">
-                <div class="lang-switch">
-                    <button class="lang-btn active" data-lang="en">EN</button>
-                    <button class="lang-btn" data-lang="es">ES</button>
-                </div>
-
-                <!-- BIOMETRIC ACCESS TRIGGER (V4.8 Master Build) -->
-                <button class="btn-premium"
-                    style="display: flex; align-items: center; gap: 0.8rem; padding: 0.7rem 1.4rem; font-size: 0.6rem;"
-                    id="cv-trigger">
-                    <div style="position: relative; display: flex; align-items: center; justify-content: center;">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.2">
-                            <path
-                                d="M12 11c0 3.517-2.103 6.543-5.125 7.827m4.243-9.696a3 3 0 110 5.869m1.757-.93a5.002 5.002 0 019.243-1.07M19 19v1m-3-1v1m-3-1v1m-3-1v1m0-12v1m0 3v1m10-4v1m0 3v1">
-                            </path>
-                        </svg>
-                        <div
-                            style="position: absolute; inset: -4px; border: 1px solid var(--accent-electric); border-radius: 50%; opacity: 0.2; animation: biometricPulse 2s infinite;">
-                        </div>
-                    </div>
-                    <span data-i18n="nav_cv" style="font-weight: 800;">Bio_Neural_Link</span>
-                </button>
-            </div>
-        </div>
+    <!-- ELITE NAVIGATION (Now handled by dgz-core.js) -->
+    <header id="main-header" style="display: none;">
+        <!-- Hidden legacy header to prevent breaking old scripts if any -->
     </header>
 
-    <main>
+    <main style="padding-top: 60px;">
         <!-- HERO V6 -->
         <section class="hero">
             <div class="hero-content reveal">
@@ -405,8 +365,8 @@
                 <span class="section-label" data-i18n="hero_tag" style="margin-bottom: 1.5rem;">//
                     SPATIAL_SYSTEMS_ENGINEERING</span>
                 <h1 style="margin-bottom: 1rem;">ALBERT GAVIRIA ZAPATA</h1>
-                <p
-                    style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-electric), #fff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; margin-bottom: 1.5rem;">
+                <p style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-electric), #fff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; margin-bottom: 1.5rem;"
+                    data-i18n="hero_h1">
                     Automating Multipurpose Cadastre &amp;<br>Territorial Intelligence Systems
                 </p>
                 <p data-i18n="hero_desc" style="font-size: 1rem; margin-bottom: 2.5rem;">High-Performance Geospatial

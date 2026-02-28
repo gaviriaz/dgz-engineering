@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DGZ | QGIS Custom Plugin</title>
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
         rel="stylesheet">
+    <script src="../../assets/js/dgz-core.js"></script>
     <style>
         .project-hero {
             padding: 8rem 5% 4rem;
             position: relative;
+            background: linear-gradient(135deg, rgba(74, 222, 128, 0.05), transparent);
         }
 
         .back-link {
@@ -23,75 +26,227 @@
             font-family: var(--font-mono);
             font-size: 0.8rem;
             margin-bottom: 2rem;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .back-link:hover {
-            text-shadow: 0 0 10px var(--accent-electric);
-        }
-
-        .article-body {
-            max-width: 800px;
+        .qgis-container {
+            max-width: 1100px;
             margin: 0 auto;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.1rem;
+            padding-bottom: 10rem;
         }
 
-        .article-body h2 {
-            color: #fff;
+        /* QGIS WINDOW MOCKUP */
+        .qgis-ui-mockup {
+            background: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+            display: flex;
+            height: 600px;
             margin-top: 3rem;
-            margin-bottom: 1rem;
+        }
+
+        .qgis-sidebar {
+            width: 280px;
+            background: #333;
+            border-right: 1px solid #444;
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .qgis-canvas {
+            flex: 1;
+            background: #1a1a1b;
+            position: relative;
+            background-image: radial-gradient(#222 1px, transparent 1px);
+            background-size: 20px 20px;
+            overflow: hidden;
+        }
+
+        .plugin-panel {
+            background: #262626;
+            border: 1px solid #555;
+            border-radius: 4px;
+            padding: 1rem;
+        }
+
+        .plugin-title {
+            font-size: 0.65rem;
+            font-weight: bold;
+            color: var(--accent-electric);
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            border-bottom: 1px solid #444;
+            padding-bottom: 0.4rem;
+        }
+
+        .qgis-btn {
+            background: #444;
+            color: #fff;
+            border: 1px solid #555;
+            padding: 0.5rem;
+            font-size: 0.7rem;
+            width: 100%;
+            text-align: left;
+            margin-bottom: 0.4rem;
+            cursor: pointer;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .qgis-btn:hover {
+            background: #555;
+            border-color: var(--accent-electric);
+        }
+
+        .qgis-btn.active {
+            background: var(--accent-electric);
+            color: #000;
+            font-weight: bold;
+        }
+
+        /* CANVAS SYMBOLS */
+        .geom-poly {
+            position: absolute;
+            background: rgba(0, 229, 255, 0.2);
+            border: 2px solid var(--accent-electric);
+            width: 120px;
+            height: 80px;
+            top: 150px;
+            left: 200px;
+            clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+            transition: 0.5s;
+        }
+
+        .geom-overlap {
+            position: absolute;
+            background: rgba(255, 0, 0, 0.3);
+            border: 2px dashed #ff4444;
+            width: 50px;
+            height: 90px;
+            top: 140px;
+            left: 280px;
+            opacity: 1;
+            transition: 0.5s;
+        }
+
+        /* ACTIONS */
+        .qgis-footer {
+            height: 30px;
+            background: #222;
+            border-top: 1px solid #444;
+            padding: 0 1rem;
+            display: flex;
+            align-items: center;
+            font-size: 0.6rem;
+            color: #888;
+            font-family: var(--font-mono);
         }
     </style>
 </head>
 
 <body class="dgz-secure-shield">
     <div class="noise-overlay"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="neural-grid"></div>
+    <div class="glow-orb orb-1" style="background: rgba(74, 222, 128, 0.1);"></div>
 
     <main>
-        <div class="project-hero">
-            <a href="../../index.html#projects" class="back-link">
-                <<< RETURN_TO_CORE</a>
-                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: PYQGIS_PLUGIN_03</div>
-                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Custom QGIS Master Plugin</h1>
-                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Bridging desktop GIS mapping with
-                        automated LADM-COL validation rules via PyQGIS.</p>
-
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                        <span class="tech-tag">PyQGIS</span>
-                        <span class="tech-tag">PyQt5</span>
-                        <span class="tech-tag">LADM-COL</span>
-                        <span class="tech-tag">Python</span>
-                    </div>
+        <div class="project-hero" style="margin-top: 60px;">
+            <a href="../../index.html#projects" class="back-link" style="display: none;">
+                <i class="ph ph-arrow-left"></i> RETURN_TO_NUCLEUS
+            </a>
+            <div class="hero-identity-badge" style="border-color: #4ade80; color: #4ade80;">System_ID:
+                PYQGIS_MASTER_PLUGIN</div>
+            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.05em;"
+                data-i18n="qgis_hero_title">QGIS Power Tools</h1>
+            <p style="font-size: 1.4rem; color: var(--text-secondary); max-width: 700px;" data-i18n="qgis_hero_desc">
+                Bridging desktop GIS mapping with automated LADM-COL validation rules via PyQGIS.
+            </p>
         </div>
 
-        <div class="article-body">
-            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
-                <p>Standard QGIS tools often fall short when dealing with highly specific national standards (like
-                    LADM-COL in Colombia). This custom plugin embeds business logic directly into the software
-                    interface, allowing draftsmen and digitizers to validate geometries on-the-fly without leaving their
-                    environment.</p>
+        <div class="qgis-container">
+            <h2 style="color:#fff; font-size:1.5rem; margin-bottom:1rem;">Interactive Plugin Preview</h2>
+            <div class="qgis-ui-mockup">
+                <div class="qgis-sidebar">
+                    <div class="plugin-panel">
+                        <div class="plugin-title">DGZ TOPOLOGY FIXER</div>
+                        <button class="qgis-btn" onclick="highlightErrors()"><i class="ph ph-warning-circle"></i> <span
+                                data-i18n="qgis_scan_btn">Scan Layer Errors</span></button>
+                        <button class="qgis-btn" onclick="fixTopology()"><i class="ph ph-magic-wand"></i> <span
+                                data-i18n="qgis_fix_btn">Auto-Snap Geometries</span></button>
+                        <button class="qgis-btn"><i class="ph ph-cloud-arrow-up"></i> <span data-i18n="qgis_sync">Sync
+                                to PostGIS</span></button>
+                    </div>
 
-                <h2>Architecture & Logic</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 1rem;"><strong>🖥️ Clean UI:</strong> Built with PyQt5 to seamlessly blend
-                        into QGIS panels.</li>
-                    <li style="margin-bottom: 1rem;"><strong>📐 Geometry Fixes:</strong> Automatic snapping and
-                        topological cleaning using powerful Shapely/PyQGIS algorithms.</li>
-                    <li style="margin-bottom: 1rem;"><strong>🚀 Fast Sync:</strong> Direct one-click synchronization to
-                        the main PostGIS database.</li>
-                </ul>
+                    <div class="plugin-panel">
+                        <div class="plugin-title">LADM-COL ATTRIBUTES</div>
+                        <div style="font-size:0.6rem; color:#888; font-family:var(--font-mono);">
+                            [SELECTED_FEATURE]<br>
+                            OBJECTID: 45882<br>
+                            AREA: 124.5 m2<br>
+                            STATUS: TOPOLOGY_FAIL
+                        </div>
+                    </div>
+                </div>
 
-                <h2 style="color: var(--accent-gold);">System Status: PRIVATE REPOSITORY</h2>
-                <p>Due to the proprietary nature of some topological rules applied for current clients, the raw source
-                    code of this plugin is maintained in a private node. Documentation and generic functionality samples
-                    will be deployed in this space soon.</p>
+                <div class="qgis-canvas" id="canvas">
+                    <div class="geom-poly" id="poly1"></div>
+                    <div class="geom-overlap" id="error1"></div>
+                    <div
+                        style="position:absolute; bottom:20px; left:20px; color:#fff; font-family:var(--font-mono); font-size:0.5rem; opacity:0.3;">
+                        COORD: 4326 // SCALE 1:500</div>
+                </div>
+            </div>
+            <div class="qgis-footer" id="status-bar">Ready. Waiting for user action.</div>
+
+            <div style="margin-top: 5rem;">
+                <h3 style="color:#fff; font-size:2rem; margin-bottom:2rem;">Native Desktop Intelligence</h3>
+                <div class="bento-grid">
+                    <div class="bento-item large" style="padding: 2.5rem;">
+                        <p>Standard QGIS tools often fall short when dealing with highly specific national standards
+                            (like LADM-COL in Colombia). This custom plugin embeds business logic directly into the
+                            software interface, allowing draftsmen and digitizers to validate geometries on-the-fly
+                            without leaving their environment.</p>
+                    </div>
+                    <div class="bento-item" style="padding:1.5rem;">
+                        <span class="tech-tag">PyQt5</span>
+                        <span class="tech-tag">PyQGIS API</span>
+                        <span class="tech-tag">Docker Sync</span>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
+
+    <script>
+        function highlightErrors() {
+            const err = document.getElementById('error1');
+            const status = document.getElementById('status-bar');
+            err.style.animation = 'ping 1s infinite';
+            status.innerText = "CRITICAL: Found 1 overlapping geometry in layer 'predios_u'.";
+            status.style.color = "#ff4444";
+        }
+
+        function fixTopology() {
+            const err = document.getElementById('error1');
+            const poly = document.getElementById('poly1');
+            const status = document.getElementById('status-bar');
+
+            err.style.opacity = '0';
+            poly.style.clipPath = 'polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)';
+            poly.style.backgroundColor = 'rgba(74, 222, 128, 0.3)';
+            poly.style.borderColor = '#4ade80';
+
+            status.innerText = "SUCCESS: Topology healed. Geometry valid for LADM-COL.";
+            status.style.color = "#4ade80";
+        }
+    </script>
 </body>
 
 </html>

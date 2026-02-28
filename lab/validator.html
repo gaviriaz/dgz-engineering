@@ -12,7 +12,9 @@
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-  <link rel="icon" type="image/svg+xml" href="../assets/img/logo_icon.svg">
+  <!-- DGZ Core (Nav & i18n) -->
+  <link rel="stylesheet" href="../assets/css/index.css">
+  <script src="../assets/js/dgz-core.js"></script>
   <!-- Chart.js for Command Center -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
@@ -582,22 +584,22 @@
       <div style="display:flex; align-items:center; gap:5px; color: var(--status-ok);">
         <span
           style="width:6px; height:6px; background:var(--status-ok); border-radius:50%; box-shadow: 0 0 5px var(--status-ok);"></span>
-        API CONNECTED
+        <span data-i18n="api_connected">API CONNECTED</span>
       </div>
-      <div class="sys-badge"
+      <div class="sys-badge hide-mobile"
         style="border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(157, 78, 221, 0.1);">
-        <i class="ph-fill ph-sparkle"></i> Groq Llama-3 Active
+        <i class="ph-fill ph-sparkle"></i> <span data-i18n="ai_active">Groq Llama-3 Active</span>
       </div>
       <div id="user-profile">
         <img id="user-avatar" class="avatar" src="https://via.placeholder.com/150" alt="Av">
         <span id="user-name">User</span>
-        <button class="btn-logout" onclick="signOut()">Log out</button>
+        <button class="btn-logout" onclick="signOut()"><i class="ph ph-sign-out"></i></button>
       </div>
     </div>
   </header>
 
   <!-- Main Workspace -->
-  <div class="os-workspace">
+  <div class="os-workspace" style="margin-top: 60px;">
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
       <div class="nav-item active" title="Topological Engine" onclick="switchModule(1)">
@@ -617,10 +619,10 @@
       <!-- MODULE 1: TOPOLOGY QA/QC -->
       <div id="module-1" class="module-view active">
         <div class="panel-header">
-          <h2 class="panel-title"><i class="ph-fill ph-bounding-box" style="color:var(--accent-cyan);"></i> LADM-COL
-            QA/QC</h2>
-          <p class="panel-desc">Validación topológica estricta sobre cartografía base. Detecta superposiciones, slivers
-            y completitud alfanumérica geométrica.</p>
+          <h2 class="panel-title"><i class="ph-fill ph-bounding-box" style="color:var(--accent-cyan);"></i> <span
+              data-i18n="val_module1">LADM-COL QA/QC</span></h2>
+          <p class="panel-desc" data-i18n="val_module1_desc">Validación topológica estricta sobre cartografía base.
+            Detecta superposiciones, slivers y completitud alfanumérica geométrica.</p>
         </div>
 
         <div class="panel-content">
@@ -683,11 +685,10 @@
         <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
         <div id="module-2" class="module-view">
           <div class="panel-header">
-            <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> Cruce
-              Físico-Jurídico</h2>
-            <p class="panel-desc">Sincronización de Base de Datos Catastral (.shp/.gpkg) vs Matriz de SNR Registro
-              (.xlsx)
-              para detectar inconsistencias de área e identificador.</p>
+            <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> <span
+                data-i18n="val_module2">Cruce Físico-Jurídico</span></h2>
+            <p class="panel-desc" data-i18n="val_module2_desc">Sincronización de Base de Datos Catastral (.shp/.gpkg) vs
+              Matriz de SNR Registro (.xlsx) para detectar inconsistencias de área e identificador.</p>
           </div>
 
           <div class="panel-content">

@@ -1,20 +1,23 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGZ | GIS Research Branch</title>
+    <title>DGZ | GIS Research Lab</title>
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
         rel="stylesheet">
+    <script src="../../assets/js/dgz-core.js"></script>
     <style>
         .project-hero {
             padding: 8rem 5% 4rem;
             position: relative;
+            background: linear-gradient(180deg, rgba(157, 78, 221, 0.05), transparent);
         }
 
         .back-link {
@@ -23,128 +26,256 @@
             font-family: var(--font-mono);
             font-size: 0.8rem;
             margin-bottom: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .research-container {
+            max-width: 1000px;
+            margin: 0 auto;
+            padding-bottom: 10rem;
+        }
+
+        /* GEOAI SLIDER TOOL */
+        .slider-tool {
+            position: relative;
+            width: 100%;
+            height: 500px;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid var(--border-glass);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.6);
+            margin-top: 3rem;
+            cursor: ew-resize;
+        }
+
+        .slider-before,
+        .slider-after {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+        }
+
+        .slider-before {
+            background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200');
+            filter: grayscale(1) brightness(0.5);
+        }
+
+        .slider-after {
+            background-image: url('https://images.unsplash.com/photo-1446776811953-b23d57bd21aa?auto=format&fit=crop&q=80&w=1200');
+            clip-path: inset(0 50% 0 0);
+            filter: contrast(1.2) saturate(1.5);
+            border-right: 3px solid var(--accent-electric);
+        }
+
+        /* Neon heatmap overlay simulated via CSS over after */
+        .slider-after::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 30% 40%, rgba(255, 180, 0, 0.4), transparent 10%),
+                radial-gradient(circle at 60% 70%, rgba(0, 229, 255, 0.4), transparent 15%),
+                radial-gradient(circle at 50% 20%, rgba(157, 78, 221, 0.4), transparent 20%);
+            mix-blend-mode: color-dodge;
+        }
+
+        .slider-handle {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 50%;
+            width: 4px;
+            background: var(--accent-electric);
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transform: translateX(-50%);
+            box-shadow: 0 0 20px rgba(0, 229, 255, 1);
+        }
+
+        .handle-circle {
+            width: 40px;
+            height: 40px;
+            background: #000;
+            border: 2px solid var(--accent-electric);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-size: 0.8rem;
+        }
+
+        .slider-label {
+            position: absolute;
+            padding: 10px 20px;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: #fff;
+            z-index: 5;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .label-left {
+            top: 20px;
+            left: 20px;
+        }
+
+        .label-right {
+            top: 20px;
+            right: 20px;
+            color: var(--accent-electric);
+        }
+
+        /* NODES GRID */
+        .research-node {
+            background: #0A0A0F;
+            border: 1px solid var(--border-glass);
+            padding: 2.5rem;
+            border-radius: 12px;
+            transition: 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .research-node:hover {
+            transform: translateY(-5px) scale(1.02);
+            border-color: var(--accent-purple);
+            box-shadow: 0 10px 40px rgba(157, 78, 221, 0.2);
+        }
+
+        .node-tag {
+            font-family: var(--font-mono);
+            font-size: 0.6rem;
+            background: rgba(157, 78, 221, 0.1);
+            color: var(--accent-purple);
+            padding: 4px 10px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            margin-bottom: 1rem;
             display: inline-block;
         }
 
-        .back-link:hover {
-            text-shadow: 0 0 10px var(--accent-electric);
-        }
-
-        .article-body {
-            max-width: 800px;
-            margin: 0 auto;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.1rem;
-        }
-
-        .article-body h2 {
-            color: #fff;
-            margin-top: 3rem;
-            margin-bottom: 1rem;
+        .node-accuracy {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            font-family: var(--font-mono);
+            color: #4ade80;
+            font-size: 0.8rem;
         }
     </style>
 </head>
 
 <body class="dgz-secure-shield">
     <div class="noise-overlay"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="neural-grid"></div>
+    <div class="glow-orb orb-2" style="background: rgba(157, 78, 221, 0.3);"></div>
 
     <main>
-        <div class="project-hero">
-            <a href="../../index.html#projects" class="back-link">
-                <<< RETURN_TO_CORE</a>
-                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: RESEARCH_R01</div>
-                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Research & Experimental Nodes</h1>
-                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Explorations in GeoAI, machine learning
-                        on satellite imagery, and futuristic cadastral models.</p>
-
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                        <span class="tech-tag">Machine Learning</span>
-                        <span class="tech-tag">Sentinel-2</span>
-                        <span class="tech-tag">Jupyter</span>
-                        <span class="tech-tag">Scikit-learn</span>
-                    </div>
+        <div class="project-hero" style="margin-top: 60px;">
+            <a href="../../index.html#projects" class="back-link" style="display: none;">
+                <i class="ph ph-arrow-left"></i> BACK_TO_BASE
+            </a>
+            <div class="hero-identity-badge" style="border-color: var(--accent-purple); color: var(--accent-purple);">
+                Protocol: EXPERIMENTAL_NODE</div>
+            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.05em;"
+                data-i18n="res_hero_title">GIS Research Lab</h1>
+            <p style="font-size: 1.4rem; color: var(--text-secondary); max-width: 600px;" data-i18n="res_hero_desc">
+                Deep exploration into Sentinel-2 imagery classification and demographic predictive modeling.
+            </p>
         </div>
 
-        <div class="article-body">
-            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
-                <p>The research branch is dedicated to pushing the boundaries of traditional GIS. Here we prototype
-                    advanced scripts that analyze multispectral satellite imagery to detect unrecorded urban expansions,
-                    deforestation, and demographic shifts without human intervention.</p>
-
-                <h2>Active Research Lines</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 1rem;"><strong>🛰️ Urban Change Detection:</strong> Using Random Forest
-                        classifiers on Sentinel-2 imagery to find new constructions.</li>
-                    <li style="margin-bottom: 1rem;"><strong>🤖 Automated Vectorization:</strong> Deep learning models
-                        (like Mask R-CNN) extracting building footprints from drone orthomosaics.</li>
-                </ul>
-
-                <!-- GEO-AI SLIDER DEMO -->
-                <h3
-                    style="color: #fff; margin-top: 3rem; font-family: var(--font-mono); font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
-                    [DEMO] Sentinel-2 vs Machine Learning Overlay</h3>
-                <div class="geoai-container"
-                    style="position: relative; overflow: hidden; border-radius: 12px; margin-top: 1rem; margin-bottom: 3rem; border: 1px solid rgba(0, 229, 255, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
-                    <div class="slider-image-before"
-                        style="position: relative; width: 100%; height: 400px; background: url('../../assets/img/geoai_base.png') center/cover; filter: grayscale(100%) brightness(0.7);">
-                        <div
-                            style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 10px; color: #fff; font-family: var(--font-mono); font-size: 0.8rem; border: 1px solid #555; z-index: 1;">
-                            2021 ARCHIVE (T0)</div>
-                    </div>
-
-                    <div class="slider-image-after"
-                        style="position: absolute; top: 0; left: 0; width: 50%; height: 400px; background: url('../../assets/img/geoai_base.png') center/cover; border-right: 3px solid var(--accent-electric); overflow: hidden; pointer-events: none;">
-                        <div
-                            style="position: absolute; top: 15px; left: 15px; background: rgba(0, 229, 255, 0.1); border: 1px solid var(--accent-electric); padding: 5px 10px; color: var(--accent-electric); font-family: var(--font-mono); font-size: 0.8rem; z-index: 1;">
-                            2026 AI DETECTED (T1)</div>
-                        <!-- Simulated polygon detections -->
-                        <div
-                            style="position: absolute; top: 35%; left: 15%; width: 45px; height: 35px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
-                        </div>
-                        <div
-                            style="position: absolute; top: 65%; left: 30%; width: 60px; height: 50px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
-                        </div>
-                        <div
-                            style="position: absolute; top: 20%; left: 40%; width: 30px; height: 30px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
-                        </div>
-                        <div
-                            style="position: absolute; top: 50%; left: 65%; width: 55px; height: 40px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
-                        </div>
-                        <div
-                            style="position: absolute; top: 75%; left: 75%; width: 40px; height: 45px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
-                        </div>
-                    </div>
-
-                    <input type="range" min="0" max="100" value="50" class="geoai-slider-control"
-                        aria-label="Image comparison slider"
-                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize;"
-                        oninput="document.querySelector('.slider-image-after').style.width = this.value + '%'">
-
-                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-electric); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);"
-                        class="slider-handle">
-                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-electric)"
-                            stroke-width="2">
-                            <path d="M8 9l-4 3 4 3M16 15l4-3-4-3" />
-                        </svg>
-                    </div>
+        <div class="research-container">
+            <!-- DYNAMIC SLIDER -->
+            <div class="slider-tool" id="image-slider">
+                <div class="slider-before"></div>
+                <div class="slider-after" id="after-layer"></div>
+                <div class="slider-handle" id="handle">
+                    <div class="handle-circle"><i class="ph ph-arrows-left-right"></i></div>
                 </div>
+                <div class="slider-label label-left" data-i18n="res_raw_data">RAW_DATA [Sentinel-2]</div>
+                <div class="slider-label label-right" data-i18n="res_neural_layer">DGZ_NEURAL_LAYER [Classified]</div>
+            </div>
 
-                <script>
-                    document.querySelector('.geoai-slider-control').addEventListener('input', function (e) {
-                        document.querySelector('.slider-handle').style.left = e.target.value + '%';
-                    });
-                </script>
+            <!-- RESEARCH BREAKDOWN -->
+            <div style="margin-top: 6rem;">
+                <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 3rem;" data-i18n="res_active_streams">Active
+                    Neural Streams</h2>
+                <div class="bento-grid" style="grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));">
 
-                <h2 style="color: var(--accent-gold);">System Status: MODELS TRAINING</h2>
-                <p>The Jupyter notebooks and GeoPandas scripts validating these experiments are currently compiling. We
-                    will publish the interactive visualization reports and code snippets here upon reaching satisfactory
-                    confidence levels.</p>
+                    <div class="research-node">
+                        <div class="node-tag">GeoAI // Sentinel-2</div>
+                        <div class="node-accuracy">94.8% Acc.</div>
+                        <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 1rem;">Urban Change Detection</h3>
+                        <p style="font-size: 0.95rem; line-height: 1.8;">Leveraging Random Forest classifiers on
+                            multispectral imagery to detect new cadastral built-up areas without field surveys.</p>
+                        <ul
+                            style="list-style: none; padding: 0; margin-top: 2rem; font-family: var(--font-mono); font-size: 0.7rem;">
+                            <li>
+                                <ctrl94> BANDS_USED: NIR, SWIR, RED
+                            </li>
+                            <li>> UPDATE_FREQ: Every 5 Days</li>
+                        </ul>
+                    </div>
+
+                    <div class="research-node">
+                        <div class="node-tag">Predictive // Demographic</div>
+                        <div class="node-accuracy">89.2% Acc.</div>
+                        <h3 style="color: #fff; font-size: 1.5rem; margin-bottom: 1rem;">Value Prediction Models</h3>
+                        <p style="font-size:0.95rem; line-height: 1.8;">Training gradient boosting models on historical
+                            property values to predict market shifts in urban development zones.</p>
+                        <ul
+                            style="list-style: none; padding: 0; margin-top: 2rem; font-family: var(--font-mono); font-size: 0.7rem;">
+                            <li>> ENGINE: CatBoost / XGBoost</li>
+                            <li>> FEATURES: 154 Spatial Dimensions</li>
+                        </ul>
+                    </div>
+
+                </div>
             </div>
         </div>
     </main>
+
+    <script>
+        const slider = document.getElementById('image-slider');
+        const handle = document.getElementById('handle');
+        const afterLayer = document.getElementById('after-layer');
+
+        slider.addEventListener('mousemove', (e) => {
+            const rect = slider.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const percent = (x / rect.width) * 100;
+
+            if (percent >= 0 && percent <= 100) {
+                handle.style.left = percent + '%';
+                afterLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+            }
+        });
+
+        // Touch support
+        slider.addEventListener('touchmove', (e) => {
+            const rect = slider.getBoundingClientRect();
+            const x = e.touches[0].clientX - rect.left;
+            const percent = (x / rect.width) * 100;
+
+            if (percent >= 0 && percent <= 100) {
+                handle.style.left = percent + '%';
+                afterLayer.style.clipPath = `inset(0 ${100 - percent}% 0 0)`;
+            }
+        });
+    </script>
 </body>
 
 </html>

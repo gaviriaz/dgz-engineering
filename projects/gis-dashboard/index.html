@@ -1,20 +1,24 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>DGZ | GIS Dashboard Architecture</title>
     <link rel="stylesheet" href="../../assets/css/index.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link
         href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
         rel="stylesheet">
+    <script src="../../assets/js/dgz-core.js"></script>
     <style>
         .project-hero {
             padding: 8rem 5% 4rem;
             position: relative;
+            background: radial-gradient(circle at top right, rgba(255, 180, 0, 0.05), transparent);
         }
 
         .back-link {
@@ -23,73 +27,219 @@
             font-family: var(--font-mono);
             font-size: 0.8rem;
             margin-bottom: 2rem;
-            display: inline-block;
+            display: flex;
+            align-items: center;
+            gap: 8px;
         }
 
-        .back-link:hover {
-            text-shadow: 0 0 10px var(--accent-electric);
-        }
-
-        .article-body {
-            max-width: 800px;
+        .dashboard-container {
+            max-width: 1200px;
             margin: 0 auto;
-            color: var(--text-secondary);
-            line-height: 1.8;
-            font-size: 1.1rem;
+            padding-bottom: 10rem;
         }
 
-        .article-body h2 {
-            color: #fff;
+        /* DASHBOARD PREVIEW */
+        .dash-preview {
+            background: #050507;
+            border: 1px solid var(--border-glass);
+            border-radius: 12px;
+            padding: 2rem;
             margin-top: 3rem;
-            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 3fr 1fr;
+            gap: 2rem;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
+        }
+
+        .dash-widget {
+            background: rgba(255, 255, 255, 0.02);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            padding: 1.5rem;
+        }
+
+        .widget-title {
+            font-family: var(--font-mono);
+            font-size: 0.7rem;
+            color: var(--accent-gold);
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .stat-card {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        .stat-val {
+            font-size: 2rem;
+            font-weight: 900;
+            color: #fff;
+        }
+
+        .stat-label {
+            font-size: 0.7rem;
+            color: var(--text-tertiary);
+            text-transform: uppercase;
+        }
+
+        .live-map-mask {
+            height: 400px;
+            background: url('https://st3.depositphotos.com/1054326/18659/v/600/depositphotos_186595562-stock-video-dark-gray-map-background-abstract.jpg') center/cover;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid #222;
+        }
+
+        .map-ping {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background: var(--accent-gold);
+            border-radius: 50%;
+            animation: ping 1.5s infinite;
+        }
+
+        @keyframes ping {
+            0% {
+                transform: scale(0.5);
+                opacity: 1;
+            }
+
+            100% {
+                transform: scale(3);
+                opacity: 0;
+            }
+        }
+
+        @media(max-width: 768px) {
+            .dash-preview {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
 
 <body class="dgz-secure-shield">
     <div class="noise-overlay"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="neural-grid"></div>
+    <div class="glow-orb orb-1" style="background: rgba(255, 180, 0, 0.1);"></div>
 
     <main>
-        <div class="project-hero">
-            <a href="../../index.html#projects" class="back-link">
-                <<< RETURN_TO_CORE</a>
-                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: DASHBOARD_02</div>
-                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Enterprise GIS Dashboard</h1>
-                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Real-time telemetry and spatial
-                        analytics for large-scale cadastral monitoring.</p>
-
-                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                        <span class="tech-tag">React / Vue</span>
-                        <span class="tech-tag">Mapbox GL</span>
-                        <span class="tech-tag">PostGIS</span>
-                        <span class="tech-tag">REST API</span>
-                    </div>
+        <div class="project-hero" style="margin-top: 60px;">
+            <a href="../../index.html#projects" class="back-link" style="display: none;">
+                <i class="ph ph-arrow-left"></i> BACK_TO_DASHBOARD_ARCH
+            </a>
+            <div class="hero-identity-badge" style="border-color: var(--accent-gold); color: var(--accent-gold);">
+                System_ID: MASSIVE_SPATIAL_SYNC</div>
+            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.05em;"
+                data-i18n="proj_gis_dash">Enterprise GIS Dashboard</h1>
+            <p style="font-size: 1.4rem; color: var(--text-secondary); max-width: 600px;" data-i18n="gis_dash_desc">
+                Real-time telemetry and spatial analytics for large-scale cadastral monitoring.
+            </p>
         </div>
 
-        <div class="article-body">
-            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
-                <p>This module provides an interactive dashboard interface that connects directly to the PostGIS
-                    backend. It aggregates massive spatial datasets and visualizes key metrics (such as property value
-                    distributions, topological error rates, and surveying progress) in real-time.</p>
+        <div class="dashboard-container">
+            <!-- INTERACTIVE DASHBOARD PREVIEW -->
+            <div class="dash-preview">
+                <div class="dash-main">
+                    <div class="dash-widget" style="height: 100%;">
+                        <div class="widget-title"><i class="ph ph-activity"></i> Live Spatial Telemetry</div>
+                        <canvas id="telemetryChart" height="150"></canvas>
 
-                <h2>Core Engine Capabilities</h2>
-                <ul style="list-style: none; padding-left: 0;">
-                    <li style="margin-bottom: 1rem;"><strong>📡 Live Synching:</strong> Real-time integration with
-                        surveying teams on the field.</li>
-                    <li style="margin-bottom: 1rem;"><strong>📊 Analytics Engine:</strong> On-the-fly spatial queries
-                        generating executive summaries.</li>
-                    <li style="margin-bottom: 1rem;"><strong>🔐 Secure Access:</strong> Role-based visualization
-                        limiting sensitive dataset exposure.</li>
-                </ul>
+                        <div style="margin-top: 2rem;">
+                            <div class="widget-title"><i class="ph ph-map-pin"></i> ACTIVE_SURVEY_NODES</div>
+                            <div class="live-map-mask">
+                                <div class="map-ping" style="top: 30%; left: 40%;"></div>
+                                <div class="map-ping" style="top: 60%; left: 70%;"></div>
+                                <div class="map-ping" style="top: 20%; left: 80%;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
-                <h2 style="color: var(--accent-gold);">System Status: DEPLOYMENT PENDING</h2>
-                <p>The dashboard interface is currently being integrated into the master React application shell. Once
-                    deployed, live LADM-COL samples will be fully queryable through this interface.</p>
+                <div class="dash-side" style="display: flex; flex-direction: column; gap: 1rem;">
+                    <div class="dash-widget">
+                        <div class="widget-title"><i class="ph ph-users"></i> FIELD_OPS</div>
+                        <div class="stat-val" id="ops-count">12</div>
+                        <div class="stat-label">Active Technicians</div>
+                    </div>
+                    <div class="dash-widget">
+                        <div class="widget-title"><i class="ph ph-polygon"></i> TOPOLOGY_ERRS</div>
+                        <div class="stat-val" style="color: var(--status-err);">284</div>
+                        <div class="stat-label">Critical Breaches</div>
+                    </div>
+                    <div class="dash-widget">
+                        <div class="widget-title"><i class="ph ph-database"></i> SYNC_STATUS</div>
+                        <div style="font-family: var(--font-mono); color: #4ade80; font-size: 0.8rem;">[STABLE] 99.8%
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div style="margin-top: 5rem; line-height: 1.8; color: var(--text-secondary);">
+                <h2 style="color: #fff; margin-bottom: 2rem;">Seamless Interoperability</h2>
+                <div class="bento-grid">
+                    <div class="bento-item large" style="padding: 2.5rem;">
+                        <p>This module provides an interactive dashboard interface that connects directly to the PostGIS
+                            backend. It aggregates massive spatial datasets and visualizes key metrics (such as property
+                            value distributions, topological error rates, and surveying progress) in real-time.</p>
+                    </div>
+                    <div class="bento-item"
+                        style="padding: 2rem; background: rgba(255, 180, 0, 0.05); border-color: rgba(255,180,0,0.2);">
+                        <h4 style="color: var(--accent-gold);">System Status</h4>
+                        <p style="font-size: 0.8rem;">DEPLOYMENT PENDING // Integrated into Master React Shell.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </main>
+
+    <script>
+        // Chart Initialization
+        const ctx = document.getElementById('telemetryChart').getContext('2d');
+        const chart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
+                datasets: [{
+                    label: 'Sync Ingestion (MB/s)',
+                    data: [12, 19, 3, 5, 2, 3],
+                    borderColor: '#FFB400',
+                    backgroundColor: 'rgba(255, 180, 0, 0.1)',
+                    fill: true,
+                    tension: 0.4,
+                    borderWidth: 2,
+                    pointRadius: 0
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: { legend: { display: false } },
+                scales: {
+                    x: { display: false },
+                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#666' } }
+                }
+            }
+        });
+
+        // Simulate live data
+        setInterval(() => {
+            const newVal = Math.floor(Math.random() * 20) + 5;
+            chart.data.datasets[0].data.shift();
+            chart.data.datasets[0].data.push(newVal);
+            chart.update('none');
+
+            const ops = document.getElementById('ops-count');
+            const current = parseInt(ops.innerText);
+            if (Math.random() > 0.8) ops.innerText = current + 1;
+            else if (Math.random() > 0.8) ops.innerText = current - 1;
+        }, 2000);
+    </script>
 </body>
 
 </html>
