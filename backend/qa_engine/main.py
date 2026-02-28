@@ -109,6 +109,7 @@ async def analyze_shapefile(file: UploadFile = File(...)):
         final_assessment = generar_reporte_llm(qaqc_report)
         
         # Inserción Secreta a Base de Datos de Supabase (Historial Catastral LADM)
+        report_id = None
         try:
             if "SUPABASE_URL" in os.environ and "SUPABASE_KEY" in os.environ:
                 from supabase import create_client, Client
@@ -116,9 +117,8 @@ async def analyze_shapefile(file: UploadFile = File(...)):
                 key: str = os.environ.get("SUPABASE_KEY")
                 supabase: Client = create_client(url, key)
                 
-                # Preparamos el Payload para la Tabla SQL que acabas de ejecutar
                 payload = {
-                    "user_email": "contractor.node@dgz.os",  # Temporal, luego se saca del token JWT de supabase auth.
+                    "user_email": "contractor.node@dgz.os",
                     "filename": file.filename,
                     "total_features": int(qaqc_report["total_features"]),
                     "invalid_overlaps": int(qaqc_report["topology_val"]["overlaps_count"]),
@@ -126,16 +126,18 @@ async def analyze_shapefile(file: UploadFile = File(...)):
                     "llm_ai_diagnosis": str(final_assessment)
                 }
                 
-                # Insertamos la telemetría en la capa del Módulo SaaS
-                supabase.table("catastral_reports").insert(payload).execute()
+                resp = supabase.table("catastral_reports").insert(payload).execute()
+                if resp.data:
+                    report_id = resp.data[0]['id']
         except Exception as sb_err:
-            print(f"Warning - Subabase Error (No Critico para el cliente): {sb_err}")
+            print(f"Warning - Subabase Error: {sb_err}")
         
-        # Convertir a GeoJSON para visualización en el frontend (proyección Web WGS84 - 4326)
+        # Convertir a GeoJSON
         gdf_wgs84 = gdf.to_crs("EPSG:4326")
         geojson_data = json.loads(gdf_wgs84.to_json())
         
         return {
+            "report_id": report_id,
             "file": file.filename,
             "status": "Processed",
             "qaqc_metrics": qaqc_report,
@@ -191,7 +193,8 @@ async def interoperability_cross(spatial_file: UploadFile = File(...), tabular_f
         gdf_wgs84 = gdf.to_crs("EPSG:4326")
         geojson_data = json.loads(gdf_wgs84.to_json())
 
-        # Guardar telemetría en Supabase para el historial monetizable
+        # Guardar telemetría en Supabase
+        report_id = None
         try:
             if "SUPABASE_URL" in os.environ and "SUPABASE_KEY" in os.environ:
                 from supabase import create_client, Client
@@ -202,14 +205,17 @@ async def interoperability_cross(spatial_file: UploadFile = File(...), tabular_f
                     "user_email": "pro.contractor@dgz.os",
                     "filename": f"Cross: {spatial_file.filename} vs {tabular_file.filename}",
                     "total_features": int(cross_report.get("total_spatial", 0)),
-                    "invalid_overlaps": 0, # No es el foco aquí
-                    "slivers_found": int(cross_report.get("missing_geometries", 0)), # Usamos esta columna para 'ausentes'
+                    "invalid_overlaps": 0,
+                    "slivers_found": int(cross_report.get("missing_geometries", 0)),
                     "llm_ai_diagnosis": str(final_assessment)
                 }
-                supabase.table("catastral_reports").insert(payload).execute()
+                resp = supabase.table("catastral_reports").insert(payload).execute()
+                if resp.data:
+                    report_id = resp.data[0]['id']
         except Exception: pass
 
         return {
+            "report_id": report_id,
             "module": "Interoperability",
             "cross_metrics": cross_report,
             "geo_llm_intelligence_report": final_assessment,
@@ -220,3 +226,92 @@ async def interoperability_cross(spatial_file: UploadFile = File(...), tabular_f
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
 
+@app.get("/api/v1/generate-report/{report_id}")
+async def fetch_pdf_report(report_id: int):
+    """Generador de Sello de Calidad DGZ en PDF."""
+    try:
+        from supabase import create_client, Client
+        url = os.environ.get("SUPABASE_URL")
+        key = os.environ.get("SUPABASE_KEY")
+        supabase: Client = create_client(url, key)
+        
+        result = supabase.table("catastral_reports").select("*").eq("id", report_id).execute()
+        if not result.data:
+            raise HTTPException(status_code=404, detail="Informe no encontrado.")
+        
+        report = result.data[0]
+        
+        from fpdf import FPDF
+        pdf = FPDF()
+        pdf.add_page()
+        
+        # Header Styling
+        pdf.set_fill_color(3, 3, 5) # DGZ Dark
+        pdf.rect(0, 0, 210, 40, "F")
+        pdf.set_text_color(0, 229, 255) # Cyan
+        pdf.set_font("Arial", 'B', 24)
+        pdf.text(10, 25, "DGZ SPATIAL OS")
+        
+        pdf.set_text_color(255, 255, 255)
+        pdf.set_font("Arial", '', 10)
+        pdf.text(10, 35, f"CERTIFICADO DE CALIDAD TOPOLOGICA LADM-COL | ID: {report_id}")
+        
+        # Body
+        pdf.set_y(50)
+        pdf.set_text_color(0, 0, 0)
+        pdf.set_font("Arial", 'B', 14)
+        pdf.cell(0, 10, "1. RESUMEN DE EJECUCION", ln=True)
+        pdf.set_font("Arial", '', 12)
+        pdf.cell(0, 8, f"Archivo: {report.get('filename')}", ln=True)
+        pdf.cell(0, 8, f"Fecha de Analisis: {report.get('created_at')}", ln=True)
+        pdf.cell(0, 8, f"Operador: {report.get('user_email')}", ln=True)
+        
+        pdf.ln(5)
+        pdf.set_font("Arial", 'B', 14)
+        pdf.cell(0, 10, "2. METRICAS TECNICAS", ln=True)
+        pdf.set_font("Arial", '', 11)
+        pdf.cell(0, 7, f"- Predios Procesados: {report.get('total_features')}", ln=True)
+        pdf.cell(0, 7, f"- Traslapes Detectados: {report.get('invalid_overlaps')}", ln=True)
+        pdf.cell(0, 7, f"- Gaps/Slivers Criticos: {report.get('slivers_found')}", ln=True)
+        
+        pdf.ln(10)
+        pdf.set_font("Arial", 'B', 14)
+        pdf.cell(0, 10, "3. DIAGNOSTICO GEO-AI (LLAMA-3)", ln=True)
+        pdf.set_font("Courier", '', 9)
+        pdf.multi_cell(0, 5, report.get('llm_ai_diagnosis', 'Sin diagnóstico.'))
+        
+        # Final Seal
+        pdf.set_y(-40)
+        pdf.set_font("Arial", 'I', 8)
+        pdf.cell(0, 10, "Este documento esta firmado digitalmente por el kernel de DGZ Engineering y tiene validez comercial para auditorias de interventoria.", align='C')
+        
+        pdf_bytes = pdf.output(dest='S')
+        return Response(content=pdf_bytes, media_type="application/pdf", headers={
+            "Content-Disposition": f"attachment; filename=DGZ_Report_{report_id}.pdf"
+        })
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+@app.get("/api/v1/analytics")
+async def get_enterprise_analytics():
+    """Retorna estadisticas agregadas para el Dashboard."""
+    try:
+        from supabase import create_client, Client
+        url = os.environ.get("SUPABASE_URL")
+        key = os.environ.get("SUPABASE_KEY")
+        supabase: Client = create_client(url, key)
+        
+        # Historial de los últimos 20 análisis
+        result = supabase.table("catastral_reports").select("*").order("created_at", desc=True).limit(20).execute()
+        
+        records = result.data
+        return {
+            "total_audits": len(records),
+            "historical_data": records,
+            "aggregate_stats": {
+                "total_parcels": sum(r.get('total_features', 0) for r in records),
+                "total_errors": sum(r.get('invalid_overlaps', 0) + r.get('slivers_found', 0) for r in records)
+            }
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))

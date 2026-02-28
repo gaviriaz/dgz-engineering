@@ -13,6 +13,8 @@
   <!-- Supabase JS -->
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <link rel="icon" type="image/svg+xml" href="../assets/img/logo_icon.svg">
+  <!-- Chart.js for Command Center -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
       --bg-base: #030305;
@@ -604,9 +606,8 @@
       <div class="nav-item" title="Legal-Physical Cross (Interoperability)" onclick="switchModule(2)">
         <i class="ph ph-intersect"></i>
       </div>
-      <div class="nav-item" title="Financial / Reporting"
-        onclick="alert('Módulo de Cartilla Presupuestal Automatizada (En desarrollo)')">
-        <i class="ph ph-file-pdf"></i>
+      <div class="nav-item" title="Command Center Analytics" onclick="switchModule(3)">
+        <i class="ph ph-chart-line-up"></i>
       </div>
     </nav>
 
@@ -670,366 +671,513 @@
                 <span>Traslapes (Overlaps LADM)</span>
                 <span class="metric-val val-bad" id="rm-overlap">0</span>
               </div>
+              <button class="action-btn" id="btn-pdf-1"
+                style="display:none; margin-top: 0.5rem; background: var(--bg-panel-solid); color: var(--accent-cyan); border: 1px solid var(--accent-cyan);"
+                onclick="downloadPDF()">
+                <i class="ph ph-file-pdf"></i> Descargar Auditoría PDF
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
+        <div id="module-2" class="module-view">
+          <div class="panel-header">
+            <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> Cruce
+              Físico-Jurídico</h2>
+            <p class="panel-desc">Sincronización de Base de Datos Catastral (.shp/.gpkg) vs Matriz de SNR Registro
+              (.xlsx)
+              para detectar inconsistencias de área e identificador.</p>
+          </div>
+
+          <div class="panel-content">
+            <div class="drop-grid" style="gap: 0.8rem;">
+              <div class="drop-zone" id="dz-spatial2" style="padding: 1rem;"
+                onclick="document.getElementById('file-shp2').click()">
+                <input type="file" id="file-shp2" hidden accept=".zip,.kml,.geojson,.shp,.gpkg">
+                <i class="ph ph-map-trifold drop-icon" style="font-size: 1.5rem;"></i>
+                <div class="drop-title" style="font-size: 0.75rem;">1. Base Cartográfica</div>
+                <div id="lbl-shp2" style="font-size:0.65rem; color:var(--accent-gold); display:none;"></div>
+              </div>
+
+              <div class="drop-zone" id="dz-tabular" style="padding: 1rem; border-color: rgba(157, 78, 221, 0.3);"
+                onclick="document.getElementById('file-xlsx').click()">
+                <input type="file" id="file-xlsx" hidden accept=".xlsx,.csv">
+                <i class="ph ph-table drop-icon" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+                <div class="drop-title" style="font-size: 0.75rem;">2. Matriz Registral (SNR/Rentas)</div>
+                <div class="drop-reqs">.XLSX, .CSV (Requiere col: NPU)</div>
+                <div id="lbl-xlsx" style="font-size:0.65rem; color:var(--accent-purple); display:none;"></div>
+              </div>
+            </div>
+
+            <button class="action-btn" id="btn-run2"
+              style="margin-top: 1.5rem; background: linear-gradient(135deg, #9D4EDD 0%, #3C096C 100%);" disabled>
+              <i class="ph-bold ph-git-merge"></i> Analizar Mutaciones
+            </button>
+
+            <div style="margin-top: 1rem; font-size: 0.7rem; color: #666; font-style: italic; text-align: center;">
+              Módulo en construcción en el Backend. Al presionar, simulará la lógica.
+            </div>
+            <button class="action-btn" id="btn-pdf-2"
+              style="display:none; margin-top: 0.5rem; background: var(--bg-panel-solid); color: var(--accent-purple); border: 1px solid var(--accent-purple);"
+              onclick="downloadPDF()">
+              <i class="ph ph-file-pdf"></i> Reporte Interoperabilidad PDF
+            </button>
+          </div>
+        </div>
+
+        <!-- MODULE 3: COMMAND CENTER ANALYTICS -->
+        <div id="module-3" class="module-view">
+          <div class="panel-header">
+            <h2 class="panel-title"><i class="ph-fill ph-chart-pie" style="color:var(--accent-gold);"></i> Command
+              Center</h2>
+            <p class="panel-desc">Visualización agregada de la salud cartográfica en tiempo real. Métricas de eficiencia
+              y tipos de errores recurrentes.</p>
+          </div>
+          <div class="panel-content">
+            <div class="metrics-v6-grid" style="grid-template-columns: 1fr; gap: 1rem;">
+              <div class="metric-v6-card" style="padding: 1rem;">
+                <div class="metric-v6-num" id="stats-total-parcels" style="font-size: 1.5rem;">0</div>
+                <div class="metric-v6-label">Predios Validados Acumulados</div>
+              </div>
+              <div class="metric-v6-card" style="padding: 1rem; border-color: var(--status-err);">
+                <div class="metric-v6-num" id="stats-total-errors" style="font-size: 1.5rem; color: var(--status-err);">
+                  0</div>
+                <div class="metric-v6-label">Errores LADM Detectados</div>
+              </div>
+            </div>
+
+            <div style="margin-top: 1.5rem; background: rgba(0,0,0,0.3); padding: 1rem; border-radius: 8px;">
+              <canvas id="analyticsChart" height="200"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div id="map-container"></div>
+
+        <!-- Neural Scan Effect -->
+        <div id="neural-ring"
+          style="display:none; position:absolute; top:50%; left:50%; width:300px; height:300px; border:2px solid var(--accent-cyan); border-radius:50%; transform:translate(-50%, -50%); pointer-events:none; box-shadow: 0 0 50px var(--accent-cyan); animation: neuralPulse 2s infinite;">
+        </div>
+        <div id="radar-line"
+          style="display:none; position:absolute; top:50%; left:50%; width:150px; height:2px; background:linear-gradient(90deg, transparent, var(--accent-cyan)); transform-origin: left center; pointer-events:none; animation: radarSweep 4s linear infinite;">
+        </div>
+
+        <div class="hud-overlay">
+          <!-- Geo-LLM Agent Box -->
+          <div class="hud-glass" id="llm-box" style="display:none;">
+            <div class="llm-agent-header">
+              <i class="ph-fill ph-brain"></i> <span>DGZ GEO-LLM INTELLIGENCE</span>
+            </div>
+            <div class="llm-chat" id="llm-output">
+              Esperando ingesta de datos para emitir diagnóstico C-Level...
             </div>
           </div>
         </div>
       </div>
-
-      <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
-      <div id="module-2" class="module-view">
-        <div class="panel-header">
-          <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> Cruce
-            Físico-Jurídico</h2>
-          <p class="panel-desc">Sincronización de Base de Datos Catastral (.shp/.gpkg) vs Matriz de SNR Registro (.xlsx)
-            para detectar inconsistencias de área e identificador.</p>
-        </div>
-
-        <div class="panel-content">
-          <div class="drop-grid" style="gap: 0.8rem;">
-            <div class="drop-zone" id="dz-spatial2" style="padding: 1rem;"
-              onclick="document.getElementById('file-shp2').click()">
-              <input type="file" id="file-shp2" hidden accept=".zip,.kml,.geojson,.shp,.gpkg">
-              <i class="ph ph-map-trifold drop-icon" style="font-size: 1.5rem;"></i>
-              <div class="drop-title" style="font-size: 0.75rem;">1. Base Cartográfica</div>
-              <div id="lbl-shp2" style="font-size:0.65rem; color:var(--accent-gold); display:none;"></div>
-            </div>
-
-            <div class="drop-zone" id="dz-tabular" style="padding: 1rem; border-color: rgba(157, 78, 221, 0.3);"
-              onclick="document.getElementById('file-xlsx').click()">
-              <input type="file" id="file-xlsx" hidden accept=".xlsx,.csv">
-              <i class="ph ph-table drop-icon" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
-              <div class="drop-title" style="font-size: 0.75rem;">2. Matriz Registral (SNR/Rentas)</div>
-              <div class="drop-reqs">.XLSX, .CSV (Requiere col: NPU)</div>
-              <div id="lbl-xlsx" style="font-size:0.65rem; color:var(--accent-purple); display:none;"></div>
-            </div>
-          </div>
-
-          <button class="action-btn" id="btn-run2"
-            style="margin-top: 1.5rem; background: linear-gradient(135deg, #9D4EDD 0%, #3C096C 100%);" disabled>
-            <i class="ph-bold ph-git-merge"></i> Analizar Mutaciones
-          </button>
-
-          <div style="margin-top: 1rem; font-size: 0.7rem; color: #666; font-style: italic; text-align: center;">
-            Módulo en construcción en el Backend. Al presionar, simulará la lógica.
-          </div>
-        </div>
-      </div>
-
     </div>
 
-    <!-- GIS Interface -->
-    <div class="map-section">
-      <div id="map-container"></div>
-
-      <div class="hud-overlay">
-        <!-- Geo-LLM Agent Box -->
-        <div class="hud-glass" id="llm-box" style="display:none;">
-          <div class="llm-agent-header">
-            <i class="ph-fill ph-brain"></i> <span>DGZ GEO-LLM INTELLIGENCE</span>
-          </div>
-          <div class="llm-chat" id="llm-output">
-            Esperando ingesta de datos para emitir diagnóstico C-Level...
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <!-- Scripts -->
-  <script>
-    // --- 0. SUPABASE AUTH INTEGRATION ---
-    const supabaseUrl = 'https://mxrgondwvbxbgwtpviyv.supabase.co';
-    // ⚠️ ALBERT: PEGA EL "API KEY" Y REEMPLAZA ESTE TEXTO CON ÉL
-    const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14cmdvbmR3dmJ4Ymd3dHB2aXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMDAwNjcsImV4cCI6MjA4Nzg3NjA2N30.3Jxx6lccDYSaU1io2mDTtXeZY3EULkPSMUHyWjB6uPI';
-    const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
-
-    async function checkAuthStatus() {
-      const { data: { session }, error } = await sbClient.auth.getSession();
-
-      if (session) {
-        // User logged in: unlock app
-        document.getElementById('auth-overlay').style.opacity = '0';
-        setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
-
-        // Show Profile
-        document.getElementById('user-profile').style.display = 'flex';
-        const meta = session.user.user_metadata;
-        document.getElementById('user-name').innerText = meta.full_name || session.user.email;
-        if (meta.avatar_url) document.getElementById('user-avatar').src = meta.avatar_url;
-      } else {
-        // Not logged in: lock app
-        document.getElementById('auth-overlay').style.display = 'flex';
-        document.getElementById('auth-overlay').style.opacity = '1';
-        document.getElementById('user-profile').style.display = 'none';
-      }
-    }
-
-    async function signInWithGoogle() {
-      const btn = document.getElementById('btn-login');
-      btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
-
-      const { data, error } = await sbClient.auth.signInWithOAuth({
-        provider: 'google',
-        options: {
-          queryParams: {
-            access_type: 'offline',
-            prompt: 'consent',
-          }
+    <style>
+      @keyframes neuralPulse {
+        0% {
+          transform: translate(-50%, -50%) scale(0.5);
+          opacity: 0;
         }
-      });
-      if (error) {
-        alert("Authentication failed: " + error.message);
-        btn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G"> Log in with Google`;
+
+        50% {
+          opacity: 0.5;
+        }
+
+        100% {
+          transform: translate(-50%, -50%) scale(2);
+          opacity: 0;
+        }
       }
-    }
 
-    async function signOut() {
-      await sbClient.auth.signOut();
-      window.location.reload();
-    }
+      @keyframes radarSweep {
+        from {
+          transform: rotate(0deg);
+        }
 
-    // Initialize Auth state right on load
-    checkAuthStatus();
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
 
-    // --- 1. Map Initialization (MapLibre + Carto Dark) ---
-    const map = new maplibregl.Map({
-      container: 'map-container',
-      style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
-      center: [-74.0721, 4.7110], // Colombia center
-      zoom: 5.5,
-      attributionControl: false
-    });
+    <!-- Scripts -->
+    <script>
+      // --- 0. SUPABASE AUTH INTEGRATION ---
+      const supabaseUrl = 'https://mxrgondwvbxbgwtpviyv.supabase.co';
+      // ⚠️ ALBERT: PEGA EL "API KEY" Y REEMPLAZA ESTE TEXTO CON ÉL
+      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14cmdvbmR3dmJ4Ymd3dHB2aXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMDAwNjcsImV4cCI6MjA4Nzg3NjA2N30.3Jxx6lccDYSaU1io2mDTtXeZY3EULkPSMUHyWjB6uPI';
+      const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-    // Add interactive controls
-    map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
+      async function checkAuthStatus() {
+        const { data: { session }, error } = await sbClient.auth.getSession();
 
-    // --- 2. Clock ---
-    setInterval(() => {
-      const now = new Date();
-      document.getElementById('clock').innerText = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
-    }, 1000);
+        if (session) {
+          // User logged in: unlock app
+          document.getElementById('auth-overlay').style.opacity = '0';
+          setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
 
-    // --- 3. UI Navigation Logic ---
-    function switchModule(id) {
-      document.querySelectorAll('.nav-item').forEach((el, idx) => {
-        if (idx + 1 === id) el.classList.add('active');
-        else el.classList.remove('active');
+          // Show Profile
+          document.getElementById('user-profile').style.display = 'flex';
+          const meta = session.user.user_metadata;
+          document.getElementById('user-name').innerText = meta.full_name || session.user.email;
+          if (meta.avatar_url) document.getElementById('user-avatar').src = meta.avatar_url;
+        } else {
+          // Not logged in: lock app
+          document.getElementById('auth-overlay').style.display = 'flex';
+          document.getElementById('auth-overlay').style.opacity = '1';
+          document.getElementById('user-profile').style.display = 'none';
+        }
+      }
+
+      async function signInWithGoogle() {
+        const btn = document.getElementById('btn-login');
+        btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
+
+        const { data, error } = await sbClient.auth.signInWithOAuth({
+          provider: 'google',
+          options: {
+            queryParams: {
+              access_type: 'offline',
+              prompt: 'consent',
+            }
+          }
+        });
+        if (error) {
+          alert("Authentication failed: " + error.message);
+          btn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G"> Log in with Google`;
+        }
+      }
+
+      async function signOut() {
+        await sbClient.auth.signOut();
+        window.location.reload();
+      }
+
+      // Initialize Auth state right on load
+      checkAuthStatus();
+
+      // --- Global State ---
+      let currentReportId = null;
+      let lastAnalyticsChart = null;
+
+      // --- 1. Map Initialization ---
+      const map = new maplibregl.Map({
+        container: 'map-container',
+        style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
+        center: [-74.0721, 4.7110],
+        zoom: 5.5,
+        attributionControl: false
       });
-      document.querySelectorAll('.module-view').forEach(el => el.classList.remove('active'));
-      document.getElementById('module-' + id).classList.add('active');
-    }
 
-    // --- 4. File Drag & Drop Handlers (Module 1) ---
-    const dzSpatial1 = document.getElementById('dz-spatial1');
-    const fileShp1 = document.getElementById('file-shp1');
-    const btnRun1 = document.getElementById('btn-run1');
-    const lblShp1 = document.getElementById('lbl-shp1');
+      // Add interactive controls
+      map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
-    setupDropZone(dzSpatial1, fileShp1, (file) => {
-      lblShp1.textContent = "✔ " + file.name;
-      lblShp1.style.display = 'block';
-      window.activeFile = file;
-      btnRun1.disabled = false;
-    });
+      // --- 2. Clock ---
+      setInterval(() => {
+        const now = new Date();
+        document.getElementById('clock').innerText = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
+      }, 1000);
 
-    // --- 4.1 File Handlers (Module 2) ---
-    const dzSpatial2 = document.getElementById('dz-spatial2');
-    const fileShp2 = document.getElementById('file-shp2');
-    const lblShp2 = document.getElementById('lbl-shp2');
+      // --- 3. UI Navigation Logic ---
+      function switchModule(id) {
+        document.querySelectorAll('.nav-item').forEach((el, idx) => {
+          if (idx + 1 === id) el.classList.add('active');
+          else el.classList.remove('active');
+        });
+        document.querySelectorAll('.module-view').forEach(el => el.classList.remove('active'));
+        document.getElementById('module-' + id).classList.add('active');
 
-    const dzTabular = document.getElementById('dz-tabular');
-    const fileXlsx = document.getElementById('file-xlsx');
-    const lblXlsx = document.getElementById('lbl-xlsx');
+        if (id === 3) loadAnalyticsDashboard();
+      }
 
-    const btnRun2 = document.getElementById('btn-run2');
+      async function loadAnalyticsDashboard() {
+        try {
+          const res = await fetch("https://dgz-engineering.onrender.com/api/v1/analytics");
+          const data = await res.json();
 
-    let spatial2File = null;
-    let tabularFile = null;
+          document.getElementById('stats-total-parcels').innerText = data.aggregate_stats.total_parcels.toLocaleString();
+          document.getElementById('stats-total-errors').innerText = data.aggregate_stats.total_errors;
 
-    setupDropZone(dzSpatial2, fileShp2, (file) => {
-      lblShp2.textContent = "✔ " + file.name;
-      lblShp2.style.display = 'block';
-      spatial2File = file;
-      checkModule2Ready();
-    });
+          initAnalyticsChart(data.historical_data);
+        } catch (e) { console.error("Analytics Error", e); }
+      }
 
-    setupDropZone(dzTabular, fileXlsx, (file) => {
-      lblXlsx.textContent = "✔ " + file.name;
-      lblXlsx.style.display = 'block';
-      tabularFile = file;
-      checkModule2Ready();
-    });
+      function initAnalyticsChart(history) {
+        const ctx = document.getElementById('analyticsChart').getContext('2d');
+        if (lastAnalyticsChart) lastAnalyticsChart.destroy();
 
-    function checkModule2Ready() {
-      btnRun2.disabled = !(spatial2File && tabularFile);
-    }
+        const labels = history.map(h => new Date(h.created_at).toLocaleDateString()).reverse();
+        const values = history.map(h => h.total_features).reverse();
 
-    // --- 5. Execution Logic (Module 1) ---
-    async function executeTopologicalEngine() {
-      // ... (existing code remains or is wrapped)
-      if (!window.activeFile) return;
-      runAPIAnalysis("https://dgz-engineering.onrender.com/api/v1/analyze-shapefile", window.activeFile, 1);
-    }
+        lastAnalyticsChart = new Chart(ctx, {
+          type: 'line',
+          data: {
+            labels: labels,
+            datasets: [{
+              label: 'Predios Procesados',
+              data: values,
+              borderColor: '#00E5FF',
+              backgroundColor: 'rgba(0, 229, 255, 0.1)',
+              fill: true,
+              tension: 0.4
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+              y: { grid: { color: 'rgba(255,255,255,0.05)' } },
+              x: { grid: { display: false } }
+            }
+          }
+        });
+      }
 
-    // --- 5.1 Execution Logic (Module 2) ---
-    async function executeInteroperabilityEngine() {
-      if (!spatial2File || !tabularFile) return;
+      // --- 4. File Drag & Drop Handlers (Module 1) ---
+      const dzSpatial1 = document.getElementById('dz-spatial1');
+      const fileShp1 = document.getElementById('file-shp1');
+      const btnRun1 = document.getElementById('btn-run1');
+      const lblShp1 = document.getElementById('lbl-shp1');
 
-      // UI States
-      document.getElementById('llm-box').style.display = 'none';
-      btnRun2.disabled = true;
-      btnRun2.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> PROCESANDO...';
+      setupDropZone(dzSpatial1, fileShp1, (file) => {
+        lblShp1.textContent = "✔ " + file.name;
+        lblShp1.style.display = 'block';
+        window.activeFile = file;
+        btnRun1.disabled = false;
+      });
 
-      const formData = new FormData();
-      formData.append('spatial_file', spatial2File);
-      formData.append('tabular_file', tabularFile);
+      // --- 4.1 File Handlers (Module 2) ---
+      const dzSpatial2 = document.getElementById('dz-spatial2');
+      const fileShp2 = document.getElementById('file-shp2');
+      const lblShp2 = document.getElementById('lbl-shp2');
 
-      const API_URL = "https://dgz-engineering.onrender.com/api/v1/interoperability-cross";
+      const dzTabular = document.getElementById('dz-tabular');
+      const fileXlsx = document.getElementById('file-xlsx');
+      const lblXlsx = document.getElementById('lbl-xlsx');
 
-      try {
-        const res = await fetch(API_URL, { method: 'POST', body: formData });
-        if (!res.ok) throw new Error("Error en el cruce masivo SNR.");
+      const btnRun2 = document.getElementById('btn-run2');
 
-        const data = await res.json();
+      let spatial2File = null;
+      let tabularFile = null;
 
-        // Map Rendering
-        if (data.geojson) renderOnMap(data.geojson);
+      setupDropZone(dzSpatial2, fileShp2, (file) => {
+        lblShp2.textContent = "✔ " + file.name;
+        lblShp2.style.display = 'block';
+        spatial2File = file;
+        checkModule2Ready();
+      });
 
-        // LLM Intelligence
-        document.getElementById('llm-output').innerHTML = `
+      setupDropZone(dzTabular, fileXlsx, (file) => {
+        lblXlsx.textContent = "✔ " + file.name;
+        lblXlsx.style.display = 'block';
+        tabularFile = file;
+        checkModule2Ready();
+      });
+
+      function checkModule2Ready() {
+        btnRun2.disabled = !(spatial2File && tabularFile);
+      }
+
+      // --- 5. Execution Logic (Module 1) ---
+      async function executeTopologicalEngine() {
+        // ... (existing code remains or is wrapped)
+        if (!window.activeFile) return;
+        runAPIAnalysis("https://dgz-engineering.onrender.com/api/v1/analyze-shapefile", window.activeFile, 1);
+      }
+
+      // --- 5.1 Execution Logic (Module 2) ---
+      async function executeInteroperabilityEngine() {
+        if (!spatial2File || !tabularFile) return;
+
+        // UI States
+        document.getElementById('llm-box').style.display = 'none';
+        document.getElementById('btn-pdf-2').style.display = 'none';
+        btnRun2.disabled = true;
+        btnRun2.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> PROCESANDO...';
+
+        // Effects
+        document.getElementById('neural-ring').style.display = 'block';
+        document.getElementById('radar-line').style.display = 'block';
+
+        const formData = new FormData();
+        formData.append('spatial_file', spatial2File);
+        formData.append('tabular_file', tabularFile);
+
+        const API_URL = "https://dgz-engineering.onrender.com/api/v1/interoperability-cross";
+
+        try {
+          const res = await fetch(API_URL, { method: 'POST', body: formData });
+          if (!res.ok) throw new Error("Error en el cruce masivo SNR.");
+
+          const data = await res.json();
+
+          // Map Rendering
+          if (data.geojson) renderOnMap(data.geojson);
+
+          // LLM Intelligence
+          document.getElementById('llm-output').innerHTML = `
           <div style="color:var(--accent-purple); font-weight:bold; margin-bottom:8px;">[MISION INTEROPERABILIDAD COMPLETADA]</div>
           ${data.geo_llm_intelligence_report.replace(/\n/g, '<br>')}
         `;
-        document.getElementById('llm-box').style.display = 'block';
+          document.getElementById('llm-box').style.display = 'block';
 
-        alert("Cruce completado. Revise el HUD de Inteligencia DGZ.");
-
-      } catch (err) {
-        alert("Error: " + err.message);
-      } finally {
-        btnRun2.disabled = false;
-        btnRun2.innerHTML = '<i class="ph-bold ph-git-merge"></i> Analizar Mutaciones';
-      }
-    }
-
-    // Connect Button 2
-    btnRun2.onclick = executeInteroperabilityEngine;
-
-    // Refactored common API runner
-    async function runAPIAnalysis(endpoint, file, moduleId) {
-      document.getElementById('results1').style.display = 'none';
-      document.getElementById('llm-box').style.display = 'none';
-      document.getElementById('loader1').style.display = 'flex';
-      btnRun1.disabled = true;
-
-      const formData = new FormData();
-      formData.append('file', file);
-
-      try {
-        const res = await fetch(endpoint, { method: 'POST', body: formData });
-        if (!res.ok) throw new Error("Backend Error");
-        const data = await res.json();
-
-        if (data.geojson) renderOnMap(data.geojson);
-
-        document.getElementById('loader1').style.display = 'none';
-        document.getElementById('rm-total').textContent = data.qaqc_metrics.total_features;
-        document.getElementById('rm-inv').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
-        document.getElementById('rm-sliver').textContent = data.qaqc_metrics.slivers_val.slivers_count;
-        document.getElementById('rm-overlap').textContent = data.qaqc_metrics.topology_val.overlaps_count;
-        document.getElementById('results1').style.display = 'flex';
-
-        document.getElementById('llm-output').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
-        document.getElementById('llm-box').style.display = 'block';
-      } catch (e) {
-        alert("Error: " + e.message);
-        document.getElementById('loader1').style.display = 'none';
-      } finally {
-        btnRun1.disabled = false;
-      }
-    }
-
-    function renderOnMap(geojson) {
-      const sourceId = 'dgz-vector-data';
-      if (map.getSource(sourceId)) {
-        map.getSource(sourceId).setData(geojson);
-      } else {
-        map.addSource(sourceId, { type: 'geojson', data: geojson });
-
-        // Glow effect (Line)
-        map.addLayer({
-          id: sourceId + '-glow',
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': '#00e5ff',
-            'line-width': 4,
-            'line-blur': 10,
-            'line-opacity': 0.6
+          if (data.report_id) {
+            currentReportId = data.report_id;
+            document.getElementById('btn-pdf-2').style.display = 'flex';
           }
-        });
-        // Main Outline
-        map.addLayer({
-          id: sourceId + '-line',
-          type: 'line',
-          source: sourceId,
-          paint: {
-            'line-color': '#00e5ff',
-            'line-width': 1.5
-          }
-        });
-        // Fill
-        map.addLayer({
-          id: sourceId + '-fill',
-          type: 'fill',
-          source: sourceId,
-          paint: {
-            'fill-color': '#00e5ff',
-            'fill-opacity': 0.1
-          }
-        });
+
+          alert("Cruce completado. Revise el HUD de Inteligencia DGZ.");
+
+        } catch (err) {
+          alert("Error: " + err.message);
+        } finally {
+          btnRun2.disabled = false;
+          btnRun2.innerHTML = '<i class="ph-bold ph-git-merge"></i> Analizar Mutaciones';
+          document.getElementById('neural-ring').style.display = 'none';
+          document.getElementById('radar-line').style.display = 'none';
+        }
       }
 
-      // Calculate Bounds for Auto-Zooming
-      const bounds = new maplibregl.LngLatBounds();
-      let hasValidCoords = false;
+      // Connect Button 2
+      btnRun2.onclick = executeInteroperabilityEngine;
 
-      geojson.features.forEach(f => {
-        const geom = f.geometry;
-        if (!geom || !geom.coordinates) return;
+      // Refactored common API runner
+      async function runAPIAnalysis(endpoint, file, moduleId) {
+        document.getElementById('results1').style.display = 'none';
+        document.getElementById('llm-box').style.display = 'none';
+        document.getElementById('btn-pdf-1').style.display = 'none';
+        document.getElementById('loader1').style.display = 'flex';
+        btnRun1.disabled = true;
+
+        // Effects
+        document.getElementById('neural-ring').style.display = 'block';
+        document.getElementById('radar-line').style.display = 'block';
+
+        const formData = new FormData();
+        formData.append('file', file);
 
         try {
-          if (geom.type === 'Polygon') {
-            geom.coordinates[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; });
-          } else if (geom.type === 'MultiPolygon') {
-            geom.coordinates.forEach(poly => poly[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; }));
-          } else if (geom.type === 'Point') {
-            bounds.extend(geom.coordinates); hasValidCoords = true;
+          const res = await fetch(endpoint, { method: 'POST', body: formData });
+          if (!res.ok) throw new Error("Backend Error");
+          const data = await res.json();
+
+          if (data.geojson) renderOnMap(data.geojson);
+
+          document.getElementById('loader1').style.display = 'none';
+          document.getElementById('rm-total').textContent = data.qaqc_metrics.total_features;
+          document.getElementById('rm-inv').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
+          document.getElementById('rm-sliver').textContent = data.qaqc_metrics.slivers_val.slivers_count;
+          document.getElementById('rm-overlap').textContent = data.qaqc_metrics.topology_val.overlaps_count;
+          document.getElementById('results1').style.display = 'flex';
+
+          document.getElementById('llm-output').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
+          document.getElementById('llm-box').style.display = 'block';
+
+          if (data.report_id) {
+            currentReportId = data.report_id;
+            document.getElementById('btn-pdf-1').style.display = 'flex';
           }
-        } catch (e) { }
-      });
-
-      if (hasValidCoords) {
-        map.fitBounds(bounds, { padding: 80, duration: 2000, essential: true });
-      }
-    }
-
-    // Utility: Drag and Drop abstractor
-    function setupDropZone(div, input, callback) {
-      div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('dragover'); });
-      div.addEventListener('dragleave', e => { e.preventDefault(); div.classList.remove('dragover'); });
-      div.addEventListener('drop', e => {
-        e.preventDefault(); div.classList.remove('dragover');
-        if (e.dataTransfer.files.length) {
-          input.files = e.dataTransfer.files; // Sync to input 
-          callback(e.dataTransfer.files[0]);
+        } catch (e) {
+          alert("Error: " + e.message);
+          document.getElementById('loader1').style.display = 'none';
+        } finally {
+          btnRun1.disabled = false;
+          document.getElementById('neural-ring').style.display = 'none';
+          document.getElementById('radar-line').style.display = 'none';
         }
-      });
-      input.addEventListener('change', e => {
-        if (e.target.files.length) callback(e.target.files[0]);
-      });
-    }
-  </script>
+      }
+
+      function downloadPDF() {
+        if (!currentReportId) return;
+        window.open(`https://dgz-engineering.onrender.com/api/v1/generate-report/${currentReportId}`, '_blank');
+      }
+
+      function renderOnMap(geojson) {
+        const sourceId = 'dgz-vector-data';
+        if (map.getSource(sourceId)) {
+          map.getSource(sourceId).setData(geojson);
+        } else {
+          map.addSource(sourceId, { type: 'geojson', data: geojson });
+
+          // Glow effect (Line)
+          map.addLayer({
+            id: sourceId + '-glow',
+            type: 'line',
+            source: sourceId,
+            paint: {
+              'line-color': '#00e5ff',
+              'line-width': 4,
+              'line-blur': 10,
+              'line-opacity': 0.6
+            }
+          });
+          // Main Outline
+          map.addLayer({
+            id: sourceId + '-line',
+            type: 'line',
+            source: sourceId,
+            paint: {
+              'line-color': '#00e5ff',
+              'line-width': 1.5
+            }
+          });
+          // Fill
+          map.addLayer({
+            id: sourceId + '-fill',
+            type: 'fill',
+            source: sourceId,
+            paint: {
+              'fill-color': '#00e5ff',
+              'fill-opacity': 0.1
+            }
+          });
+        }
+
+        // Calculate Bounds for Auto-Zooming
+        const bounds = new maplibregl.LngLatBounds();
+        let hasValidCoords = false;
+
+        geojson.features.forEach(f => {
+          const geom = f.geometry;
+          if (!geom || !geom.coordinates) return;
+
+          try {
+            if (geom.type === 'Polygon') {
+              geom.coordinates[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; });
+            } else if (geom.type === 'MultiPolygon') {
+              geom.coordinates.forEach(poly => poly[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; }));
+            } else if (geom.type === 'Point') {
+              bounds.extend(geom.coordinates); hasValidCoords = true;
+            }
+          } catch (e) { }
+        });
+
+        if (hasValidCoords) {
+          map.fitBounds(bounds, { padding: 80, duration: 2000, essential: true });
+        }
+      }
+
+      // Utility: Drag and Drop abstractor
+      function setupDropZone(div, input, callback) {
+        div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('dragover'); });
+        div.addEventListener('dragleave', e => { e.preventDefault(); div.classList.remove('dragover'); });
+        div.addEventListener('drop', e => {
+          e.preventDefault(); div.classList.remove('dragover');
+          if (e.dataTransfer.files.length) {
+            input.files = e.dataTransfer.files; // Sync to input 
+            callback(e.dataTransfer.files[0]);
+          }
+        });
+        input.addEventListener('change', e => {
+          if (e.target.files.length) callback(e.target.files[0]);
+        });
+      }
+    </script>
 </body>
 
 </html>
