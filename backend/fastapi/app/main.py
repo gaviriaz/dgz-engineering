@@ -38,6 +38,12 @@ async def root():
     return {"service": "dgz-spatial-api", "status": "ok"}
 
 
+@app.get("/healthz", status_code=200)
+async def health_check():
+    """Endpoint for Render's automated health checks."""
+    return {"status": "healthy"}
+
+
 @app.post("/validate")
 async def validate(fc: FeatureCollection):
     """Basic topology validator (naive, in-memory).
