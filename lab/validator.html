@@ -4,326 +4,799 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>DGZ Spatial Lab — QA/QC Engine V2.0</title>
-  <link rel="stylesheet" href="../assets/css/index.css">
+  <title>DGZ Spatial OS — Catastral Intelligence Command Center</title>
+  <!-- MapLibre for GeoSpatial Render -->
   <link rel="stylesheet" href="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.css" />
   <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
+  <!-- Phosphor Icons for Premium UI -->
+  <script src="https://unpkg.com/@phosphor-icons/web"></script>
   <style>
+    :root {
+      --bg-base: #030305;
+      --bg-panel: rgba(15, 15, 20, 0.7);
+      --bg-panel-solid: #0A0A0F;
+      --border-primary: rgba(0, 229, 255, 0.15);
+      --border-highlight: rgba(0, 229, 255, 0.4);
+      --accent-cyan: #00E5FF;
+      --accent-gold: #FFB400;
+      --accent-purple: #9D4EDD;
+      --status-ok: #4ade80;
+      --status-err: #ff4b2b;
+      --text-main: #FFFFFF;
+      --text-muted: #888899;
+      --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+      --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      --glass-blur: blur(12px);
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
     body {
-      background: #050505;
-      color: #fff;
       margin: 0;
-      overflow: hidden;
+      padding: 0;
+      background: var(--bg-base);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      height: 100vh;
       display: flex;
       flex-direction: column;
-      height: 100vh;
-      font-family: Inter, sans-serif;
+      overflow: hidden;
+      user-select: none;
+      /* Anti-scrape/professional feel */
     }
 
-    .top-nav {
-      height: 60px;
-      background: rgba(5, 5, 7, 0.9);
+    /* --- HEADER NAVBAR --- */
+    .os-header {
+      height: 54px;
+      background: rgba(5, 5, 7, 0.85);
+      backdrop-filter: var(--glass-blur);
+      border-bottom: 1px solid var(--border-primary);
       display: flex;
       align-items: center;
-      padding: 0 2rem;
-      border-bottom: 1px solid rgba(0, 229, 255, 0.2);
-      z-index: 100;
+      justify-content: space-between;
+      padding: 0 1.5rem;
+      z-index: 1000;
     }
 
-    .back-link {
-      color: var(--accent-electric);
-      text-decoration: none;
+    .header-brand {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .sys-badge {
+      background: rgba(0, 229, 255, 0.1);
+      color: var(--accent-cyan);
+      border: 1px solid var(--border-highlight);
+      padding: 4px 10px;
+      border-radius: 4px;
       font-family: var(--font-mono);
-      font-size: 0.75rem;
+      font-size: 0.65rem;
+      letter-spacing: 1px;
       text-transform: uppercase;
     }
 
-    .workspace {
-      flex: 1;
-      display: grid;
-      grid-template-columns: 350px 1fr;
-      gap: 1px;
-      background: rgba(255, 255, 255, 0.05);
-    }
-
-    .sidebar {
-      background: #08080a;
-      padding: 1.5rem;
+    .back-btn {
+      color: var(--text-muted);
+      text-decoration: none;
+      font-size: 0.8rem;
       display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-      overflow-y: auto;
+      align-items: center;
+      gap: 6px;
+      transition: color 0.2s;
     }
 
-    .upload-zone {
-      border: 2px dashed rgba(0, 229, 255, 0.4);
-      border-radius: 12px;
-      padding: 2rem 1rem;
-      text-align: center;
-      cursor: pointer;
-      transition: all 0.3s;
-      background: rgba(0, 229, 255, 0.02);
+    .back-btn:hover {
+      color: var(--accent-cyan);
+    }
+
+    .header-tools {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+      font-family: var(--font-mono);
+      font-size: 0.7rem;
+      color: var(--text-muted);
+    }
+
+    /* --- MAIN WORKSPACE --- */
+    .os-workspace {
+      display: flex;
+      flex: 1;
+      height: calc(100vh - 54px);
       position: relative;
     }
 
-    .upload-zone:hover,
-    .upload-zone.dragover {
+    /* --- SIDEBAR --- */
+    .sidebar {
+      width: 72px;
+      background: var(--bg-panel-solid);
+      border-right: 1px solid var(--border-primary);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 1rem;
+      z-index: 50;
+    }
+
+    .nav-item {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative;
+    }
+
+    .nav-item:hover,
+    .nav-item.active {
+      color: var(--accent-cyan);
       background: rgba(0, 229, 255, 0.1);
-      border-color: var(--accent-electric);
     }
 
-    .upload-icon {
+    .nav-item.active::after {
+      content: '';
+      position: absolute;
+      left: -12px;
+      height: 20px;
+      width: 4px;
+      background: var(--accent-cyan);
+      border-radius: 0 4px 4px 0;
+    }
+
+    /* --- PANELS AREA --- */
+    .panel-container {
+      width: 400px;
+      background: var(--bg-panel);
+      backdrop-filter: var(--glass-blur);
+      border-right: 1px solid var(--border-primary);
+      display: flex;
+      flex-direction: column;
+      z-index: 40;
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .panel-header {
+      padding: 1.5rem 1.5rem 1rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .panel-title {
+      font-size: 1.1rem;
+      font-weight: 600;
+      color: #fff;
+      margin: 0 0 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .panel-desc {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+      margin: 0;
+    }
+
+    .panel-content {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+    }
+
+    /* --- MODULE 1: DUAL DROPZONE (Interoperability) --- */
+    .module-view {
+      display: none;
+      flex-direction: column;
+      gap: 1.5rem;
+      height: 100%;
+    }
+
+    .module-view.active {
+      display: flex;
+    }
+
+    .drop-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1rem;
+    }
+
+    .drop-zone {
+      background: rgba(0, 229, 255, 0.02);
+      border: 2px dashed rgba(0, 229, 255, 0.2);
+      border-radius: 8px;
+      padding: 1.5rem 1rem;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .drop-zone:hover,
+    .drop-zone.dragover {
+      background: rgba(0, 229, 255, 0.08);
+      border-color: var(--accent-cyan);
+      transform: translateY(-2px);
+    }
+
+    .drop-icon {
       font-size: 2rem;
-      color: var(--accent-electric);
-      margin-bottom: 1rem;
+      color: var(--accent-cyan);
+      margin-bottom: 0.5rem;
     }
 
-    .report-card {
-      background: rgba(255, 255, 255, 0.03);
+    .drop-title {
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: #fff;
+      margin-bottom: 4px;
+    }
+
+    .drop-reqs {
+      font-size: 0.65rem;
+      color: var(--text-muted);
+      font-family: var(--font-mono);
+    }
+
+    .action-btn {
+      width: 100%;
+      background: linear-gradient(135deg, #00E5FF 0%, #0077B6 100%);
+      color: #000;
+      border: none;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.85rem;
+      letter-spacing: 1px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      transition: all 0.3s;
+      text-transform: uppercase;
+    }
+
+    .action-btn:hover {
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+      transform: translateY(-1px);
+    }
+
+    .action-btn:disabled {
+      background: #333;
+      color: #666;
+      cursor: not-allowed;
+      box-shadow: none;
+      transform: none;
+    }
+
+    /* --- RESULTS METRICS --- */
+    .metrics-card {
+      background: rgba(0, 0, 0, 0.6);
       border: 1px solid rgba(255, 255, 255, 0.05);
       border-radius: 8px;
-      padding: 1rem;
+      overflow: hidden;
+    }
+
+    .metrics-header {
+      background: rgba(255, 255, 255, 0.02);
+      padding: 8px 12px;
+      font-size: 0.7rem;
+      font-family: var(--font-mono);
+      color: var(--accent-gold);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .metric-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.02);
       font-size: 0.8rem;
     }
 
-    .report-card h4 {
-      margin: 0 0 10px 0;
-      color: #ffb400;
-      font-family: var(--font-mono);
-      font-size: 0.7rem;
+    .metric-row:last-child {
+      border: none;
     }
 
-    .stat-line {
-      display: flex;
-      justify-content: space-between;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding: 5px 0;
-    }
-
-    .stat-line span.val {
-      color: var(--status-success);
+    .metric-val {
       font-family: var(--font-mono);
       font-weight: bold;
     }
 
-    .stat-line span.err {
-      color: #ff4444;
-      font-family: var(--font-mono);
-      font-weight: bold;
+    .val-good {
+      color: var(--status-ok);
     }
 
-    #map-container {
-      width: 100%;
-      height: 100%;
+    .val-bad {
+      color: var(--status-err);
+    }
+
+    /* --- MAP AREA & HUD --- */
+    .map-section {
+      flex: 1;
       position: relative;
       background: #000;
     }
 
-    .llm-report {
-      margin-top: 1rem;
-      line-height: 1.6;
-      color: #ccc;
-      background: rgba(0, 0, 0, 0.5);
-      padding: 1rem;
+    #map-container {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    .hud-overlay {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 320px;
+      pointer-events: none;
+      z-index: 10;
+    }
+
+    .hud-glass {
+      background: rgba(5, 5, 10, 0.6);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(0, 229, 255, 0.2);
       border-radius: 8px;
-      border-left: 3px solid var(--accent-electric);
+      padding: 1rem;
+      pointer-events: auto;
+      position: relative;
+      box-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+      margin-bottom: 1rem;
+    }
+
+    /* Cyber corners for HUD */
+    .hud-glass::before,
+    .hud-glass::after {
+      content: '';
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      border-color: var(--accent-cyan);
+      border-style: solid;
+    }
+
+    .hud-glass::before {
+      top: -1px;
+      left: -1px;
+      border-width: 1px 0 0 1px;
+    }
+
+    .hud-glass::after {
+      bottom: -1px;
+      right: -1px;
+      border-width: 0 1px 1px 0;
+    }
+
+    .llm-chat {
       font-size: 0.8rem;
+      line-height: 1.5;
+      color: #E2E8F0;
     }
 
-    @keyframes customPulse {
-
-      0%,
-      100% {
-        opacity: 1;
-      }
-
-      50% {
-        opacity: 0.5;
-        text-shadow: 0 0 10px var(--accent-electric);
-      }
-    }
-
-    .loader {
-      display: none;
-      margin-top: 1rem;
-      color: var(--accent-electric);
+    .llm-agent-header {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: var(--accent-cyan);
       font-family: var(--font-mono);
-      font-size: 0.8rem;
-      text-align: center;
+      font-size: 0.7rem;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px dashed rgba(0, 229, 255, 0.2);
     }
 
-    .loader-anim {
-      animation: customPulse 1.5s infinite;
+    /* Loading state */
+    .sys-loader {
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 0;
+      gap: 1rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(0, 229, 255, 0.1);
+      border-top-color: var(--accent-cyan);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      100% {
+        transform: rotate(360deg);
+      }
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-panel-solid);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: rgba(0, 229, 255, 0.3);
+      border-radius: 10px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: rgba(0, 229, 255, 0.6);
     }
   </style>
 </head>
 
-<body class="dgz-secure-shield">
-  <div class="top-nav">
-    <a href="../index.html#lab" class="back-link">← EXIT CADASTRAL ENGINE</a>
-    <div style="flex:1"></div>
-    <div style="font-family: var(--font-mono); font-size: 0.6rem; color: #fff;">LADM-COL QA/QC NODE V2.0 // DGZ
-      ENGINEERING</div>
-  </div>
+<body>
 
-  <div class="workspace">
-    <div class="sidebar">
-      <h2 style="font-size: 1.2rem; margin:0;">Inteligencia Topológica</h2>
-      <p style="font-size: 0.8rem; color: #aaa; margin:0; line-height:1.5;">Arrastra un archivo vectorial y deja que el
-        Backend analice los traslapes LADM-COL e interaccione con Groq LLM.</p>
-
-      <div class="upload-zone" id="drop-zone">
-        <div class="upload-icon">📂</div>
-        <div style="font-weight: bold; font-size: 0.9rem;">Drop Spatial File Here</div>
-        <div style="font-size: 0.7rem; color: #888; margin-top: 5px;">.zip, .kml, .geojson, .shp, .gpkg permitidos</div>
-        <input type="file" id="file-input" style="display:none;" accept=".zip,.kml,.geojson,.json,.shp,.gpkg">
+  <!-- OS Header -->
+  <header class="os-header">
+    <div class="header-brand">
+      <a href="../index.html" class="back-btn"><i class="ph ph-arrow-left"></i> Hub</a>
+      <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 10px;"></div>
+      <i class="ph-fill ph-hexagon" style="color: var(--accent-cyan); font-size: 1.2rem;"></i>
+      <span style="font-weight: 700; letter-spacing: 0.5px;">DGZ</span>
+      <span style="color: var(--text-muted); font-weight: 300;">Spatial OS</span>
+      <span class="sys-badge">V2.0 LADM</span>
+    </div>
+    <div class="header-tools">
+      <div id="clock">00:00:00</div>
+      <div style="display:flex; align-items:center; gap:5px; color: var(--status-ok);">
+        <span
+          style="width:6px; height:6px; background:var(--status-ok); border-radius:50%; box-shadow: 0 0 5px var(--status-ok);"></span>
+        API CONNECTED
       </div>
-
-      <div class="loader" id="loader">
-        <div class="loader-anim">⚙️ Analizando Geometrías y Consultando Geo-LLM en el Backend (FastAPI)...</div>
+      <div class="sys-badge"
+        style="border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(157, 78, 221, 0.1);">
+        <i class="ph-fill ph-sparkle"></i> Groq Llama-3 Active
       </div>
+    </div>
+  </header>
 
-      <div id="results" style="display:none; flex-direction:column; gap:1rem;">
-        <div class="report-card">
-          <h4>MÉTRICAS TOPOLÓGICAS (GEOPANDAS)</h4>
-          <div class="stat-line"><span>Total Polígonos:</span> <span class="val" id="res-total">0</span></div>
-          <div class="stat-line"><span>Geomatrías Inválidas:</span> <span class="err" id="res-invalid">0</span></div>
-          <div class="stat-line"><span>Slivers (<5m2):< /span> <span class="err" id="res-slivers">0</span></div>
-          <div class="stat-line"><span>Traslapes (Overlaps):</span> <span class="err" id="res-overlaps">0</span></div>
+  <!-- Main Workspace -->
+  <div class="os-workspace">
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+      <div class="nav-item active" title="Topological Engine" onclick="switchModule(1)">
+        <i class="ph ph-polygon"></i>
+      </div>
+      <div class="nav-item" title="Legal-Physical Cross (Interoperability)" onclick="switchModule(2)">
+        <i class="ph ph-intersect"></i>
+      </div>
+      <div class="nav-item" title="Financial / Reporting"
+        onclick="alert('Módulo de Cartilla Presupuestal Automatizada (En desarrollo)')">
+        <i class="ph ph-file-pdf"></i>
+      </div>
+    </nav>
+
+    <!-- Command Panels -->
+    <div class="panel-container">
+
+      <!-- MODULE 1: TOPOLOGY QA/QC -->
+      <div id="module-1" class="module-view active">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="ph-fill ph-bounding-box" style="color:var(--accent-cyan);"></i> LADM-COL
+            QA/QC</h2>
+          <p class="panel-desc">Validación topológica estricta sobre cartografía base. Detecta superposiciones, slivers
+            y completitud alfanumérica geométrica.</p>
         </div>
 
-        <div class="report-card">
-          <h4>EVALUACIÓN C-LEVEL (GROQ LLAMA-3)</h4>
-          <div class="llm-report" id="llm-text">Cargando reporte...</div>
+        <div class="panel-content">
+          <div class="drop-grid">
+            <div class="drop-zone" id="dz-spatial1" onclick="document.getElementById('file-shp1').click()">
+              <input type="file" id="file-shp1" hidden accept=".zip,.kml,.geojson,.shp,.gpkg">
+              <i class="ph ph-cloud-arrow-up drop-icon"></i>
+              <div class="drop-title">Carga Vectorial (Cartografía)</div>
+              <div class="drop-reqs">.ZIP (Shapefile), .GPKG, .KML, .GEOJSON</div>
+              <div id="lbl-shp1" style="margin-top: 10px; font-size:0.75rem; color:var(--accent-gold); display:none;">
+              </div>
+            </div>
+          </div>
+
+          <button class="action-btn" id="btn-run1" style="margin-top: 1.5rem;" onclick="executeTopologicalEngine()"
+            disabled>
+            <i class="ph-bold ph-lightning"></i> Ejecutar Motor Espacial
+          </button>
+
+          <div class="sys-loader" id="loader1">
+            <div class="spinner"></div>
+            <div
+              style="font-family: var(--font-mono); font-size: 0.75rem; color: var(--accent-cyan); text-align: center;">
+              [1] Parseando Nodos GeoPandas<br>[2] Consultando Geo-LLM Proxy...
+            </div>
+          </div>
+
+          <div id="results1"
+            style="display:none; margin-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+            <div class="metrics-card">
+              <div class="metrics-header">
+                <span><i class="ph ph-activity"></i> TELEMETRÍA GEOPANDAS</span>
+                <span id="res-time">--ms</span>
+              </div>
+              <div class="metric-row">
+                <span>Predios Totales Procesados</span>
+                <span class="metric-val" id="rm-total">0</span>
+              </div>
+              <div class="metric-row">
+                <span>Geometrías Corruptas (Healed)</span>
+                <span class="metric-val" id="rm-inv">0</span>
+              </div>
+              <div class="metric-row">
+                <span>Slivers Fantasma (<5m²)< /span>
+                    <span class="metric-val val-bad" id="rm-sliver">0</span>
+              </div>
+              <div class="metric-row">
+                <span>Traslapes (Overlaps LADM)</span>
+                <span class="metric-val val-bad" id="rm-overlap">0</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
+      <div id="module-2" class="module-view">
+        <div class="panel-header">
+          <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> Cruce
+            Físico-Jurídico</h2>
+          <p class="panel-desc">Sincronización de Base de Datos Catastral (.shp/.gpkg) vs Matriz de SNR Registro (.xlsx)
+            para detectar inconsistencias de área e identificador.</p>
+        </div>
+
+        <div class="panel-content">
+          <div class="drop-grid" style="gap: 0.8rem;">
+            <div class="drop-zone" id="dz-spatial2" style="padding: 1rem;"
+              onclick="document.getElementById('file-shp2').click()">
+              <input type="file" id="file-shp2" hidden accept=".zip,.kml,.geojson,.shp,.gpkg">
+              <i class="ph ph-map-trifold drop-icon" style="font-size: 1.5rem;"></i>
+              <div class="drop-title" style="font-size: 0.75rem;">1. Base Cartográfica</div>
+              <div id="lbl-shp2" style="font-size:0.65rem; color:var(--accent-gold); display:none;"></div>
+            </div>
+
+            <div class="drop-zone" id="dz-tabular" style="padding: 1rem; border-color: rgba(157, 78, 221, 0.3);"
+              onclick="document.getElementById('file-xlsx').click()">
+              <input type="file" id="file-xlsx" hidden accept=".xlsx,.csv">
+              <i class="ph ph-table drop-icon" style="font-size: 1.5rem; color: var(--accent-purple);"></i>
+              <div class="drop-title" style="font-size: 0.75rem;">2. Matriz Registral (SNR/Rentas)</div>
+              <div class="drop-reqs">.XLSX, .CSV (Requiere col: NPU)</div>
+              <div id="lbl-xlsx" style="font-size:0.65rem; color:var(--accent-purple); display:none;"></div>
+            </div>
+          </div>
+
+          <button class="action-btn" id="btn-run2"
+            style="margin-top: 1.5rem; background: linear-gradient(135deg, #9D4EDD 0%, #3C096C 100%);" disabled>
+            <i class="ph-bold ph-git-merge"></i> Analizar Mutaciones
+          </button>
+
+          <div style="margin-top: 1rem; font-size: 0.7rem; color: #666; font-style: italic; text-align: center;">
+            Módulo en construcción en el Backend. Al presionar, simulará la lógica.
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- GIS Interface -->
+    <div class="map-section">
+      <div id="map-container"></div>
+
+      <div class="hud-overlay">
+        <!-- Geo-LLM Agent Box -->
+        <div class="hud-glass" id="llm-box" style="display:none;">
+          <div class="llm-agent-header">
+            <i class="ph-fill ph-brain"></i> <span>DGZ GEO-LLM INTELLIGENCE</span>
+          </div>
+          <div class="llm-chat" id="llm-output">
+            Esperando ingesta de datos para emitir diagnóstico C-Level...
+          </div>
         </div>
       </div>
     </div>
-
-    <div id="map-container">
-      <div
-        style="position:absolute; bottom:20px; right:20px; z-index:10; font-family:var(--font-mono); font-size:0.6rem; color:#fff; background:rgba(0,0,0,0.8); padding:5px; border: 1px solid var(--accent-electric);">
-        MAP_NODE: ACTIVE // RENDER_MODE: VECTOR_CANVAS</div>
-    </div>
   </div>
 
-  <script src="../assets/js/main.js"></script>
+  <!-- Scripts -->
   <script>
-    // Init MapLibre
+    // --- 1. Map Initialization (MapLibre + Carto Dark) ---
     const map = new maplibregl.Map({
       container: 'map-container',
       style: 'https://basemaps.cartocdn.com/gl/dark-matter-gl-style/style.json',
       center: [-74.0721, 4.7110], // Colombia center
-      zoom: 5,
+      zoom: 5.5,
       attributionControl: false
     });
 
-    const dropZone = document.getElementById('drop-zone');
-    const fileInput = document.getElementById('file-input');
-    const loader = document.getElementById('loader');
-    const results = document.getElementById('results');
+    // Add interactive controls
+    map.addControl(new maplibregl.NavigationControl(), 'bottom-right');
 
-    // Drag & Drop Handlers
-    dropZone.addEventListener('dragover', (e) => { e.preventDefault(); dropZone.classList.add('dragover'); });
-    dropZone.addEventListener('dragleave', (e) => { e.preventDefault(); dropZone.classList.remove('dragover'); });
-    dropZone.addEventListener('drop', (e) => {
-      e.preventDefault();
-      dropZone.classList.remove('dragover');
-      if (e.dataTransfer.files.length) processFile(e.dataTransfer.files[0]);
+    // --- 2. Clock ---
+    setInterval(() => {
+      const now = new Date();
+      document.getElementById('clock').innerText = now.toISOString().split('T')[1].split('.')[0] + ' UTC';
+    }, 1000);
+
+    // --- 3. UI Navigation Logic ---
+    function switchModule(id) {
+      document.querySelectorAll('.nav-item').forEach((el, idx) => {
+        if (idx + 1 === id) el.classList.add('active');
+        else el.classList.remove('active');
+      });
+      document.querySelectorAll('.module-view').forEach(el => el.classList.remove('active'));
+      document.getElementById('module-' + id).classList.add('active');
+    }
+
+    // --- 4. File Drag & Drop Handlers (Module 1) ---
+    const dzSpatial1 = document.getElementById('dz-spatial1');
+    const fileShp1 = document.getElementById('file-shp1');
+    const btnRun1 = document.getElementById('btn-run1');
+    const lblShp1 = document.getElementById('lbl-shp1');
+
+    setupDropZone(dzSpatial1, fileShp1, (file) => {
+      lblShp1.textContent = "✔ " + file.name;
+      lblShp1.style.display = 'block';
+      window.activeFile = file;
+      btnRun1.disabled = false;
     });
 
-    dropZone.addEventListener('click', () => fileInput.click());
-    fileInput.addEventListener('change', (e) => {
-      if (e.target.files.length) processFile(e.target.files[0]);
-    });
+    // --- 5. Execution Logic (Module 1) ---
+    async function executeTopologicalEngine() {
+      if (!window.activeFile) return;
 
-    async function processFile(file) {
-      results.style.display = 'none';
-      loader.style.display = 'block';
+      // UI States
+      document.getElementById('results1').style.display = 'none';
+      document.getElementById('llm-box').style.display = 'none';
+      document.getElementById('loader1').style.display = 'flex';
+      btnRun1.disabled = true;
 
       const formData = new FormData();
-      formData.append('file', file);
+      formData.append('file', window.activeFile);
 
-      // FastAPI REST ENDPOINTS
+      // API Endpoint (Prod Render & Local Fallback)
       const PROD_URL = "https://dgz-engineering.onrender.com/api/v1/analyze-shapefile";
       const DEV_URL = "http://127.0.0.1:8000/api/v1/analyze-shapefile";
+
+      const startTime = performance.now();
 
       try {
         let res;
         try {
-          // Primero intentamos local para desarrollo super rapido
           res = await fetch(DEV_URL, { method: 'POST', body: formData });
         } catch (e) {
-          // Fallback a prod
           res = await fetch(PROD_URL, { method: 'POST', body: formData });
         }
 
-        if (!res || !res.ok) {
-          throw new Error("El Backend Python no está encendido o finalizó con error.");
-        }
+        if (!res || !res.ok) throw new Error("Backend desconectado o error en el procesamiento de la capa.");
 
         const data = await res.json();
+        const endTime = performance.now();
 
-        // Update UI Metrics
-        document.getElementById('res-total').textContent = data.qaqc_metrics.total_features;
-        document.getElementById('res-invalid').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
-        document.getElementById('res-slivers').textContent = data.qaqc_metrics.slivers_val.slivers_count;
-        document.getElementById('res-overlaps').textContent = data.qaqc_metrics.topology_val.overlaps_count;
-        document.getElementById('llm-text').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
-
-        // Plot JSON on MAP
-        if (data.geojson && data.geojson.features && data.geojson.features.length > 0) {
+        // --- Map Rendering ---
+        if (data.geojson && data.geojson.features.length > 0) {
           renderOnMap(data.geojson);
-        } else {
-          alert("El motor topológico procesó el archivo, pero no devolvió geometrías renderizables.");
         }
 
-        loader.style.display = 'none';
-        results.style.display = 'flex';
+        // --- UI Updates ---
+        document.getElementById('loader1').style.display = 'none';
+
+        // Metrics
+        document.getElementById('rm-total').textContent = data.qaqc_metrics.total_features;
+        document.getElementById('rm-inv').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
+        document.getElementById('rm-sliver').textContent = data.qaqc_metrics.slivers_val.slivers_count;
+        document.getElementById('rm-overlap').textContent = data.qaqc_metrics.topology_val.overlaps_count;
+        document.getElementById('res-time').textContent = ((endTime - startTime) / 1000).toFixed(2) + "s";
+
+        document.getElementById('results1').style.display = 'flex';
+
+        // LLM Box
+        document.getElementById('llm-output').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
+        document.getElementById('llm-box').style.display = 'block';
 
       } catch (err) {
         console.error(err);
-        alert("Error de validación: " + err.message + "\n\nAsegúrate de que el Backend backend/qa_engine/main.py esté ejecutándose ('uvicorn backend.qa_engine.main:app --reload').");
-        loader.style.display = 'none';
+        alert("Critical System Error:\n" + err.message);
+        document.getElementById('loader1').style.display = 'none';
+      } finally {
+        btnRun1.disabled = false;
       }
     }
 
     function renderOnMap(geojson) {
-      if (map.getSource('uploaded-data')) {
-        map.getSource('uploaded-data').setData(geojson);
+      const sourceId = 'dgz-vector-data';
+      if (map.getSource(sourceId)) {
+        map.getSource(sourceId).setData(geojson);
       } else {
-        map.addSource('uploaded-data', { type: 'geojson', data: geojson });
+        map.addSource(sourceId, { type: 'geojson', data: geojson });
+
+        // Glow effect (Line)
         map.addLayer({
-          id: 'uploaded-fill',
-          type: 'fill',
-          source: 'uploaded-data',
+          id: sourceId + '-glow',
+          type: 'line',
+          source: sourceId,
           paint: {
-            'fill-color': 'rgba(0, 229, 255, 0.15)',
-            'fill-outline-color': '#00e5ff'
+            'line-color': '#00e5ff',
+            'line-width': 4,
+            'line-blur': 10,
+            'line-opacity': 0.6
+          }
+        });
+        // Main Outline
+        map.addLayer({
+          id: sourceId + '-line',
+          type: 'line',
+          source: sourceId,
+          paint: {
+            'line-color': '#00e5ff',
+            'line-width': 1.5
+          }
+        });
+        // Fill
+        map.addLayer({
+          id: sourceId + '-fill',
+          type: 'fill',
+          source: sourceId,
+          paint: {
+            'fill-color': '#00e5ff',
+            'fill-opacity': 0.1
           }
         });
       }
 
-      // Auto fit bounds logic
-      try {
-        const bounds = new maplibregl.LngLatBounds();
-        let hasCoords = false;
+      // Calculate Bounds for Auto-Zooming
+      const bounds = new maplibregl.LngLatBounds();
+      let hasValidCoords = false;
 
-        geojson.features.forEach(f => {
-          if (f.geometry && f.geometry.coordinates) {
-            if (f.geometry.type === 'Polygon') {
-              f.geometry.coordinates[0].forEach(coord => { bounds.extend(coord); hasCoords = true; });
-            } else if (f.geometry.type === 'MultiPolygon') {
-              f.geometry.coordinates.forEach(poly => poly[0].forEach(coord => { bounds.extend(coord); hasCoords = true; }));
-            }
+      geojson.features.forEach(f => {
+        const geom = f.geometry;
+        if (!geom || !geom.coordinates) return;
+
+        try {
+          if (geom.type === 'Polygon') {
+            geom.coordinates[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; });
+          } else if (geom.type === 'MultiPolygon') {
+            geom.coordinates.forEach(poly => poly[0].forEach(coord => { bounds.extend(coord); hasValidCoords = true; }));
+          } else if (geom.type === 'Point') {
+            bounds.extend(geom.coordinates); hasValidCoords = true;
           }
-        });
+        } catch (e) { }
+      });
 
-        if (hasCoords) {
-          map.fitBounds(bounds, { padding: 50 });
+      if (hasValidCoords) {
+        map.fitBounds(bounds, { padding: 80, duration: 2000, essential: true });
+      }
+    }
+
+    // Utility: Drag and Drop abstractor
+    function setupDropZone(div, input, callback) {
+      div.addEventListener('dragover', e => { e.preventDefault(); div.classList.add('dragover'); });
+      div.addEventListener('dragleave', e => { e.preventDefault(); div.classList.remove('dragover'); });
+      div.addEventListener('drop', e => {
+        e.preventDefault(); div.classList.remove('dragover');
+        if (e.dataTransfer.files.length) {
+          input.files = e.dataTransfer.files; // Sync to input 
+          callback(e.dataTransfer.files[0]);
         }
-      } catch (e) {
-        console.warn("Could not calculate bounds for zooming:", e);
-      }
+      });
+      input.addEventListener('change', e => {
+        if (e.target.files.length) callback(e.target.files[0]);
+      });
     }
   </script>
 </body>
