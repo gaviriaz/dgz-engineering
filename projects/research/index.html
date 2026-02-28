@@ -82,6 +82,62 @@
                         (like Mask R-CNN) extracting building footprints from drone orthomosaics.</li>
                 </ul>
 
+                <!-- GEO-AI SLIDER DEMO -->
+                <h3
+                    style="color: #fff; margin-top: 3rem; font-family: var(--font-mono); font-size: 1rem; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem;">
+                    [DEMO] Sentinel-2 vs Machine Learning Overlay</h3>
+                <div class="geoai-container"
+                    style="position: relative; overflow: hidden; border-radius: 12px; margin-top: 1rem; margin-bottom: 3rem; border: 1px solid rgba(0, 229, 255, 0.3); box-shadow: 0 10px 30px rgba(0,0,0,0.5);">
+                    <div class="slider-image-before"
+                        style="position: relative; width: 100%; height: 400px; background: url('../../assets/img/geoai_base.png') center/cover; filter: grayscale(100%) brightness(0.7);">
+                        <div
+                            style="position: absolute; top: 15px; right: 15px; background: rgba(0,0,0,0.8); padding: 5px 10px; color: #fff; font-family: var(--font-mono); font-size: 0.8rem; border: 1px solid #555; z-index: 1;">
+                            2021 ARCHIVE (T0)</div>
+                    </div>
+
+                    <div class="slider-image-after"
+                        style="position: absolute; top: 0; left: 0; width: 50%; height: 400px; background: url('../../assets/img/geoai_base.png') center/cover; border-right: 3px solid var(--accent-electric); overflow: hidden; pointer-events: none;">
+                        <div
+                            style="position: absolute; top: 15px; left: 15px; background: rgba(0, 229, 255, 0.1); border: 1px solid var(--accent-electric); padding: 5px 10px; color: var(--accent-electric); font-family: var(--font-mono); font-size: 0.8rem; z-index: 1;">
+                            2026 AI DETECTED (T1)</div>
+                        <!-- Simulated polygon detections -->
+                        <div
+                            style="position: absolute; top: 35%; left: 15%; width: 45px; height: 35px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
+                        </div>
+                        <div
+                            style="position: absolute; top: 65%; left: 30%; width: 60px; height: 50px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
+                        </div>
+                        <div
+                            style="position: absolute; top: 20%; left: 40%; width: 30px; height: 30px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
+                        </div>
+                        <div
+                            style="position: absolute; top: 50%; left: 65%; width: 55px; height: 40px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
+                        </div>
+                        <div
+                            style="position: absolute; top: 75%; left: 75%; width: 40px; height: 45px; border: 2px solid #ff4b2b; background: rgba(255, 75, 43, 0.3); box-shadow: 0 0 10px #ff4b2b;">
+                        </div>
+                    </div>
+
+                    <input type="range" min="0" max="100" value="50" class="geoai-slider-control"
+                        aria-label="Image comparison slider"
+                        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: ew-resize;"
+                        oninput="document.querySelector('.slider-image-after').style.width = this.value + '%'">
+
+                    <div style="position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; width: 40px; height: 40px; background: rgba(0,0,0,0.5); border: 2px solid var(--accent-electric); border-radius: 50%; display: flex; align-items: center; justify-content: center; backdrop-filter: blur(4px);"
+                        class="slider-handle">
+                        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="var(--accent-electric)"
+                            stroke-width="2">
+                            <path d="M8 9l-4 3 4 3M16 15l4-3-4-3" />
+                        </svg>
+                    </div>
+                </div>
+
+                <script>
+                    document.querySelector('.geoai-slider-control').addEventListener('input', function (e) {
+                        document.querySelector('.slider-handle').style.left = e.target.value + '%';
+                    });
+                </script>
+
                 <h2 style="color: var(--accent-gold);">System Status: MODELS TRAINING</h2>
                 <p>The Jupyter notebooks and GeoPandas scripts validating these experiments are currently compiling. We
                     will publish the interactive visualization reports and code snippets here upon reaching satisfactory

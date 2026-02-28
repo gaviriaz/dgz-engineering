@@ -53,7 +53,12 @@ const translations = {
         node_uraba: "<b>ARBIRTRIUM S.A.S // LÍDER Y COORDINADOR SIG</b><br>Liderazgo técnico de equipos de reconocimiento predial y digitalización catastral masiva. Gestión avanzada de calidad y estructuración topológica.",
         node_arboletes: "<b>ARBIRTRIUM S.A.S // COORDINADOR CAMPO</b><br>Coordinación estratégica de operativos de campo para identificación predial y barrido catastral.",
         node_barranquilla: "<b>UT SMART CITY // COORDINADOR PROFESIONAL SIG</b><br>Implementación de estándares LADM-COL y dirección de procesos de digitalización masiva. Especialista en gestión predial y fotogrametría con drones.",
-        node_gaitan: "<b>COSARGO SAS // GESTOR AMBIENTAL</b><br>Supervisión de cumplimiento normativo ambiental en proyectos de infraestructura y gestión de recursos naturales."
+        node_gaitan: "<b>COSARGO SAS // GESTOR AMBIENTAL</b><br>Supervisión de cumplimiento normativo ambiental en proyectos de infraestructura y gestión de recursos naturales.",
+        lab_title: "Spatial Intelligence Laboratory",
+        lab_desc: "Real-world projects demonstrating GIS capabilities, cadastral automation, and spatial systems architecture. This is NOT just a portfolio — it's an active lab.",
+        geoai_title: "GeoAI Intelligence",
+        geoai_subtitle: "Urban Change Detection with Sentinel Imagery",
+        cv_download: "Download Datasheet (PDF)"
     },
     es: {
         nav_about: "Sobre Mí",
@@ -109,7 +114,12 @@ const translations = {
         node_uraba: "<b>ARBIRTRIUM S.A.S // LÍDER Y COORDINADOR SIG</b><br>Liderazgo técnico de equipos de reconocimiento predial y digitalización catastral masiva. Gestión avanzada de calidad y estructuración topológica.",
         node_arboletes: "<b>ARBIRTRIUM S.A.S // COORDINADOR CAMPO</b><br>Coordinación estratégica de operativos de campo para identificación predial y barrido catastral.",
         node_barranquilla: "<b>UT SMART CITY // COORDINADOR PROFESIONAL SIG</b><br>Implementación de estándares LADM-COL y dirección de procesos de digitalización masiva. Especialista en gestión predial y fotogrametría con drones.",
-        node_gaitan: "<b>COSARGO SAS // GESTOR AMBIENTAL</b><br>Supervisión de cumplimiento normativo ambiental en proyectos de infraestructura y gestión de recursos naturales."
+        node_gaitan: "<b>COSARGO SAS // GESTOR AMBIENTAL</b><br>Supervisión de cumplimiento normativo ambiental en proyectos de infraestructura y gestión de recursos naturales.",
+        lab_title: "Laboratorio de Inteligencia Espacial",
+        lab_desc: "Proyectos reales demostrando capacidades GIS, automatización catastral y arquitectura de sistemas espaciales. Esto NO es un portafolio — es un laboratorio activo.",
+        geoai_title: "GeoAI Intelligence",
+        geoai_subtitle: "Detección de Cambios Urbanos con Imagenería Sentinel",
+        cv_download: "Descargar Datasheet (PDF)"
     }
 };
 
