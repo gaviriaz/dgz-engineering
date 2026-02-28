@@ -740,10 +740,10 @@
     const supabaseUrl = 'https://mxrgondwvbxbgwtpviyv.supabase.co';
     // ⚠️ ALBERT: PEGA EL "API KEY" Y REEMPLAZA ESTE TEXTO CON ÉL
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14cmdvbmR3dmJ4Ymd3dHB2aXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMDAwNjcsImV4cCI6MjA4Nzg3NjA2N30.3Jxx6lccDYSaU1io2mDTtXeZY3EULkPSMUHyWjB6uPI';
-    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+    const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
 
     async function checkAuthStatus() {
-      const { data: { session }, error } = await supabase.auth.getSession();
+      const { data: { session }, error } = await sbClient.auth.getSession();
 
       if (session) {
         // User logged in: unlock app
@@ -767,7 +767,7 @@
       const btn = document.getElementById('btn-login');
       btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
 
-      const { data, error } = await supabase.auth.signInWithOAuth({
+      const { data, error } = await sbClient.auth.signInWithOAuth({
         provider: 'google',
         options: {
           queryParams: {
@@ -783,7 +783,7 @@
     }
 
     async function signOut() {
-      await supabase.auth.signOut();
+      await sbClient.auth.signOut();
       window.location.reload();
     }
 
