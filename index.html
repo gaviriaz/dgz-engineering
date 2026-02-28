@@ -672,14 +672,25 @@
                             <div class="parcel-cell"></div>
                             <div class="parcel-cell"></div>
                         </div>
-                        <button class="validator-run-btn" id="run-validator" onclick="runCadastralValidation()">
+                        <button class="validator-run-btn" id="run-validator" onclick="runCadastralValidation()"
+                            style="margin-bottom: 0.5rem;">
                             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="2.5">
                                 <polygon points="5,3 19,12 5,21"></polygon>
                             </svg>
-                            RUN_VALIDATION
+                            RUN_VALIDATION (Demo)
                         </button>
-                        <div class="validator-output" id="validator-output"></div>
+                        <a href="lab/validator.html" class="lab-launch-btn"
+                            style="margin-top: 0; width: 100%; border-color: var(--accent-gold); color: var(--accent-gold);">
+                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                                stroke-width="2.5">
+                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
+                                <polyline points="15,3 21,3 21,9"></polyline>
+                                <line x1="10" y1="14" x2="21" y2="3"></line>
+                            </svg>
+                            Launch Full Validator App
+                        </a>
+                        <div class="validator-output" id="validator-output" style="margin-top: 0.5rem;"></div>
                     </div>
                 </div>
 
