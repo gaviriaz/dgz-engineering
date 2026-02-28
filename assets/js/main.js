@@ -693,71 +693,71 @@ function runCadastralValidation() {
         }, i * 120);
     });
 
-        // If API configured, also POST GeoJSON to backend `/validate` and show real results
-        const apiBase = window.API_BASE || null;
-        if (apiBase && window.validatorGeoJSON) {
-            const url = apiBase.replace(/\/+$/, '') + '/validate';
-            addLog(`>>> POSTING ${window.validatorGeoJSON.features.length} features to ${url}`,'var(--accent-electric)');
-            fetch(url, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(window.validatorGeoJSON)
-            }).then(r => r.json()).then(j => {
-                addLog('>>> API RESPONSE: ' + JSON.stringify(j), 'var(--text-secondary)');
-                // Highlight invalid features if reported
-                if (j.invalid && Array.isArray(j.invalid)) {
-                    j.invalid.forEach(inv => {
-                        const idx = inv.index;
-                        const el = cells[idx];
-                        if (el) el.classList.add('error');
-                    });
-                }
-                // If no API configured, run client-side validation using Turf.js (zero-cost, GitHub Pages compatible)
-                if ((!apiBase || apiBase === '') && window.validatorGeoJSON && typeof turf !== 'undefined') {
-                    addLog('>>> RUNNING CLIENT-SIDE VALIDATION (Turf.js) — zero-cost mode', 'var(--accent-electric)');
-                    const feats = window.validatorGeoJSON.features;
-                    let clientErrors = 0;
+    // If API configured, also POST GeoJSON to backend `/validate` and show real results
+    const apiBase = window.API_BASE || 'https://dgz-engineering.onrender.com';
+    if (apiBase && window.validatorGeoJSON) {
+        const url = apiBase.replace(/\/+$/, '') + '/validate';
+        addLog(`>>> POSTING ${window.validatorGeoJSON.features.length} features to ${url}`, 'var(--accent-electric)');
+        fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(window.validatorGeoJSON)
+        }).then(r => r.json()).then(j => {
+            addLog('>>> API RESPONSE: ' + JSON.stringify(j), 'var(--text-secondary)');
+            // Highlight invalid features if reported
+            if (j.invalid && Array.isArray(j.invalid)) {
+                j.invalid.forEach(inv => {
+                    const idx = inv.index;
+                    const el = cells[idx];
+                    if (el) el.classList.add('error');
+                });
+            }
+            // If no API configured, run client-side validation using Turf.js (zero-cost, GitHub Pages compatible)
+            if ((!apiBase || apiBase === '') && window.validatorGeoJSON && typeof turf !== 'undefined') {
+                addLog('>>> RUNNING CLIENT-SIDE VALIDATION (Turf.js) — zero-cost mode', 'var(--accent-electric)');
+                const feats = window.validatorGeoJSON.features;
+                let clientErrors = 0;
 
-                    // compute per-feature area and mark warnings if mismatch
-                    feats.forEach((f, i) => {
-                        try {
-                            const turfArea = turf.area(f); // in m² when geometry in WGS84
-                            const reported = parseFloat(f.properties.area_m2) || 0;
-                            const diffPct = Math.abs((turfArea - reported) / Math.max(reported, 1)) * 100;
-                            if (diffPct > 30) { // threshold
-                                clientErrors++;
-                                const el = cells[i]; if (el) el.classList.add('error');
-                                addLog(`>>> AREA_MISMATCH idx=${i} reported=${reported}m² computed=${Math.round(turfArea)}m² diff=${Math.round(diffPct)}%`, '#ffb400');
-                            }
-                        } catch (err) {
+                // compute per-feature area and mark warnings if mismatch
+                feats.forEach((f, i) => {
+                    try {
+                        const turfArea = turf.area(f); // in m² when geometry in WGS84
+                        const reported = parseFloat(f.properties.area_m2) || 0;
+                        const diffPct = Math.abs((turfArea - reported) / Math.max(reported, 1)) * 100;
+                        if (diffPct > 30) { // threshold
                             clientErrors++;
                             const el = cells[i]; if (el) el.classList.add('error');
-                            addLog(`>>> GEOM_ERROR idx=${i} ${err.message}`, '#ff4b2b');
+                            addLog(`>>> AREA_MISMATCH idx=${i} reported=${reported}m² computed=${Math.round(turfArea)}m² diff=${Math.round(diffPct)}%`, '#ffb400');
                         }
-                    });
+                    } catch (err) {
+                        clientErrors++;
+                        const el = cells[i]; if (el) el.classList.add('error');
+                        addLog(`>>> GEOM_ERROR idx=${i} ${err.message}`, '#ff4b2b');
+                    }
+                });
 
-                    // naive overlap detection O(n^2)
-                    let overlaps = 0;
-                    for (let i = 0; i < feats.length; i++) {
-                        for (let j = i + 1; j < feats.length; j++) {
-                            try {
-                                if (turf.booleanIntersects(feats[i], feats[j])) {
-                                    overlaps++;
-                                    const eli = cells[i]; const elj = cells[j];
-                                    if (eli) eli.classList.add('error');
-                                    if (elj) elj.classList.add('error');
-                                }
-                            } catch (err) {
-                                // skip geometry errors
+                // naive overlap detection O(n^2)
+                let overlaps = 0;
+                for (let i = 0; i < feats.length; i++) {
+                    for (let j = i + 1; j < feats.length; j++) {
+                        try {
+                            if (turf.booleanIntersects(feats[i], feats[j])) {
+                                overlaps++;
+                                const eli = cells[i]; const elj = cells[j];
+                                if (eli) eli.classList.add('error');
+                                if (elj) elj.classList.add('error');
                             }
+                        } catch (err) {
+                            // skip geometry errors
                         }
                     }
-
-                    addLog(`>>> CLIENT VALIDATION COMPLETE — errors=${clientErrors} overlaps=${overlaps}`, 'var(--text-secondary)');
                 }
-                if (typeof j.overlaps !== 'undefined') addLog(`>>> OVERLAPS: ${j.overlaps}`, '#ffb400');
-            }).catch(err => {
-                addLog('>>> API ERROR: ' + err.message, '#ff4b2b');
-            });
-        }
+
+                addLog(`>>> CLIENT VALIDATION COMPLETE — errors=${clientErrors} overlaps=${overlaps}`, 'var(--text-secondary)');
+            }
+            if (typeof j.overlaps !== 'undefined') addLog(`>>> OVERLAPS: ${j.overlaps}`, '#ffb400');
+        }).catch(err => {
+            addLog('>>> API ERROR: ' + err.message, '#ff4b2b');
+        });
+    }
 }
