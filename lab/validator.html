@@ -568,8 +568,8 @@
   <header class="os-header">
     <div class="header-brand">
       <a href="../index.html" class="back-btn"><i class="ph ph-arrow-left"></i> Hub</a>
-      <div style="width: 1px; height: 20px; background: rgba(255,255,255,0.1); margin: 0 10px;"></div>
-      <i class="ph-fill ph-hexagon" style="color: var(--accent-cyan); font-size: 1.2rem;"></i>
+      <img src="../assets/img/dgz_os_logo.png" style="height: 32px; filter: drop-shadow(0 0 5px var(--accent-cyan));"
+        alt="DGZ Logo">
       <span style="font-weight: 700; letter-spacing: 0.5px;">DGZ</span>
       <span style="color: var(--text-muted); font-weight: 300;">Spatial OS</span>
       <span class="sys-badge">V2.0 LADM</span>
@@ -831,62 +831,117 @@
       btnRun1.disabled = false;
     });
 
+    // --- 4.1 File Handlers (Module 2) ---
+    const dzSpatial2 = document.getElementById('dz-spatial2');
+    const fileShp2 = document.getElementById('file-shp2');
+    const lblShp2 = document.getElementById('lbl-shp2');
+
+    const dzTabular = document.getElementById('dz-tabular');
+    const fileXlsx = document.getElementById('file-xlsx');
+    const lblXlsx = document.getElementById('lbl-xlsx');
+
+    const btnRun2 = document.getElementById('btn-run2');
+
+    let spatial2File = null;
+    let tabularFile = null;
+
+    setupDropZone(dzSpatial2, fileShp2, (file) => {
+      lblShp2.textContent = "✔ " + file.name;
+      lblShp2.style.display = 'block';
+      spatial2File = file;
+      checkModule2Ready();
+    });
+
+    setupDropZone(dzTabular, fileXlsx, (file) => {
+      lblXlsx.textContent = "✔ " + file.name;
+      lblXlsx.style.display = 'block';
+      tabularFile = file;
+      checkModule2Ready();
+    });
+
+    function checkModule2Ready() {
+      btnRun2.disabled = !(spatial2File && tabularFile);
+    }
+
     // --- 5. Execution Logic (Module 1) ---
     async function executeTopologicalEngine() {
+      // ... (existing code remains or is wrapped)
       if (!window.activeFile) return;
+      runAPIAnalysis("https://dgz-engineering.onrender.com/api/v1/analyze-shapefile", window.activeFile, 1);
+    }
+
+    // --- 5.1 Execution Logic (Module 2) ---
+    async function executeInteroperabilityEngine() {
+      if (!spatial2File || !tabularFile) return;
 
       // UI States
+      document.getElementById('llm-box').style.display = 'none';
+      btnRun2.disabled = true;
+      btnRun2.innerHTML = '<div class="spinner" style="width:16px;height:16px;border-width:2px;"></div> PROCESANDO...';
+
+      const formData = new FormData();
+      formData.append('spatial_file', spatial2File);
+      formData.append('tabular_file', tabularFile);
+
+      const API_URL = "https://dgz-engineering.onrender.com/api/v1/interoperability-cross";
+
+      try {
+        const res = await fetch(API_URL, { method: 'POST', body: formData });
+        if (!res.ok) throw new Error("Error en el cruce masivo SNR.");
+
+        const data = await res.json();
+
+        // Map Rendering
+        if (data.geojson) renderOnMap(data.geojson);
+
+        // LLM Intelligence
+        document.getElementById('llm-output').innerHTML = `
+          <div style="color:var(--accent-purple); font-weight:bold; margin-bottom:8px;">[MISION INTEROPERABILIDAD COMPLETADA]</div>
+          ${data.geo_llm_intelligence_report.replace(/\n/g, '<br>')}
+        `;
+        document.getElementById('llm-box').style.display = 'block';
+
+        alert("Cruce completado. Revise el HUD de Inteligencia DGZ.");
+
+      } catch (err) {
+        alert("Error: " + err.message);
+      } finally {
+        btnRun2.disabled = false;
+        btnRun2.innerHTML = '<i class="ph-bold ph-git-merge"></i> Analizar Mutaciones';
+      }
+    }
+
+    // Connect Button 2
+    btnRun2.onclick = executeInteroperabilityEngine;
+
+    // Refactored common API runner
+    async function runAPIAnalysis(endpoint, file, moduleId) {
       document.getElementById('results1').style.display = 'none';
       document.getElementById('llm-box').style.display = 'none';
       document.getElementById('loader1').style.display = 'flex';
       btnRun1.disabled = true;
 
       const formData = new FormData();
-      formData.append('file', window.activeFile);
-
-      // API Endpoint (Prod Render & Local Fallback)
-      const PROD_URL = "https://dgz-engineering.onrender.com/api/v1/analyze-shapefile";
-      const DEV_URL = "http://127.0.0.1:8000/api/v1/analyze-shapefile";
-
-      const startTime = performance.now();
+      formData.append('file', file);
 
       try {
-        let res;
-        try {
-          res = await fetch(DEV_URL, { method: 'POST', body: formData });
-        } catch (e) {
-          res = await fetch(PROD_URL, { method: 'POST', body: formData });
-        }
-
-        if (!res || !res.ok) throw new Error("Backend desconectado o error en el procesamiento de la capa.");
-
+        const res = await fetch(endpoint, { method: 'POST', body: formData });
+        if (!res.ok) throw new Error("Backend Error");
         const data = await res.json();
-        const endTime = performance.now();
 
-        // --- Map Rendering ---
-        if (data.geojson && data.geojson.features.length > 0) {
-          renderOnMap(data.geojson);
-        }
+        if (data.geojson) renderOnMap(data.geojson);
 
-        // --- UI Updates ---
         document.getElementById('loader1').style.display = 'none';
-
-        // Metrics
         document.getElementById('rm-total').textContent = data.qaqc_metrics.total_features;
         document.getElementById('rm-inv').textContent = data.qaqc_metrics.geometry_val.invalid_geometries_found;
         document.getElementById('rm-sliver').textContent = data.qaqc_metrics.slivers_val.slivers_count;
         document.getElementById('rm-overlap').textContent = data.qaqc_metrics.topology_val.overlaps_count;
-        document.getElementById('res-time').textContent = ((endTime - startTime) / 1000).toFixed(2) + "s";
-
         document.getElementById('results1').style.display = 'flex';
 
-        // LLM Box
         document.getElementById('llm-output').innerHTML = data.geo_llm_intelligence_report.replace(/\n/g, '<br>');
         document.getElementById('llm-box').style.display = 'block';
-
-      } catch (err) {
-        console.error(err);
-        alert("Critical System Error:\n" + err.message);
+      } catch (e) {
+        alert("Error: " + e.message);
         document.getElementById('loader1').style.display = 'none';
       } finally {
         btnRun1.disabled = false;

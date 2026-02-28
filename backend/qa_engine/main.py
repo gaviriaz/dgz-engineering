@@ -147,3 +147,76 @@ async def analyze_shapefile(file: UploadFile = File(...)):
         raise HTTPException(status_code=500, detail=str(e))
     finally:
         shutil.rmtree(temp_dir, ignore_errors=True)
+
+@app.post("/api/v1/interoperability-cross")
+async def interoperability_cross(spatial_file: UploadFile = File(...), tabular_file: UploadFile = File(...)):
+    """
+    Endpoint de Interoperabilidad (Módulo 2 DGZ).
+    Compara base cartográfica vs base alfanumérica (Excel/SNR).
+    """
+    temp_dir = tempfile.mkdtemp()
+    try:
+        # Guardar archivos temporales
+        spatial_path = os.path.join(temp_dir, spatial_file.filename)
+        tabular_path = os.path.join(temp_dir, tabular_file.filename)
+        
+        with open(spatial_path, "wb") as f: f.write(await spatial_file.read())
+        with open(tabular_path, "wb") as f: f.write(await tabular_file.read())
+        
+        # Procesamiento Espacial
+        # (Reusing extraction logic if spatial is zip)
+        target_spatial = spatial_path
+        if spatial_file.filename.lower().endswith('.zip'):
+            extract_dir = os.path.join(temp_dir, "extracted")
+            os.makedirs(extract_dir, exist_ok=True)
+            with zipfile.ZipFile(spatial_path, 'r') as zip_ref:
+                zip_ref.extractall(extract_dir)
+            for root, dirs, files in os.walk(extract_dir):
+                for name in files:
+                    if name.lower().endswith(('.shp', '.gpkg', '.geojson', '.kml')):
+                        target_spatial = os.path.join(root, name)
+                        break
+
+        validator = GeoQAValidator()
+        gdf = validator.load_dataset(target_spatial)
+        
+        # Ejecutar el Cruce
+        cross_report = validator.cross_reference_excel(gdf, tabular_path)
+        
+        # Reporte LLM Inteligente (Contextualizado para Interoperabilidad)
+        prompt_context = f"Informe de Interoperabilidad Catastro-Registro: {json.dumps(cross_report)}"
+        final_assessment = generar_reporte_llm({"interop": cross_report}) # LLM interpretará el reporte
+
+        # Visualización
+        gdf_wgs84 = gdf.to_crs("EPSG:4326")
+        geojson_data = json.loads(gdf_wgs84.to_json())
+
+        # Guardar telemetría en Supabase para el historial monetizable
+        try:
+            if "SUPABASE_URL" in os.environ and "SUPABASE_KEY" in os.environ:
+                from supabase import create_client, Client
+                url: str = os.environ.get("SUPABASE_URL")
+                key: str = os.environ.get("SUPABASE_KEY")
+                supabase: Client = create_client(url, key)
+                payload = {
+                    "user_email": "pro.contractor@dgz.os",
+                    "filename": f"Cross: {spatial_file.filename} vs {tabular_file.filename}",
+                    "total_features": int(cross_report.get("total_spatial", 0)),
+                    "invalid_overlaps": 0, # No es el foco aquí
+                    "slivers_found": int(cross_report.get("missing_geometries", 0)), # Usamos esta columna para 'ausentes'
+                    "llm_ai_diagnosis": str(final_assessment)
+                }
+                supabase.table("catastral_reports").insert(payload).execute()
+        except Exception: pass
+
+        return {
+            "module": "Interoperability",
+            "cross_metrics": cross_report,
+            "geo_llm_intelligence_report": final_assessment,
+            "geojson": geojson_data
+        }
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+    finally:
+        shutil.rmtree(temp_dir, ignore_errors=True)
+

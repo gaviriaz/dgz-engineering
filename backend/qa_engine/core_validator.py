@@ -108,6 +108,59 @@ class GeoQAValidator:
         }
         return report
 
+    def cross_reference_excel(self, gdf: gpd.GeoDataFrame, excel_path: str, join_col="npu") -> dict:
+        """
+        Módulo de Interoperabilidad: Cruce Físico-Jurídico (Catastro vs Registro).
+        Compara la base cartográfica con una matriz tabular (Excel/CSV).
+        """
+        import pandas as pd
+        import numpy as np
+        
+        # 1. Cargar Excel
+        df_registral = pd.read_excel(excel_path) if excel_path.endswith('.xlsx') else pd.read_csv(excel_path)
+        
+        # Normalizar nombres de columnas a minúsculas para evitar errores de digitación
+        gdf.columns = [c.lower() for c in gdf.columns]
+        df_registral.columns = [c.lower() for c in df_registral.columns]
+        join_col = join_col.lower()
+
+        if join_col not in gdf.columns or join_col not in df_registral.columns:
+            return {"error": f"Columna de unión '{join_col}' no encontrada en ambos archivos."}
+
+        # 2. Identificar Diferencias de Existencia
+        spatial_keys = set(gdf[join_col].unique())
+        registral_keys = set(df_registral[join_col].unique())
+
+        missing_in_spatial = registral_keys - spatial_keys
+        missing_in_registral = spatial_keys - registral_keys
+
+        # 3. Comparación de Áreas (si existe columna 'area')
+        area_diffs = []
+        common_keys = spatial_keys.intersection(registral_keys)
+        
+        # Aseguramos que el gdf tenga calculada la columna area_m2
+        gdf['area_m2_calc'] = gdf.geometry.area
+
+        for key in list(common_keys)[:100]: # Limitamos a los primeros 100 para el reporte resumen
+            area_cat = gdf[gdf[join_col] == key]['area_m2_calc'].values[0]
+            # Buscamos en registro (asumiendo columna 'area_snr' o similar, sino usamos lo que encontremos)
+            area_col_snr = [c for c in df_registral.columns if 'area' in c]
+            if area_col_snr:
+                area_snr = df_registral[df_registral[join_col] == key][area_col_snr[0]].values[0]
+                diff = abs(area_cat - area_snr)
+                if diff > 1.0: # Tolerancia de 1m2
+                    area_diffs.append({"id": str(key), "diff_m2": round(diff, 2)})
+
+        return {
+            "total_spatial": len(gdf),
+            "total_registral": len(df_registral),
+            "missing_geometries": len(missing_in_spatial),
+            "missing_legal_records": len(missing_in_registral),
+            "area_discrepancies_count": len(area_diffs),
+            "sample_discrepancies": area_diffs[:5]
+        }
+
+
 # Ejemplo de uso interno (para pruebas expertas antes de conectar a API)
 if __name__ == '__main__':
     validator = GeoQAValidator()
