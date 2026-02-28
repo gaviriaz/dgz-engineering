@@ -771,3 +771,24 @@ function runCadastralValidation() {
         });
     }
 }
+
+// ============================================================
+// SYSTEM SECURITY & ANTI-SCRAPE MODULE
+// ============================================================
+document.addEventListener('contextmenu', event => event.preventDefault()); // Block right click
+document.addEventListener('keydown', function (e) {
+    // Block F12
+    if (e.key === 'F12') {
+        e.preventDefault();
+    }
+    // Block Ctrl+Shift+I (Inspect), Ctrl+Shift+J (Console), Ctrl+U (View Source)
+    if (e.ctrlKey && (e.key === 'u' || e.key === 'U')) { e.preventDefault(); }
+    if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J' || e.key === 'c' || e.key === 'C')) {
+        e.preventDefault();
+    }
+});
+
+// Protect images from drag and drop
+document.querySelectorAll('img').forEach(img => {
+    img.addEventListener('dragstart', (e) => e.preventDefault());
+});
