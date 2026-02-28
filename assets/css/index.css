@@ -2374,3 +2374,19 @@ section {
         grid-template-columns: 1fr;
     }
 }
+
+/* --- UTILITIES --- */
+.hover-lift {
+    transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.4s ease, border-color 0.4s ease;
+}
+
+.hover-lift:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 40px rgba(0, 229, 255, 0.15);
+    border-color: var(--accent-electric);
+}
+
+.hover-lift.gold-accent:hover {
+    box-shadow: 0 15px 40px rgba(255, 180, 0, 0.15);
+    border-color: var(--accent-gold);
+}

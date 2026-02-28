@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ | QGIS Custom Plugin</title>
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <style>
+        .project-hero {
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .back-link {
+            color: var(--accent-electric);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--accent-electric);
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-body h2 {
+            color: #fff;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="neural-grid"></div>
+
+    <main>
+        <div class="project-hero">
+            <a href="../../index.html#projects" class="back-link">
+                <<< RETURN_TO_CORE</a>
+                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: PYQGIS_PLUGIN_03</div>
+                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Custom QGIS Master Plugin</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Bridging desktop GIS mapping with
+                        automated LADM-COL validation rules via PyQGIS.</p>
+
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                        <span class="tech-tag">PyQGIS</span>
+                        <span class="tech-tag">PyQt5</span>
+                        <span class="tech-tag">LADM-COL</span>
+                        <span class="tech-tag">Python</span>
+                    </div>
+        </div>
+
+        <div class="article-body">
+            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
+                <p>Standard QGIS tools often fall short when dealing with highly specific national standards (like
+                    LADM-COL in Colombia). This custom plugin embeds business logic directly into the software
+                    interface, allowing draftsmen and digitizers to validate geometries on-the-fly without leaving their
+                    environment.</p>
+
+                <h2>Architecture & Logic</h2>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 1rem;"><strong>🖥️ Clean UI:</strong> Built with PyQt5 to seamlessly blend
+                        into QGIS panels.</li>
+                    <li style="margin-bottom: 1rem;"><strong>📐 Geometry Fixes:</strong> Automatic snapping and
+                        topological cleaning using powerful Shapely/PyQGIS algorithms.</li>
+                    <li style="margin-bottom: 1rem;"><strong>🚀 Fast Sync:</strong> Direct one-click synchronization to
+                        the main PostGIS database.</li>
+                </ul>
+
+                <h2 style="color: var(--accent-gold);">System Status: PRIVATE REPOSITORY</h2>
+                <p>Due to the proprietary nature of some topological rules applied for current clients, the raw source
+                    code of this plugin is maintained in a private node. Documentation and generic functionality samples
+                    will be deployed in this space soon.</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

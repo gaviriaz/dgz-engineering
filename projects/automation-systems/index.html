@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ | Territorial Automation Systems</title>
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <style>
+        .project-hero {
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .back-link {
+            color: var(--accent-electric);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--accent-electric);
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-body h2 {
+            color: #fff;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+        }
+
+        .code-block {
+            background: rgba(0, 0, 0, 0.4);
+            border: 1px solid rgba(0, 229, 255, 0.2);
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            color: #a8b2d1;
+            overflow-x: auto;
+            margin: 2rem 0;
+        }
+
+        .code-block span.comment {
+            color: #6272a4;
+        }
+
+        .code-block span.keyword {
+            color: #ff79c6;
+        }
+
+        .code-block span.string {
+            color: #f1fa8c;
+        }
+
+        .code-block span.func {
+            color: #50fa7b;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="neural-grid"></div>
+
+    <main>
+        <div class="project-hero">
+            <a href="../../index.html#projects" class="back-link">
+                <<< RETURN_TO_CORE</a>
+                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: AUTOMATION_01</div>
+                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Territorial ETL Pipelines</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Unattended geographical data
+                        transformations replacing hundreds of manual clicking hours.</p>
+
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                        <span class="tech-tag">Python ETL</span>
+                        <span class="tech-tag">GDAL/OGR</span>
+                        <span class="tech-tag">FME</span>
+                        <span class="tech-tag">PostGIS</span>
+                    </div>
+        </div>
+
+        <div class="article-body">
+            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
+                <p>One of the biggest bottlenecks in modern GIS engineering is manually migrating, cleaning, and
+                    validating shapes and drawings into standardized databases like LADM-COL. These automation scripts
+                    run completely unattended at night, delivering fully cleaned topological data by morning.</p>
+
+                <h2>Extract, Transform, Validate</h2>
+                <p>The pipeline architecture extracts raw DGNs or Shapefiles, corrects typical surveying overlapping
+                    errors, standardizes attributes naming conventions, and logs failures into a Postgres table.</p>
+
+                <div class="code-block">
+                    <span class="comment"># Sample logical workflow for topological correction</span>
+                    <span class="keyword">import</span> geopandas <span class="keyword">as</span> gpd
+                    <span class="keyword">from</span> shapely.validation <span class="keyword">import</span> make_valid
+
+                    <span class="keyword">def</span> <span class="func">sanitize_cadastral_layer</span>(<span
+                        class="string">filepath</span>):
+                    gdf = gpd.<span class="func">read_file</span>(filepath)
+
+                    <span class="comment"># Fix invalid geometries instantly</span>
+                    gdf['geometry'] = gdf['geometry'].apply(
+                    <span class="keyword">lambda</span> geom: make_valid(geom) <span class="keyword">if not</span>
+                    geom.is_valid <span class="keyword">else</span> geom
+                    )
+
+                    <span class="keyword">return</span> gdf.<span class="func">to_postgis</span>(<span
+                        class="string">"cleaned_parcels"</span>, engine)
+                </div>
+
+                <h2 style="color: #4ade80;">System Status: OPERATIONAL</h2>
+                <p>Variations of these pipelines are currently active in production environments, reducing processing
+                    bottlenecks by up to 115% compared to manual execution workflows.</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>

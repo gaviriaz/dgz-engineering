@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ | GIS Dashboard Architecture</title>
+    <link rel="stylesheet" href="../../assets/css/index.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
+        rel="stylesheet">
+    <style>
+        .project-hero {
+            padding: 8rem 5% 4rem;
+            position: relative;
+        }
+
+        .back-link {
+            color: var(--accent-electric);
+            text-decoration: none;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            margin-bottom: 2rem;
+            display: inline-block;
+        }
+
+        .back-link:hover {
+            text-shadow: 0 0 10px var(--accent-electric);
+        }
+
+        .article-body {
+            max-width: 800px;
+            margin: 0 auto;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .article-body h2 {
+            color: #fff;
+            margin-top: 3rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="noise-overlay"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="neural-grid"></div>
+
+    <main>
+        <div class="project-hero">
+            <a href="../../index.html#projects" class="back-link">
+                <<< RETURN_TO_CORE</a>
+                    <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: DASHBOARD_02</div>
+                    <h1 style="font-size: 3.5rem; margin-bottom: 1rem;">Enterprise GIS Dashboard</h1>
+                    <p style="font-size: 1.2rem; color: var(--text-secondary);">Real-time telemetry and spatial
+                        analytics for large-scale cadastral monitoring.</p>
+
+                    <div style="margin-top: 2rem; display: flex; gap: 1rem;">
+                        <span class="tech-tag">React / Vue</span>
+                        <span class="tech-tag">Mapbox GL</span>
+                        <span class="tech-tag">PostGIS</span>
+                        <span class="tech-tag">REST API</span>
+                    </div>
+        </div>
+
+        <div class="article-body">
+            <div class="bento-item" style="border-color: rgba(0, 229, 255, 0.2); padding: 3rem; margin-top: 2rem;">
+                <p>This module provides an interactive dashboard interface that connects directly to the PostGIS
+                    backend. It aggregates massive spatial datasets and visualizes key metrics (such as property value
+                    distributions, topological error rates, and surveying progress) in real-time.</p>
+
+                <h2>Core Engine Capabilities</h2>
+                <ul style="list-style: none; padding-left: 0;">
+                    <li style="margin-bottom: 1rem;"><strong>📡 Live Synching:</strong> Real-time integration with
+                        surveying teams on the field.</li>
+                    <li style="margin-bottom: 1rem;"><strong>📊 Analytics Engine:</strong> On-the-fly spatial queries
+                        generating executive summaries.</li>
+                    <li style="margin-bottom: 1rem;"><strong>🔐 Secure Access:</strong> Role-based visualization
+                        limiting sensitive dataset exposure.</li>
+                </ul>
+
+                <h2 style="color: var(--accent-gold);">System Status: DEPLOYMENT PENDING</h2>
+                <p>The dashboard interface is currently being integrated into the master React application shell. Once
+                    deployed, live LADM-COL samples will be fully queryable through this interface.</p>
+            </div>
+        </div>
+    </main>
+</body>
+
+</html>
