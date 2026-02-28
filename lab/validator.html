@@ -10,6 +10,8 @@
   <script src="https://unpkg.com/maplibre-gl@3.6.2/dist/maplibre-gl.js"></script>
   <!-- Phosphor Icons for Premium UI -->
   <script src="https://unpkg.com/@phosphor-icons/web"></script>
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <style>
     :root {
       --bg-base: #030305;
@@ -440,13 +442,127 @@
       border-radius: 10px;
     }
 
-    ::-webkit-scrollbar-thumb:hover {
-      background: rgba(0, 229, 255, 0.6);
+    /* --- AUTHENTICATION OVERLAY --- */
+    #auth-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      backdrop-filter: blur(20px);
+      z-index: 9999;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.5s;
+    }
+
+    .auth-box {
+      background: rgba(15, 15, 20, 0.9);
+      border: 1px solid var(--border-highlight);
+      border-radius: 12px;
+      padding: 3rem 2.5rem;
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      box-shadow: 0 0 50px rgba(0, 229, 255, 0.1);
+      position: relative;
+    }
+
+    .auth-box::after {
+      content: '';
+      position: absolute;
+      top: -2px;
+      left: -2px;
+      right: -2px;
+      bottom: -2px;
+      border-radius: 14px;
+      background: linear-gradient(45deg, var(--accent-cyan), transparent, var(--accent-purple));
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    .btn-google {
+      width: 100%;
+      background: #fff;
+      color: #333;
+      border: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 2rem;
+      cursor: pointer;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+
+    .btn-google:hover {
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .btn-google img {
+      width: 20px;
+    }
+
+    #user-profile {
+      display: none;
+      align-items: center;
+      gap: 10px;
+      font-size: 0.75rem;
+      color: #fff;
+    }
+
+    .avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      border: 1px solid var(--accent-cyan);
+    }
+
+    .btn-logout {
+      background: none;
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: var(--text-muted);
+      cursor: pointer;
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 0.65rem;
+      transition: 0.2s;
+    }
+
+    .btn-logout:hover {
+      color: #fff;
+      border-color: #fff;
     }
   </style>
 </head>
 
 <body>
+
+  <!-- AUTH OVERLAY -->
+  <div id="auth-overlay">
+    <div class="auth-box">
+      <i class="ph-fill ph-shield-check" style="font-size: 3rem; color: var(--accent-cyan); margin-bottom: 1rem;"></i>
+      <h2 style="margin: 0 0 0.5rem; font-size: 1.5rem; letter-spacing: -0.5px;">SECURE CLEARANCE</h2>
+      <p style="color: var(--text-muted); font-size: 0.85rem; line-height: 1.5; margin: 0;">
+        Estás intentando acceder al Sistema Operativo DGZ Spatial. Requiere identificación de contratista autorizada
+        para procesar geometría topológica LADM.
+      </p>
+
+      <button class="btn-google" id="btn-login" onclick="signInWithGoogle()">
+        <img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G">
+        Log in with Google
+      </button>
+
+      <div style="margin-top: 1.5rem; font-family: var(--font-mono); font-size: 0.6rem; color: rgba(255,255,255,0.2);">
+        DGZ ENGINE ACCESS NODE v2.0
+      </div>
+    </div>
+  </div>
 
   <!-- OS Header -->
   <header class="os-header">
@@ -468,6 +584,11 @@
       <div class="sys-badge"
         style="border-color: var(--accent-purple); color: var(--accent-purple); background: rgba(157, 78, 221, 0.1);">
         <i class="ph-fill ph-sparkle"></i> Groq Llama-3 Active
+      </div>
+      <div id="user-profile">
+        <img id="user-avatar" class="avatar" src="https://via.placeholder.com/150" alt="Av">
+        <span id="user-name">User</span>
+        <button class="btn-logout" onclick="signOut()">Log out</button>
       </div>
     </div>
   </header>
@@ -615,6 +736,60 @@
 
   <!-- Scripts -->
   <script>
+    // --- 0. SUPABASE AUTH INTEGRATION ---
+    const supabaseUrl = 'https://mxrgondwvbxbgwtpviyv.supabase.co';
+    // ⚠️ ALBERT: PEGA EL "API KEY" Y REEMPLAZA ESTE TEXTO CON ÉL
+    const supabaseKey = 'pega_aqui_tu_anon_public_key_de_supabase_settings_api';
+    const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
+    async function checkAuthStatus() {
+      const { data: { session }, error } = await supabase.auth.getSession();
+
+      if (session) {
+        // User logged in: unlock app
+        document.getElementById('auth-overlay').style.opacity = '0';
+        setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
+
+        // Show Profile
+        document.getElementById('user-profile').style.display = 'flex';
+        const meta = session.user.user_metadata;
+        document.getElementById('user-name').innerText = meta.full_name || session.user.email;
+        if (meta.avatar_url) document.getElementById('user-avatar').src = meta.avatar_url;
+      } else {
+        // Not logged in: lock app
+        document.getElementById('auth-overlay').style.display = 'flex';
+        document.getElementById('auth-overlay').style.opacity = '1';
+        document.getElementById('user-profile').style.display = 'none';
+      }
+    }
+
+    async function signInWithGoogle() {
+      const btn = document.getElementById('btn-login');
+      btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
+
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent',
+          }
+        }
+      });
+      if (error) {
+        alert("Authentication failed: " + error.message);
+        btn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G"> Log in with Google`;
+      }
+    }
+
+    async function signOut() {
+      await supabase.auth.signOut();
+      window.location.reload();
+    }
+
+    // Initialize Auth state right on load
+    checkAuthStatus();
+
     // --- 1. Map Initialization (MapLibre + Carto Dark) ---
     const map = new maplibregl.Map({
       container: 'map-container',
