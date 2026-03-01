@@ -605,6 +605,16 @@
                         </div>
                         <div class="layer-switch on" id="switch-labels"></div>
                     </div>
+                    <div class="layer-toggle" onclick="toggleLayer('real_cadastre')"
+                        style="border-top: 1px solid rgba(255,180,0,0.1); padding-top: 0.8rem; margin-top: 0.5rem;">
+                        <div class="layer-name">
+                            <div class="layer-color"
+                                style="background: rgba(255,180,0,0.4); border: 1px solid var(--accent-gold);">
+                            </div>
+                            <span style="color: var(--accent-gold); font-weight: 800;">REAL_CITY_DATA</span>
+                        </div>
+                        <div class="layer-switch" id="switch-real_cadastre"></div>
+                    </div>
                 </div>
             </div>
 
@@ -879,9 +889,32 @@
         map.addControl(new maplibregl.AttributionControl({ compact: true }));
 
         // Track layer visibility
-        const layerVisible = { predios: true, vias: true, boundary: true, labels: true };
+        const layerVisible = {
+            predios: true,
+            vias: true,
+            boundary: true,
+            labels: true,
+            real_cadastre: false
+        };
 
         map.on('load', () => {
+            // --- REAL DATA SOURCE: WMS MEDELLIN ---
+            map.addSource('wms-medellin', {
+                'type': 'raster',
+                'tiles': [
+                    'https://mapas.medellin.gov.co/server/services/Catastro/Lote_Catastral/MapServer/WMSServer?bbox={bbox-epsg-3857}&format=image/png&service=WMS&version=1.1.1&request=GetMap&srs=EPSG:3857&transparent=true&width=256&height=256&layers=0'
+                ],
+                'tileSize': 256
+            });
+
+            map.addLayer({
+                'id': 'real_cadastre-fill',
+                'type': 'raster',
+                'source': 'wms-medellin',
+                'layout': { 'visibility': 'none' },
+                'paint': { 'raster-opacity': 0.8 }
+            }, 'boundary-fill'); // Place below boundary
+
             // BOUNDARY LAYER
             map.addSource('boundary-src', { type: 'geojson', data: boundaryGeoJSON });
             map.addLayer({ id: 'boundary-fill', type: 'fill', source: 'boundary-src', paint: { 'fill-color': '#ff4b2b', 'fill-opacity': 0.04 } });
@@ -1050,7 +1083,8 @@
             predios: ['predios-fill', 'predios-outline', 'predios-hover'],
             vias: ['vias-line'],
             boundary: ['boundary-fill', 'boundary-line'],
-            labels: ['predios-labels']
+            labels: ['predios-labels'],
+            real_cadastre: ['real_cadastre-fill']
         };
 
         function toggleLayer(name) {

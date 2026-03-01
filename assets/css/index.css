@@ -978,12 +978,61 @@ section {
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    z-index: 999;
+    z-index: 2000;
     padding: 1.5rem 0.8rem;
     border-radius: 100px;
     background: rgba(0, 0, 0, 0.4);
     backdrop-filter: blur(15px);
     border: 1px solid var(--border-glass);
+    transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.social-dock.collapsed {
+    left: -60px;
+    background: rgba(0, 229, 255, 0.1);
+}
+
+.social-toggle {
+    position: absolute;
+    right: -15px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    background: var(--accent-electric);
+    border: none;
+    color: #000;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.4);
+    transition: 0.3s;
+    z-index: 10;
+}
+
+.social-dock.collapsed .social-toggle {
+    right: -40px;
+    transform: translateY(-50%) rotate(180deg);
+}
+
+.social-toggle:hover {
+    transform: translateY(-50%) scale(1.1);
+    box-shadow: 0 0 30px var(--accent-electric);
+}
+
+.social-items-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 1.2rem;
+    transition: 0.3s;
+}
+
+.social-dock.collapsed .social-items-wrapper,
+.social-dock.collapsed::before {
+    opacity: 0;
+    pointer-events: none;
 }
 
 .social-dock::before {

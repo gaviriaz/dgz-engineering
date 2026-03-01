@@ -70,32 +70,45 @@
     </div>
 
     <!-- SOCIAL DOCK (System Devices) -->
-    <aside class="social-dock">
-        <a href="https://www.linkedin.com/in/soyalbertgz/" target="_blank" class="social-item"
-            aria-label="LinkedIn Profile">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-        </a>
-        <a href="https://github.com/Daga21Gz" target="_blank" class="social-item" aria-label="GitHub Profile">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path
-                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                </path>
-            </svg>
-        </a>
-        <a href="mailto:Albertg2109@gmail.com" class="social-item" aria-label="Send Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-        </a>
+    <aside class="social-dock" id="social-dock">
+        <button class="social-toggle" id="social-toggle" title="Toggle Sidebar">
+            <i class="ph ph-caret-left"></i>
+        </button>
+        <div class="social-items-wrapper">
+            <a href="https://www.linkedin.com/in/soyalbertgz/" target="_blank" class="social-item"
+                aria-label="LinkedIn Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+            </a>
+            <a href="https://github.com/Daga21Gz" target="_blank" class="social-item" aria-label="GitHub Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                    </path>
+                </svg>
+            </a>
+            <a href="mailto:Albertg2109@gmail.com" class="social-item" aria-label="Send Email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </a>
+        </div>
     </aside>
+
+    <script>
+        const socialDock = document.getElementById('social-dock');
+        const socialToggle = document.getElementById('social-toggle');
+        socialToggle.addEventListener('click', () => {
+            socialDock.classList.toggle('collapsed');
+        });
+    </script>
 
     <!-- MASTER BIO-NEURAL CV MODAL (V5.2 Sovereign) -->
     <div id="cv-neural-overlay" class="cv-overlay">
@@ -360,20 +373,21 @@
             <div class="hero-content reveal">
                 <div class="hero-identity-badge">
                     <div class="hero-badge-dot"></div>
-                    Spatial Systems Engineer — Latin America
+                    Strategic GIS Consultancy — Infrastructure Excellence
                 </div>
                 <span class="section-label" data-i18n="hero_tag" style="margin-bottom: 1.5rem;">//
-                    SPATIAL_SYSTEMS_ENGINEERING</span>
-                <h1 style="margin-bottom: 1rem;">ALBERT GAVIRIA ZAPATA</h1>
-                <p style="font-size: 1.8rem; font-weight: 800; background: linear-gradient(135deg, var(--accent-electric), #fff); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; letter-spacing: -0.03em; margin-bottom: 1.5rem;"
-                    data-i18n="hero_h1">
-                    Automating Multipurpose Cadastre &amp;<br>Territorial Intelligence Systems
-                </p>
-                <p data-i18n="hero_desc" style="font-size: 1rem; margin-bottom: 2.5rem;">High-Performance Geospatial
-                    Engineering &amp; Automated Systems Architecture.</p>
+                    PREMIUM_GEOSPATIAL_SOLUTIONS</span>
+                <h1 style="margin-bottom: 1rem;" data-i18n="hero_h1">Strategic GIS & Automation for Infrastructure
+                    Leaders</h1>
+                <p data-i18n="hero_desc"
+                    style="font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                    We bridge the gap between complex territorial data and actionable intelligence for Governments,
+                    Engineering Firms, and Urban Developers.</p>
                 <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="#lab" class="btn-premium">⭐ Explore Spatial Lab</a>
-                    <a href="#contact" class="btn-premium btn-outline" data-i18n="hero_btn_contact">Link_Direct</a>
+                    <a href="#contact" class="btn-premium" data-i18n="cta_main"
+                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">Initiate_Proposal</a>
+                    <a href="#lab" class="btn-premium btn-outline" data-i18n="cta_explore"
+                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">View_Live_Lab</a>
                 </div>
                 <div class="hero-tech-badges">
                     <span class="hero-badge-pill">Python</span>
@@ -388,41 +402,38 @@
             </div>
         </section>
 
-        <!-- WHY CHOOSE ME (Mission Overrides) -->
-        <section id="capabilities" style="padding: 10rem 5%;">
+        <!-- STRATEGIC SECTORS -->
+        <section id="sectors" style="padding: 10rem 5%; background: rgba(0, 229, 255, 0.02);">
             <div class="reveal">
-                <span class="section-label">// SYSTEM_ADVANTAGES</span>
-                <h2 class="section-title">Competencias</h2>
+                <span class="section-label" data-i18n="sectors_label">// CORE_CLIENTS</span>
+                <h2 class="section-title" data-i18n="sectors_title">Sectores de Impacto Estratégico</h2>
                 <div class="capabilities-grid">
                     <div class="capability-card reveal" data-tilt>
-                        <div class="capability-icon">📊</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Actualización Catastral</h3>
-                        <div class="capability-stat">115%</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">Gestión de 500+
-                            predios en 4 meses. Reducción de errores del 30% mediante automatización.</p>
-                        <div class="capability-tags">
-                            <span class="tech-tag">ArcGIS Pro</span> <span class="tech-tag">LADM-COL</span>
-                        </div>
-                    </div>
-                    <div class="capability-card reveal" data-tilt>
-                        <div class="capability-icon">💾</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Validación Geográfica</h3>
-                        <div class="capability-stat">QA/QC</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">Control experto de
-                            bases de datos PostgreSQL/PostGIS garantizando integridad LADM-COL.</p>
-                        <div class="capability-tags">
-                            <span class="tech-tag">QGIS</span> <span class="tech-tag">Python</span>
-                        </div>
+                        <div class="capability-icon">🏢</div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;" data-i18n="sector_gov_h">Gobiernos y
+                            Municipios</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;"
+                            data-i18n="sector_gov_p">Optimizamos la
+                            gestión predial y el catastro multipropósito mediante automatización LADM-COL, reduciendo
+                            tiempos de QA en un 40%.</p>
                     </div>
                     <div class="capability-card reveal" data-tilt>
                         <div class="capability-icon">🏗️</div>
-                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;">Supervisión de Obra</h3>
-                        <div class="capability-stat">15+ Lead</div>
-                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;">Coordinación
-                            técnica de infraestructura y gestión de informes bajo normativa NSR-10.</p>
-                        <div class="capability-tags">
-                            <span class="tech-tag">AutoCAD</span> <span class="tech-tag">MS Project</span>
-                        </div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;" data-i18n="sector_infra_h">Ingeniería e
+                            Infraestructura</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;"
+                            data-i18n="sector_infra_p">Proporcionamos
+                            telemetría espacial precisa para el seguimiento de megaproyectos y supervisión técnica con
+                            integración GIS continua.</p>
+                    </div>
+                    <div class="capability-card reveal" data-tilt>
+                        <div class="capability-icon">🛰️</div>
+                        <h3 style="font-size: 1.5rem; margin-bottom: 1rem;" data-i18n="sector_consult_h">Empresas de
+                            Consultoría</h3>
+                        <p style="font-size: 0.9rem; color: var(--text-secondary); line-height: 1.6;"
+                            data-i18n="sector_consult_p">Automatizamos el
+                            procesamiento de imágenes satelitales y datos ráster para estudios ambientales y detección
+                            de cambios territoriales.</p>
                     </div>
                 </div>
             </div>
@@ -431,12 +442,12 @@
         <!-- TERRITORIAL CHALLENGES -->
         <section id="challenges" class="challenges-section">
             <div class="reveal">
-                <span class="section-label">// TERRITORIAL_CHALLENGES</span>
-                <h2 class="section-title">Problemas que Resuelvo</h2>
+                <span class="section-label">// TERRITORIAL_EFFICIENCY</span>
+                <h2 class="section-title">Soluciones de Alto Impacto</h2>
                 <p
-                    style="color: var(--text-secondary); max-width: 700px; margin-bottom: 4rem; font-size: 1rem; line-height: 1.7;">
-                    Los gobiernos y entidades territoriales enfrentan desafíos críticos de datos espaciales que frenan
-                    el desarrollo. Estos son los problemas que transformo en soluciones automatizadas.</p>
+                    style="color: var(--text-secondary); max-width: 700px; margin-bottom: 4rem; font-size: 1.1rem; line-height: 1.7;">
+                    Transformamos los cuellos de botella técnicos de la gestión territorial en ventajas competitivas.
+                    Resolvemos inconsistencias latentes mediante ingeniería de datos y automatización profunda.</p>
 
                 <div class="challenges-grid">
                     <div class="challenge-header">
@@ -483,38 +494,36 @@
                 <span class="section-label" data-i18n="about_label">// ARCHITECTURE</span>
                 <h2 class="section-title" data-i18n="about_title">The Engineering Core</h2>
                 <div class="bento-grid">
-                    <div class="bento-item large reveal" data-tilt>
-                        <h3 style="font-size: 2.5rem; margin-bottom: 2rem; letter-spacing: -0.04em;">GIS
-                            EXCELLENCE &
-                            SOFTWARE ARCHITECTURE.</h3>
-                        <p style="color: var(--text-secondary); line-height: 2;" data-i18n="about_p1">We bridge
-                            the gap
-                            between traditional GIS mapping and scalable software architecture. Focused on
-                            high-precision data workflows and technical automation.</p>
-                    </div>
-                    <div class="bento-item medium reveal"
-                        style="background: rgba(0, 229, 255, 0.05); border-color: rgba(0, 229, 255, 0.2);" data-tilt>
-                        <div
-                            style="font-family: var(--font-mono); color: var(--accent-electric); font-size: 0.8rem; line-height: 2.2;">
-                            <span style="opacity: 0.5;">[sys_init]</span> DGZ_ENGINEERING_V5.2<br>
-                            <span style="color: #4ade80;">[status]</span> NODE_V5.2_ACTIVE<br>
-                            <span style="color: #4ade80;">[status]</span> PERSPECTIVE_RENDER: OK<br>
-                            <span style="color: #ffb400;">[telemetry]</span> MANUAL_WORK: -70%<br>
-                        </div>
-                    </div>
-                    <!-- Additional Information Items -->
-                    <div class="bento-item small reveal" data-tilt>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">SPATIAL_INTEL</h3>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Advanced integration of LADM-COL
-                            standards and high-fidelity geospatial telemetry.</p>
-                    </div>
-                    <div class="bento-item small reveal" style="border-color: var(--accent-gold);" data-tilt>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold);">SYSTEM_AUTOMATION
-                        </h3>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Developing custom PyQGIS frameworks
-                            and PostGIS logic to bypass manual limitations.</p>
+                    <h3 style="font-size: 2.5rem; margin-bottom: 2rem; letter-spacing: -0.04em;">PARTNER ESTRATÉGICO EN
+                        INTELIGENCIA TERRITORIAL.</h3>
+                    <p style="color: var(--text-secondary); line-height: 2;" data-i18n="about_p1">Cerramos la brecha
+                        entre el mapeo tradicional y la arquitectura de software escalable. Nos enfocamos en flujos de
+                        datos de alta precisión y automatización técnica para reducir costos operativos y mejorar la
+                        toma de decisiones.</p>
+                </div>
+                <div class="bento-item medium reveal"
+                    style="background: rgba(0, 229, 255, 0.05); border-color: rgba(0, 229, 255, 0.2);" data-tilt>
+                    <div
+                        style="font-family: var(--font-mono); color: var(--accent-electric); font-size: 0.8rem; line-height: 2.2;">
+                        <span style="opacity: 0.5;">[sys_init]</span> DGZ_ENGINEERING_V5.2<br>
+                        <span style="color: #4ade80;">[status]</span> NODE_V5.2_ACTIVE<br>
+                        <span style="color: #4ade80;">[status]</span> PERSPECTIVE_RENDER: OK<br>
+                        <span style="color: #ffb400;">[telemetry]</span> MANUAL_WORK: -70%<br>
                     </div>
                 </div>
+                <!-- Additional Information Items -->
+                <div class="bento-item small reveal" data-tilt>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">SPATIAL_INTEL</h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Advanced integration of LADM-COL
+                        standards and high-fidelity geospatial telemetry.</p>
+                </div>
+                <div class="bento-item small reveal" style="border-color: var(--accent-gold);" data-tilt>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold);">SYSTEM_AUTOMATION
+                    </h3>
+                    <p style="font-size: 0.8rem; color: var(--text-secondary);">Developing custom PyQGIS frameworks
+                        and PostGIS logic to bypass manual limitations.</p>
+                </div>
+            </div>
             </div>
         </section>
 
@@ -706,8 +715,8 @@
         <!-- FLAGSHIP PROJECTS -->
         <section id="projects" style="padding: 10rem 5%;">
             <div class="reveal">
-                <span class="section-label" data-i18n="proj_label">// FLAGSHIP_ASSETS</span>
-                <h2 class="section-title">Despliegues Técnicos</h2>
+                <span class="section-label" data-i18n="proj_label">// SUCCESS_CASES</span>
+                <h2 class="section-title">Resultados Comprobados</h2>
 
                 <div style="display: flex; flex-direction: column; gap: 8rem;">
                     <!-- ConstruMetrix -->
@@ -717,13 +726,14 @@
                         <div style="padding: 10% 8%; display: flex; flex-direction: column; justify-content: center;">
                             <div
                                 style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-electric); margin-bottom: 1rem; letter-spacing: 0.2em;">
-                                SYSTEM_ID: CM_ECO_01</div>
+                                SYSTEM_ID: CASE_STUDY_01</div>
                             <h3
                                 style="font-size: 3.5rem; letter-spacing: -0.05em; line-height: 1; margin-bottom: 2rem;">
                                 CONSTRUMETRIX ECOSYSTEM</h3>
                             <p style="color: var(--text-secondary); margin-bottom: 2.5rem; font-size: 1.1rem; line-height: 1.8;"
-                                data-i18n="proj_1_desc">Enterprise-level GIS monitoring for modern urban infrastructure.
-                                Synchronizing real-time telemetry across distributed nodes.</p>
+                                data-i18n="proj_1_desc">Sincronización masiva de telemetría urbana para interventorías
+                                de infraestructura. Reducción de tiempos de reporte manual en un 70% mediante
+                                integración PostGIS.</p>
                             <div style="display: flex; flex-wrap: wrap; gap: 0.8rem; margin-bottom: 3rem;">
                                 <span class="tech-tag">POSTGIS_9.4</span> <span class="tech-tag">PYQGIS_V3</span> <span
                                     class="tech-tag">REST_API</span>
@@ -1111,113 +1121,121 @@
         </section>
 
         <!-- SAAS MONETIZATION (DGZ SPATIAL OS SUBSCRIPTIONS) -->
-        <section id="pricing" style="padding: 10rem 5%; background: var(--bg-base); position: relative;">
+        <section id="services" style="padding: 10rem 5%; background: var(--bg-base); position: relative;">
             <div class="reveal">
                 <div style="text-align: center; margin-bottom: 5rem;">
-                    <span class="section-label" style="justify-content: center; margin-bottom: 1rem;"><span
-                            class="badge-dot" style="background: var(--accent-electric);"></span>
-                        ACQUIRE_OS_LICENSE</span>
-                    <h2 class="section-title" style="margin-bottom: 1rem;">DGZ SPATIAL OS</h2>
-                    <p
-                        style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
-                        Desbloquea el poder del motor de calidad LADM-COL V2.0. Diseñado para interventorías
-                        catastrales, contratistas independientes y gerencias municipales.
+                    <span class="section-label" style="justify-content: center; margin-bottom: 1rem;"
+                        data-i18n="eng_label"><span class="badge-dot"
+                            style="background: var(--accent-electric);"></span>
+                        STRATEGIC_ENGAGEMENT</span>
+                    <h2 class="section-title" style="margin-bottom: 1rem;" data-i18n="eng_title">Modelos de Colaboración
+                    </h2>
+                    <p style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;"
+                        data-i18n="eng_desc">
+                        Ofrecemos soluciones integrales adaptadas a la escala de su proyecto territorial. Desde
+                        auditorías puntuales hasta infraestructuras GIS a gran escala.
                     </p>
                 </div>
 
                 <div
                     style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
 
-                    <!-- Freelance / Student Plan -->
+                    <!-- Consultancy Plan -->
                     <div class="card glass-card"
                         style="padding: 3rem 2rem; border-color: rgba(255,255,255,0.05); text-align: left; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Starter Core</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Para
-                            profesionales GIS y estudiantes.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">$0 <span
-                                style="font-size: 1rem; font-weight: 400; color: var(--text-secondary);">/mes</span>
-                        </div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Consultoría SIG</h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Para proyectos
+                            específicos y auditorías de datos.</p>
 
                         <ul
                             style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Topología LADM-COL Básica</li>
+                                    style="color: var(--accent-golden);"></i> Diagnóstico de Calidad LADM-COL</li>
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Max 5,000 predios por capa</li>
+                                    style="color: var(--accent-golden);"></i> Auditoría de Bases de Datos PostGIS</li>
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> 5 Reportes Geo-LLM diarios</li>
-                            <li style="display: flex; gap: 10px; align-items: center; color: #555;"><i class="ph ph-x"
-                                    style="color: #444;"></i> Cruce Físico-Jurídico SNR</li>
+                                    style="color: var(--accent-golden);"></i> Diseño de Modelos de Datos</li>
+                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
+                                    style="color: var(--accent-golden);"></i> Soporte PyQGIS Especializado</li>
                         </ul>
                         <div style="margin-top: auto;">
                             <a href="#contact" class="btn"
-                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff;">Get Started</a>
+                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff; text-align: center; text-decoration: none;">Solicitar
+                                Auditoría</a>
                         </div>
                     </div>
 
-                    <!-- Pro / Interventoria Plan -->
+                    <!-- Enterprise Solutions -->
                     <div class="card glass-card"
                         style="padding: 3rem 2rem; border-color: var(--accent-electric); text-align: left; position: relative; display: flex; flex-direction: column; transform: scale(1.05); z-index: 10; background: rgba(0, 229, 255, 0.03);">
                         <div
                             style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent-electric); color: #000; font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; padding: 5px 15px; border-radius: 20px;">
-                            MOST POPULAR</div>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Interventoría Pro</h3>
-                        <p style="color: var(--accent-electric); font-size: 0.85rem; margin-bottom: 2rem;">Para
-                            Contratos de Empalme y QA/QC Masivo.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">$49 <span
-                                style="font-size: 1rem; font-weight: 400; color: var(--text-secondary);">/mes</span>
-                        </div>
+                            MOST DEMANDED</div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Sistemas Geo-Automatizados
+                        </h3>
+                        <p style="color: var(--accent-electric); font-size: 0.85rem; margin-bottom: 2rem;">
+                            Infraestructura de datos para empresas de ingeniería.</p>
 
                         <ul
                             style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> <b>Predios Ilimitados</b> (.shp/.gpkg)
+                                    style="color: var(--accent-electric);"></i> Pipelines ETL Desatendidos</li>
+                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
+                                    style="color: var(--accent-electric);"></i> Dashboards de Telemetría GIS</li>
+                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
+                                    style="color: var(--accent-electric);"></i> Motores de Validación en Tiempo Real
                             </li>
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> <b>Cruce Matricular Automático</b>
-                                (Excel)</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> Reportes Financieros en PDF</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> Acceso API FastAPI para automatización
-                            </li>
+                                    style="color: var(--accent-electric);"></i> Integración de GeoAI Experimental</li>
                         </ul>
                         <div style="margin-top: auto;">
-                            <a href="https://buy.stripe.com/test_7sYeVffECdK99xIb2R5Rm00" target="_blank"
-                                class="btn-primary"
-                                style="width: 100%; text-align: center; text-decoration: none;">Adquirir Licencia
-                                Pro</a>
+                            <a href="#contact" class="btn-premium"
+                                style="width: 100%; text-align: center; text-decoration: none;">Cotizar
+                                Infraestructura</a>
                         </div>
                     </div>
 
-                    <!-- Government Plan -->
+                    <!-- Government / Long Term -->
                     <div class="card glass-card"
                         style="padding: 3rem 2rem; border-color: rgba(255,255,255,0.05); text-align: left; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Government_Node</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Para Oficinas
-                            de Catastro y Alcaldías.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">Custom</div>
+                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Alianzas de Ciudad (GovTech)
+                        </h3>
+                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Acuerdos de
+                            largo plazo para entes territoriales.</p>
 
                         <ul
                             style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Despliegue en Servidores Propios (On-Prem)
+                                    style="color: var(--accent-golden);"></i> Modernización Catastral Completa</li>
+                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
+                                    style="color: var(--accent-golden);"></i> Transferencia Tecnológica y Capacitación
                             </li>
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Capacitación de Personal</li>
+                                    style="color: var(--accent-golden);"></i> Soporte y Mantenimiento de Nodos GIS</li>
                             <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Modelos Geo-LLM Fine-Tuneados</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Conexión a Base de Datos de Rentas</li>
+                                    style="color: var(--accent-golden);"></i> Soluciones On-Premise Seguras</li>
                         </ul>
                         <div style="margin-top: auto;">
                             <a href="#contact" class="btn"
-                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff;">Contact
-                                Architect</a>
+                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff; text-align: center; text-decoration: none;">Hablar
+                                con Consultor</a>
                         </div>
                     </div>
-
                 </div>
+            </div>
+        </section>
+
+        <section style="padding: 5rem 5%; background: linear-gradient(to right, rgba(0,229,255,0.1), transparent);">
+            <div class="reveal"
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 2rem;">
+                <div>
+                    <h2 style="font-size: 2rem; margin-bottom: 0.5rem;" data-i18n="banner_title">¿Listo para escalar su
+                        infraestructura espacial?</h2>
+                    <p style="color: var(--text-secondary);" data-i18n="banner_desc">Agende una sesión técnica hoy mismo
+                        y optimice sus flujos de datos territoriales.</p>
+                </div>
+                <a href="#contact" class="btn-premium" style="padding: 1rem 3rem;" data-i18n="cta_schedule">Agendar
+                    Reunión Técnica</a>
             </div>
         </section>
 
@@ -1230,7 +1248,7 @@
                     <div>
                         <h2 style="font-size: 5rem; margin-bottom: 2rem; letter-spacing: -0.06em; line-height: 0.85;"
                             data-i18n="contact_title">
-                            HANDSHAKE PROTOCOL.</h2>
+                            INICIAR PROYECTO.</h2>
                         <p style="color: var(--text-secondary); line-height: 2; font-size: 1.1rem; max-width: 450px;"
                             data-i18n="contact_desc">
                             Architecting the next generation of spatial intelligence. Establish your secure link to
@@ -1263,8 +1281,8 @@
                                 placeholder="Define mission parameters & objectives..." data-i18n="form_placeholder_msg"
                                 required></textarea>
                         </div>
-                        <button type="submit" class="btn-transmit" id="submit-btn" style="border: none;">
-                            <span id="btn-text" data-i18n="form_btn">INITIATE_HANDSHAKE</span>
+                        <button type="submit" class="btn-transmit" id="submit-btn" style="border: none; width: 100%;">
+                            <span id="btn-text" data-i18n="form_btn">SOLICITAR CONSULTORÍA TÉCNICA</span>
                             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
                                 stroke-width="3">
                                 <line x1="22" y1="2" x2="11" y2="13"></line>
