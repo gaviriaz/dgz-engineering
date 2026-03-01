@@ -16,8 +16,8 @@ const dgzTranslations = {
         nav_cv: "Bio_Neural_Link",
         lang_switch: "ES",
         back_to_core: "Return to Core",
-        cta_main: "Initiate Proposal",
-        cta_explore: "View Live Lab",
+        cta_schedule: "Schedule Technical Audit",
+        cta_explore: "Explore Lab",
         sectors_title: "Strategic Impact Sectors",
         sector_gov_h: "Governments & Municipalities",
         sector_gov_p: "We optimize land management and multipurpose cadastre through LADM-COL automation, reducing QA times by 40%.",
@@ -37,8 +37,8 @@ const dgzTranslations = {
         form_btn: "REQUEST TECHNICAL CONSULTANCY",
         // Hero
         hero_tag: "// PREMIUM_GEOSPATIAL_SOLUTIONS",
-        hero_h1: "Strategic GIS & Data Automation for Infrastructure Leaders",
-        hero_desc: "We bridge the gap between complex territorial data and actionable intelligence for Governments, Engineering Firms, and Urban Developers.",
+        hero_h1: "Advanced Spatial Systems & GIS Architecture",
+        hero_desc: "We bridge the gap between complex territorial data and actionable intelligence for Governments and Engineering Firms.",
         // CV Modal
         cv_close: "EXIT_INTERFACE",
         cv_label_profile: "Personal_Profile",
@@ -119,8 +119,8 @@ const dgzTranslations = {
         nav_cv: "Enlace_Bio_Neural",
         lang_switch: "EN",
         back_to_core: "Volver al Núcleo",
-        cta_main: "Iniciar Propuesta",
-        cta_explore: "Ver Laboratorio",
+        cta_schedule: "Agenda una Auditoría Técnica",
+        cta_explore: "Explorar Laboratorio",
         sectors_title: "Sectores de Impacto Estratégico",
         sector_gov_h: "Gobiernos y Municipios",
         sector_gov_p: "Optimizamos la gestión predial y el catastro multipropósito mediante automatización LADM-COL, reduciendo tiempos de QA en un 40%.",
@@ -140,8 +140,8 @@ const dgzTranslations = {
         form_btn: "SOLICITAR CONSULTORÍA TÉCNICA",
         // Hero
         hero_tag: "// SOLUCIONES_GEOESPACIALES_PREMIUM",
-        hero_h1: "SIG Estratégico y Automatización para Líderes de Infraestructura",
-        hero_desc: "Transformamos datos territoriales complejos en inteligencia accionable para Gobiernos, Firmas de Ingeniería y Desarrolladores Urbanos.",
+        hero_h1: "Sistemas Espaciales Avanzados y Arquitectura SIG",
+        hero_desc: "Cerramos la brecha entre datos territoriales complejos e inteligencia accionable para Gobiernos y Firmas de Ingeniería.",
         // CV Modal
         cv_close: "SALIR_INTERFAZ",
         cv_label_profile: "Perfil_Personal",
@@ -164,7 +164,7 @@ const dgzTranslations = {
         val_title: "Centro de Mando de Inteligencia Catastral",
         val_module1: "Motor Topológico",
         val_module1_desc: "Validación topológica estricta sobre cartografía base. Detecta traslapes, slivers y completitud geométrica.",
-        val_module2: "Interoperabilidad",
+        val_module2: "Interoperability",
         val_module2_desc: "Sincronización de Base de Datos Catastral (.shp/.gpkg) vs Matriz de Registro SNR (.xlsx) para detectar inconsistencias.",
         val_module3: "Analítica",
         val_module3_desc: "Visualización agregada de la salud cartográfica en tiempo real. Métricas de eficiencia y errores recurrentes.",
@@ -192,7 +192,7 @@ const dgzTranslations = {
         back_to_core: "Volver al Núcleo",
         // Automation Systems
         auto_hero_title: "Sistemas de Automatización",
-        auto_hero_desc: "Transformaciones geoespaciales desatendidas que reemplazan cientos de horas manuales.",
+        auto_hero_desc: "Transformaciones geoespacialmente desatendidas que reemplazan cientos de horas manuales.",
         auto_init_btn: "Inicializar Pipeline",
         auto_challenge_title: "El Desafío de Ingeniería",
         auto_massive_data: "Ingesta Masiva de Datos",
@@ -259,11 +259,7 @@ class DGZCore {
                     <div class="nav-dropdown">
                         <span class="nav-link" data-i18n="nav_projects">Assets <i class="ph ph-caret-down"></i></span>
                         <div class="dropdown-content">
-                            <a href="${rootPath}projects/geo-llm/index.html" data-i18n="proj_geo_llm">Geo-LLM</a>
                             <a href="${rootPath}projects/automation-systems/index.html" data-i18n="proj_automation">Automation</a>
-                            <a href="${rootPath}projects/gis-dashboard/index.html" data-i18n="proj_gis_dash">Dashboard</a>
-                            <a href="${rootPath}projects/qgis-plugin/index.html" data-i18n="proj_qgis">QGIS Plugin</a>
-                            <a href="${rootPath}projects/research/index.html" data-i18n="proj_research">Research</a>
                         </div>
                     </div>
                 </nav>

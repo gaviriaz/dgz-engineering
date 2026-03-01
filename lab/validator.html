@@ -569,15 +569,10 @@
     </div>
   </div>
 
-  <!-- OS Header -->
-  <header class="os-header">
+  <!-- OS Status Bar (formerly Header) -->
+  <header class="os-header" style="top: 60px; height: 48px; border-top: 1px solid var(--border-primary);">
     <div class="header-brand">
-      <a href="../index.html" class="back-btn"><i class="ph ph-arrow-left"></i> Hub</a>
-      <img src="../assets/img/dgz_os_logo.png" style="height: 32px; filter: drop-shadow(0 0 5px var(--accent-cyan));"
-        alt="DGZ Logo">
-      <span style="font-weight: 700; letter-spacing: 0.5px;">DGZ</span>
-      <span style="color: var(--text-muted); font-weight: 300;">Spatial OS</span>
-      <span class="sys-badge">V2.0 LADM</span>
+      <span class="sys-badge" style="border-color: var(--accent-cyan);">V2.0 LADM_CORE</span>
     </div>
     <div class="header-tools">
       <div id="clock">00:00:00</div>
@@ -599,7 +594,7 @@
   </header>
 
   <!-- Main Workspace -->
-  <div class="os-workspace" style="margin-top: 60px;">
+  <div class="os-workspace" style="margin-top: 108px;">
     <!-- Sidebar Navigation -->
     <nav class="sidebar">
       <div class="nav-item active" title="Topological Engine" onclick="switchModule(1)">

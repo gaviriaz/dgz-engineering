@@ -165,39 +165,14 @@
             <!-- 02: TECHNICAL MASTERY -->
             <article class="cv-card cv-skills-master">
                 <div class="card-label" data-i18n="cv_label_skills">Technical_DNA</div>
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
-                    <div>
-                        <div class="dna-label"><span>QGIS / ArcGIS Pro</span><span>100%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="100%"></div>
-                        </div>
-                        <div class="dna-label" style="margin-top: 1rem;"><span>SQL Server /
-                                AutoCAD</span><span>90%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="90%"></div>
-                        </div>
-                        <div class="dna-label" style="margin-top: 1rem;"><span>Civil 3D /
-                                Photoshop</span><span>90%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="90%"></div>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="dna-label"><span>Global Mapper</span><span>80%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="80%"></div>
-                        </div>
-                        <div class="dna-label" style="margin-top: 1rem;"><span>PostgreSQL /
-                                PostGIS</span><span>85%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="85%"></div>
-                        </div>
-                        <div class="dna-label" style="margin-top: 1rem;"><span>Python / Web
-                                Development</span><span>85%</span></div>
-                        <div class="dna-bar-bg">
-                            <div class="dna-bar-fill" data-level="85%"></div>
-                        </div>
-                    </div>
+                <div class="tech-highlight-grid"
+                    style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem; color: var(--text-secondary); font-size: 0.75rem;">
+                    <div class="tech-highlight-item">▹ QGIS & ArcGIS Pro Expert</div>
+                    <div class="tech-highlight-item">▹ PostgreSQL / PostGIS</div>
+                    <div class="tech-highlight-item">▹ Python (GDAL, PyQGIS)</div>
+                    <div class="tech-highlight-item">▹ Civil 3D & AutoCAD</div>
+                    <div class="tech-highlight-item">▹ SQL Server Architecture</div>
+                    <div class="tech-highlight-item">▹ LADM-COL Standards</div>
                 </div>
                 <div style="margin-top: 2rem; display: flex; gap: 0.5rem; flex-wrap: wrap;">
                     <span class="tech-tag">MapInfo</span> <span class="tech-tag">Earth Pro</span>
@@ -211,8 +186,6 @@
                 <div style="display: flex; flex-direction: column; gap: 1rem;">
                     <div class="lang-node"><span>Español</span><span class="lang-level">Native</span></div>
                     <div class="lang-node"><span>English</span><span class="lang-level">C1_ADV</span></div>
-                    <div class="lang-node"><span>Français</span><span class="lang-level">B1_INT</span></div>
-                    <div class="lang-node"><span>Deutsch</span><span class="lang-level">B1_INT</span></div>
                 </div>
             </article>
 
@@ -372,22 +345,21 @@
         <section class="hero">
             <div class="hero-content reveal">
                 <div class="hero-identity-badge">
-                    <div class="hero-badge-dot"></div>
-                    Strategic GIS Consultancy — Infrastructure Excellence
+                    <div class="hero-badge-dot" style="background: var(--accent-electric);"></div>
+                    Strategic GIS Consultancy — Territorial Intelligence
                 </div>
                 <span class="section-label" data-i18n="hero_tag" style="margin-bottom: 1.5rem;">//
                     PREMIUM_GEOSPATIAL_SOLUTIONS</span>
-                <h1 style="margin-bottom: 1rem;" data-i18n="hero_h1">Strategic GIS & Automation for Infrastructure
-                    Leaders</h1>
+                <h1 style="margin-bottom: 1rem;" data-i18n="hero_h1">Advanced Spatial Systems & GIS Architecture</h1>
                 <p data-i18n="hero_desc"
-                    style="font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 800px; margin-left: auto; margin-right: auto; line-height: 1.6;">
-                    We bridge the gap between complex territorial data and actionable intelligence for Governments,
-                    Engineering Firms, and Urban Developers.</p>
+                    style="font-size: 1.2rem; margin-bottom: 2.5rem; max-width: 8000px; margin-left: auto; margin-right: auto; line-height: 1.6;">
+                    Cerramos la brecha entre datos territoriales complejos e inteligencia accionable para Gobiernos y
+                    Firmas de Ingeniería.</p>
                 <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="#contact" class="btn-premium" data-i18n="cta_main"
-                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">Initiate_Proposal</a>
+                    <a href="#contact" class="btn-premium" data-i18n="cta_schedule"
+                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">Agenda una Auditoría Técnica</a>
                     <a href="#lab" class="btn-premium btn-outline" data-i18n="cta_explore"
-                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">View_Live_Lab</a>
+                        style="padding: 1rem 2.5rem; font-size: 0.9rem;">Explorar Laboratorio</a>
                 </div>
                 <div class="hero-tech-badges">
                     <span class="hero-badge-pill">Python</span>
@@ -581,7 +553,7 @@
                     Esto NO es un portafolio — es un laboratorio activo.</p>
             </div>
 
-            <div class="lab-projects-grid">
+            <div class="lab-projects-grid" style="grid-template-columns: repeat(2, 1fr);">
                 <!-- PROJECT 1: SPATIAL VIEWER -->
                 <div class="lab-project-card reveal" data-tilt>
                     <div class="lab-card-id">SYSTEM_ID: SPATIAL_VIEWER_01</div>
@@ -667,48 +639,6 @@
                     </div>
                 </div>
 
-                <!-- PROJECT 3: AUTOMATION PIPELINE -->
-                <div class="lab-project-card reveal" data-tilt>
-                    <div class="lab-card-id">SYSTEM_ID: AUTOMATION_PIPELINE_03</div>
-                    <div class="lab-card-icon">🔄</div>
-                    <h3 class="lab-card-title">Automation Pipeline</h3>
-                    <p class="lab-card-desc">Visualización del flujo completo de automatización territorial: desde
-                        captura en campo hasta actualización de base de datos catastral con validación topológica
-                        integrada.</p>
-                    <div class="lab-tech-stack">
-                        <span class="lab-tech-pill">ETL Pipeline</span>
-                        <span class="lab-tech-pill">GDAL</span>
-                        <span class="lab-tech-pill">PostGIS</span>
-                        <span class="lab-tech-pill">PyQGIS</span>
-                    </div>
-                    <div class="pipeline-demo" id="pipeline-demo">
-                        <div class="pipeline-step active-step" data-step="0">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">📡 Field Survey Capture</span>
-                            <span class="pipeline-step-icon">✅</span>
-                        </div>
-                        <div class="pipeline-step" data-step="1">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🔄 ETL Transform</span>
-                            <span class="pipeline-step-icon" id="step-icon-1">⏳</span>
-                        </div>
-                        <div class="pipeline-step" data-step="2">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🔍 Topology Check</span>
-                            <span class="pipeline-step-icon" id="step-icon-2">⏳</span>
-                        </div>
-                        <div class="pipeline-step" data-step="3">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🗄️ PostGIS Update</span>
-                            <span class="pipeline-step-icon" id="step-icon-3">⏳</span>
-                        </div>
-                        <div class="pipeline-step" data-step="4">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🌐 Web GIS Publish</span>
-                            <span class="pipeline-step-icon" id="step-icon-4">⏳</span>
-                        </div>
-                    </div>
-                </div>
             </div>
         </section>
 
@@ -790,152 +720,15 @@
                             </div>
                         </a>
 
-                        <!-- PLUGIN -->
-                        <a href="projects/qgis-plugin/index.html" class="bento-item reveal hover-lift"
-                            style="text-decoration:none; display:flex; flex-direction:column;" data-tilt>
-                            <div
-                                style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-electric); margin-bottom: 0.8rem;">
-                                SYSTEM_ID: PYQGIS_PLUGIN_03</div>
-                            <h3 style="color:#fff; font-size: 1.5rem; margin-bottom: 1rem;">LADM-COL QGIS Plugin</h3>
-                            <p
-                                style="color:var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow:1; line-height:1.6;">
-                                Scripts insertados como herramientas nativas en la UI de QGIS para validación topológica
-                                instantánea.</p>
-                            <div style="display: flex; gap: 0.5rem; font-size: 0.7rem; flex-wrap: wrap;">
-                                <span class="tech-tag">PyQGIS</span><span class="tech-tag">PyQt5</span><span
-                                    class="tech-tag">LADM-COL</span>
-                            </div>
-                        </a>
-
-                        <!-- RESEARCH -->
-                        <a href="projects/research/index.html" class="bento-item reveal gold-accent hover-lift"
-                            style="text-decoration:none; display:flex; flex-direction:column; border-color: rgba(255, 180, 0, 0.4);"
-                            data-tilt>
-                            <div
-                                style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-gold); margin-bottom: 0.8rem;">
-                                SYSTEM_ID: RESEARCH_R01</div>
-                            <h3 style="color:#fff; font-size: 1.5rem; margin-bottom: 1rem;">GeoAI Experimental</h3>
-                            <p
-                                style="color:var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow:1; line-height:1.6;">
-                                Laboratorio de prototipos de Machine Learning sobre Sentinel-2 para detección de cambios
-                                urbanos.</p>
-                            <div style="display: flex; gap: 0.5rem; font-size: 0.7rem; flex-wrap: wrap;">
-                                <span class="tech-tag"
-                                    style="border-color: rgba(255,180,0,0.5); color: var(--accent-gold);">Scikit-Learn</span>
-                                <span class="tech-tag"
-                                    style="border-color: rgba(255,180,0,0.5); color: var(--accent-gold);">Sentinel-2</span>
-                            </div>
-                        </a>
-
-                        <!-- GEO-LLM -->
-                        <a href="projects/geo-llm/index.html" class="bento-item reveal hover-lift"
-                            style="text-decoration:none; display:flex; flex-direction:column; border-color: rgba(0, 229, 255, 0.4); grid-column: 1 / -1; align-items: center; text-align: center; background: radial-gradient(circle at center, rgba(0,229,255,0.05) 0%, transparent 60%);"
-                            data-tilt data-tilt-max="5">
-                            <div
-                                style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-primary); margin-bottom: 0.8rem; background: var(--accent-electric); color: #000; padding: 0.2rem 0.5rem; border-radius: 4px; font-weight: 800;">
-                                [NEW] SYSTEM_ID: GEO_LLM_05</div>
-                            <h3 style="color:#fff; font-size: 1.8rem; margin-bottom: 1rem;">Geo-LLM Intelligence</h3>
-                            <p
-                                style="color:var(--text-secondary); font-size: 1rem; margin-bottom: 1.5rem; max-width: 600px; line-height:1.6;">
-                                Agente de Inteligencia Artificial que traduce lenguaje natural a sentencias Spatial SQL
-                                y genera informes catastrales estadísticos en tiempo real.</p>
-                            <div
-                                style="display: flex; gap: 0.5rem; font-size: 0.7rem; flex-wrap: wrap; justify-content: center;">
-                                <span class="tech-tag">Large Language Models</span>
-                                <span class="tech-tag">PostGIS AI-Agents</span>
-                                <span class="tech-tag">Auto-Reporting</span>
-                            </div>
-                        </a>
                     </div>
                 </div>
             </div>
         </section>
-
-        <!-- GEOAI MODULE -->
-        <section id="geoai" class="geoai-section">
-            <div class="geoai-inner reveal">
-                <span class="section-label">// GEOAI_MODULE</span>
-                <h2 class="section-title">GeoAI Intelligence</h2>
-
-                <div class="geoai-content-grid">
-                    <div class="geoai-text">
-                        <h3>Urban Change Detection<br>con Imagenería Sentinel</h3>
-                        <p>Aplicación de inteligencia artificial geoespacial para detectar cambios de cobertura urbana y
-                            rural comparando imágenes satelitales multitemporales. Pipeline completo desde descarga
-                            Sentinel hasta exportación GeoJSON.</p>
-
-                        <div class="geoai-steps">
-                            <div class="geoai-step">
-                                <div class="geoai-step-num">01</div>
-                                <div class="geoai-step-text">
-                                    <h4>Descarga Imagenería Sentinel-2</h4>
-                                    <p>API Copernicus // Bandas espectrales B04, B08, B11 // resolución 10m</p>
-                                </div>
-                            </div>
-                            <div class="geoai-step">
-                                <div class="geoai-step-num">02</div>
-                                <div class="geoai-step-text">
-                                    <h4>Procesamiento con Rasterio + GeoPandas</h4>
-                                    <p>Normalización radiométrica // Comparación multitemporal // NumPy arrays</p>
-                                </div>
-                            </div>
-                            <div class="geoai-step">
-                                <div class="geoai-step-num">03</div>
-                                <div class="geoai-step-text">
-                                    <h4>Clasificación con Scikit-learn</h4>
-                                    <p>Random Forest // Detección de cambios // Vectorización de polígonos</p>
-                                </div>
-                            </div>
-                            <div class="geoai-step">
-                                <div class="geoai-step-num">04</div>
-                                <div class="geoai-step-text">
-                                    <h4>Exportación GeoJSON → Web GIS</h4>
-                                    <p>Visualización en MapLibre GL // Integración PostGIS // API REST</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="geoai-tools">
-                            <span class="lab-tech-pill">Rasterio</span>
-                            <span class="lab-tech-pill">GeoPandas</span>
-                            <span class="lab-tech-pill">NumPy</span>
-                            <span class="lab-tech-pill">Scikit-learn</span>
-                            <span class="lab-tech-pill">Sentinel-2</span>
-                            <span class="lab-tech-pill">Shapely</span>
-                        </div>
-                    </div>
-
-                    <div class="geoai-visualization">
-                        <div class="geoai-viz-header">[CHANGE_DETECTION_ENGINE] STATUS: PROCESSING_DEMO</div>
-                        <div class="geoai-satellite-view">
-                            <div class="satellite-grid"></div>
-                            <div class="change-detection-overlay" id="change-pixels"></div>
-                        </div>
-                        <div class="geoai-metrics-row">
-                            <div class="geoai-metric">
-                                <div class="geoai-metric-val">94%</div>
-                                <div class="geoai-metric-label">Accuracy</div>
-                            </div>
-                            <div class="geoai-metric">
-                                <div class="geoai-metric-val">2.3km²</div>
-                                <div class="geoai-metric-label">Area Detected</div>
-                            </div>
-                            <div class="geoai-metric">
-                                <div class="geoai-metric-val">847</div>
-                                <div class="geoai-metric-label">Polygons</div>
-                            </div>
-                        </div>
-                        <div
-                            style="margin-top:1.5rem; font-family: var(--font-mono); font-size: 0.5rem; color: var(--text-tertiary); line-height: 2;">
-                            >>> SENTINEL_BAND: B08+B04+B11<br>
-                            >>> DATE_COMPARISON: 2023-01-15 vs 2025-01-15<br>
-                            >>> CHANGE_PIXELS_DETECTED: <span style="color: #ff4b2b;">RED</span> = URBAN_EXPANSION<br>
-                            >>> STABLE_PIXELS: <span style="color: #4ade80;">GREEN</span> = NO_CHANGE
-                        </div>
-                    </div>
-                </div>
-            </div>
+        </div>
+        </div>
+        </div>
         </section>
+
 
         <!-- ENGINEERING ARCHITECTURE -->
         <section id="architecture" class="arch-section">
@@ -1319,9 +1112,7 @@
                     Platform_Nav</h3>
                 <a href="#about" class="footer-link">Architecture</a>
                 <a href="#lab" class="footer-link" style="color: var(--accent-gold);">⭐ Spatial Lab</a>
-                <a href="#geoai" class="footer-link">GeoAI Module</a>
-                <a href="#projects" class="footer-link">Assets</a>
-                <a href="#map" class="footer-link">Intel Map</a>
+                <a href="#contact" class="footer-link">Contact</a>
             </div>
 
             <div class="footer-column">
