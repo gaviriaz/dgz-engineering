@@ -477,6 +477,7 @@
         <div class="panel-content">
           <button class="vision-btn-side" id="btn-igac" onclick="toggleIGAC()"><i class="ph-bold ph-map-pin"></i> Mapa Geológico (SGC WMS)</button>
           <button class="vision-btn-side" id="btn-cadastre" onclick="toggleCadastre()" style="margin-top: 5px;"><i class="ph-bold ph-house-line"></i> Catastro Vectorial (Lotes)</button>
+          <button class="vision-btn-side" id="btn-power" onclick="togglePowerLayer()" style="margin-top: 5px;"><i class="ph-bold ph-lightning"></i> Red Eléctrica (Neon Live)</button>
         </div>
       </div>
     </div>
@@ -519,6 +520,12 @@
     let mapLoaded = false;
     let isIGACActive = false;
     let isCadastreActive = false;
+    let isPowerActive = false;
+    
+    // Performance Tracking
+    let frameCount = 0;
+    let lastFPSUpdate = Date.now();
+    let currentFPS = 60;
     
     // Mock Catastro Bogotá
     const cadastreGeoJSON = {
@@ -527,6 +534,14 @@
         { "type": "Feature", "properties": { "predio": "001-A", "uso": "Residencial", "area": "120m²", "propietario": "J. Pérez", "avaluo": "$150M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0721, 4.7110 ], [ -74.0725, 4.7110 ], [ -74.0725, 4.7114 ], [ -74.0721, 4.7114 ], [ -74.0721, 4.7110 ] ] ] } },
         { "type": "Feature", "properties": { "predio": "001-B", "uso": "Comercial", "area": "85m²", "propietario": "M. Gómez", "avaluo": "$210M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0721, 4.7106 ], [ -74.0725, 4.7106 ], [ -74.0725, 4.7110 ], [ -74.0721, 4.7110 ], [ -74.0721, 4.7106 ] ] ] } },
         { "type": "Feature", "properties": { "predio": "002-A", "uso": "Lote Baldío", "area": "400m²", "propietario": "Distrito Capital", "avaluo": "$30M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0715, 4.7106 ], [ -74.0721, 4.7106 ], [ -74.0721, 4.7114 ], [ -74.0715, 4.7114 ], [ -74.0715, 4.7106 ] ] ] } }
+      ]
+    };
+
+    const powerLinesGeoJSON = {
+      "type": "FeatureCollection",
+      "features": [
+        { "type": "Feature", "properties": { "type": "HighVoltage", "voltage": "230kV", "status": "Active" }, "geometry": { "type": "LineString", "coordinates": [ [-74.0721, 4.7110], [-74.10, 4.75], [-74.15, 4.80] ] } },
+        { "type": "Feature", "properties": { "type": "Substation", "name": "Bogota-Norte", "capacity": "500MW" }, "geometry": { "type": "Point", "coordinates": [-74.0721, 4.7110] } }
       ]
     };
 
@@ -652,6 +667,52 @@
           if (map.getLayer('cadastre-line')) map.removeLayer('cadastre-line');
           if (map.getSource('cadastre')) map.removeSource('cadastre');
       }
+
+      // 5. INFRAESTRUCTURA DE ENERGÍA (NEÓN PULSE)
+      if (isPowerActive) {
+          if (!map.getSource('power')) {
+              map.addSource('power', { type: 'geojson', data: powerLinesGeoJSON });
+          }
+          if (!map.getLayer('power-lines')) {
+              map.addLayer({
+                  id: 'power-lines-glow',
+                  type: 'line',
+                  source: 'power',
+                  paint: { 'line-color': '#39FF14', 'line-width': 6, 'line-blur': 4, 'line-opacity': 0.4 }
+              });
+              map.addLayer({
+                  id: 'power-lines',
+                  type: 'line',
+                  source: 'power',
+                  paint: { 'line-color': '#FFF', 'line-width': 2, 'line-opacity': 0.8 }
+              });
+              map.addLayer({
+                  id: 'power-points',
+                  type: 'circle',
+                  source: 'power',
+                  filter: ['==', '$type', 'Point'],
+                  paint: { 'circle-radius': 8, 'circle-color': '#39FF14', 'circle-stroke-width': 2, 'circle-stroke-color': '#FFF' }
+              });
+              
+              // Animación de pulso
+              let step = 0;
+              function animatePower() {
+                  if(!isPowerActive) return;
+                  step = (step + 1) % 100;
+                  const opacity = 0.3 + (Math.sin(step / 10) * 0.3);
+                  if (map.getLayer('power-lines-glow')) {
+                      map.setPaintProperty('power-lines-glow', 'line-opacity', opacity);
+                  }
+                  requestAnimationFrame(animatePower);
+              }
+              animatePower();
+          }
+      } else {
+          if (map.getLayer('power-lines')) map.removeLayer('power-lines');
+          if (map.getLayer('power-lines-glow')) map.removeLayer('power-lines-glow');
+          if (map.getLayer('power-points')) map.removeLayer('power-points');
+          if (map.getSource('power')) map.removeSource('power');
+      }
     }
 
     map.on('style.load', () => {
@@ -704,6 +765,15 @@
         isCadastreActive = !isCadastreActive;
         const btn = document.getElementById('btn-cadastre');
         if(isCadastreActive) btn.classList.add('active');
+        else btn.classList.remove('active');
+        addCustomLayers();
+    }
+
+    function togglePowerLayer() {
+        playSciFiBlip(900, 'sine', 0.2);
+        isPowerActive = !isPowerActive;
+        const btn = document.getElementById('btn-power');
+        if(isPowerActive) btn.classList.add('active');
         else btn.classList.remove('active');
         addCustomLayers();
     }
@@ -1108,8 +1178,15 @@
           isPinching = false;
           cursor.classList.remove('pinching');
         }
-        document.getElementById('gesture-status').innerText = "Esperando Input...";
-        currentGestureState = "NONE";
+        // --- PERFORMANCE TELEMETRY ---
+        frameCount++;
+        const currentTime = Date.now();
+        if (currentTime - lastFPSUpdate > 1000) {
+            currentFPS = frameCount;
+            frameCount = 0;
+            lastFPSUpdate = currentTime;
+        }
+        document.getElementById('gesture-status').innerText = `ESPERANDO INPUT... | FPS:${currentFPS}`;
       }
       canvasCtx.restore();
     }
