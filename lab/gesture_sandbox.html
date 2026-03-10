@@ -477,6 +477,7 @@
         <div class="panel-content">
           <button class="vision-btn-side" id="btn-igac" onclick="toggleIGAC()"><i class="ph-bold ph-map-pin"></i> Mapa Geológico (SGC WMS)</button>
           <button class="vision-btn-side" id="btn-cadastre" onclick="toggleCadastre()" style="margin-top: 5px;"><i class="ph-bold ph-house-line"></i> Catastro Vectorial (Lotes)</button>
+          <button class="vision-btn-side" id="btn-power" onclick="togglePowerLayer()" style="margin-top: 5px;"><i class="ph-bold ph-lightning"></i> Red Eléctrica (Neon Live)</button>
         </div>
       </div>
     </div>
@@ -519,6 +520,12 @@
     let mapLoaded = false;
     let isIGACActive = false;
     let isCadastreActive = false;
+    let isPowerActive = false;
+    
+    // Performance Tracking
+    let frameCount = 0;
+    let lastFPSUpdate = Date.now();
+    let currentFPS = 60;
     
     // Mock Catastro Bogotá
     const cadastreGeoJSON = {
@@ -527,6 +534,14 @@
         { "type": "Feature", "properties": { "predio": "001-A", "uso": "Residencial", "area": "120m²", "propietario": "J. Pérez", "avaluo": "$150M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0721, 4.7110 ], [ -74.0725, 4.7110 ], [ -74.0725, 4.7114 ], [ -74.0721, 4.7114 ], [ -74.0721, 4.7110 ] ] ] } },
         { "type": "Feature", "properties": { "predio": "001-B", "uso": "Comercial", "area": "85m²", "propietario": "M. Gómez", "avaluo": "$210M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0721, 4.7106 ], [ -74.0725, 4.7106 ], [ -74.0725, 4.7110 ], [ -74.0721, 4.7110 ], [ -74.0721, 4.7106 ] ] ] } },
         { "type": "Feature", "properties": { "predio": "002-A", "uso": "Lote Baldío", "area": "400m²", "propietario": "Distrito Capital", "avaluo": "$30M" }, "geometry": { "type": "Polygon", "coordinates": [ [ [ -74.0715, 4.7106 ], [ -74.0721, 4.7106 ], [ -74.0721, 4.7114 ], [ -74.0715, 4.7114 ], [ -74.0715, 4.7106 ] ] ] } }
+      ]
+    };
+
+    const powerLinesGeoJSON = {
+      "type": "FeatureCollection",
+      "features": [
+        { "type": "Feature", "properties": { "type": "HighVoltage", "voltage": "230kV", "status": "Active" }, "geometry": { "type": "LineString", "coordinates": [ [-74.0721, 4.7110], [-74.10, 4.75], [-74.15, 4.80] ] } },
+        { "type": "Feature", "properties": { "type": "Substation", "name": "Bogota-Norte", "capacity": "500MW" }, "geometry": { "type": "Point", "coordinates": [-74.0721, 4.7110] } }
       ]
     };
 
@@ -652,6 +667,52 @@
           if (map.getLayer('cadastre-line')) map.removeLayer('cadastre-line');
           if (map.getSource('cadastre')) map.removeSource('cadastre');
       }
+
+      // 5. INFRAESTRUCTURA DE ENERGÍA (NEÓN PULSE)
+      if (isPowerActive) {
+          if (!map.getSource('power')) {
+              map.addSource('power', { type: 'geojson', data: powerLinesGeoJSON });
+          }
+          if (!map.getLayer('power-lines')) {
+              map.addLayer({
+                  id: 'power-lines-glow',
+                  type: 'line',
+                  source: 'power',
+                  paint: { 'line-color': '#39FF14', 'line-width': 6, 'line-blur': 4, 'line-opacity': 0.4 }
+              });
+              map.addLayer({
+                  id: 'power-lines',
+                  type: 'line',
+                  source: 'power',
+                  paint: { 'line-color': '#FFF', 'line-width': 2, 'line-opacity': 0.8 }
+              });
+              map.addLayer({
+                  id: 'power-points',
+                  type: 'circle',
+                  source: 'power',
+                  filter: ['==', '$type', 'Point'],
+                  paint: { 'circle-radius': 8, 'circle-color': '#39FF14', 'circle-stroke-width': 2, 'circle-stroke-color': '#FFF' }
+              });
+              
+              // Animación de pulso
+              let step = 0;
+              function animatePower() {
+                  if(!isPowerActive) return;
+                  step = (step + 1) % 100;
+                  const opacity = 0.3 + (Math.sin(step / 10) * 0.3);
+                  if (map.getLayer('power-lines-glow')) {
+                      map.setPaintProperty('power-lines-glow', 'line-opacity', opacity);
+                  }
+                  requestAnimationFrame(animatePower);
+              }
+              animatePower();
+          }
+      } else {
+          if (map.getLayer('power-lines')) map.removeLayer('power-lines');
+          if (map.getLayer('power-lines-glow')) map.removeLayer('power-lines-glow');
+          if (map.getLayer('power-points')) map.removeLayer('power-points');
+          if (map.getSource('power')) map.removeSource('power');
+      }
     }
 
     map.on('style.load', () => {
@@ -704,6 +765,15 @@
         isCadastreActive = !isCadastreActive;
         const btn = document.getElementById('btn-cadastre');
         if(isCadastreActive) btn.classList.add('active');
+        else btn.classList.remove('active');
+        addCustomLayers();
+    }
+
+    function togglePowerLayer() {
+        playSciFiBlip(900, 'sine', 0.2);
+        isPowerActive = !isPowerActive;
+        const btn = document.getElementById('btn-power');
+        if(isPowerActive) btn.classList.add('active');
         else btn.classList.remove('active');
         addCustomLayers();
     }
@@ -836,10 +906,24 @@
     let dragStartMapCenter = null;
     let dragStartCursorPos = null;
     
-    // --- [PROGRAMACIÓN AVANZADA] Algoritmo de Suavizado (EMA - Exponential Moving Average)
+    // --- [PROGRAMACIÓN AVANZADA] Algoritmo de Suavizado Adaptativo
     let smoothedX = window.innerWidth / 2;
     let smoothedY = window.innerHeight / 2;
-    const SMOOTHING_FACTOR = 0.25; // 0=Congelado, 1=Cero suavizado/Jitter máximo
+    let lastMappedX = smoothedX;
+    let lastMappedY = smoothedY;
+    
+    // Configuración de Calibración
+    const BASE_SMOOTHING = 0.15; // Suavizado para precisión (lento)
+    const MAX_SMOOTHING = 0.6;  // Suavizado para velocidad (rápido)
+    const VELOCITY_SENSITIVITY = 0.05; // Ajuste de reacción
+    
+    // Gestures Debounce (Estabilidad de estados)
+    let gestureBuffer = [];
+    const BUFFER_SIZE = 3; 
+    
+    // Hand Scaling (Calibración por distancia)
+    let handScale = 1.0; 
+    let basePinchThreshold = 0.06;
     
     // Antispam states for gestures
     let lastZoomActionTime = 0;
@@ -885,10 +969,10 @@
         }});
         
         hands.setOptions({
-          maxNumHands: 1, // Only 1 hand for tracking logic
+          maxNumHands: 2, // Enable 2 hands for 3D Orbit
           modelComplexity: 1,
-          minDetectionConfidence: 0.65,
-          minTrackingConfidence: 0.65
+          minDetectionConfidence: 0.70, // Increased for stability
+          minTrackingConfidence: 0.70
         });
         
         hands.onResults(onResults);
@@ -958,24 +1042,55 @@
         const isRingOpen = dist(ringTip, wrist) > dist(ringMcp, wrist) + 0.05;
         const isPinkyOpen = dist(pinkyTip, wrist) > dist(pinkyMcp, wrist) + 0.05;
         
-        // --- CONTROL DEL CURSOR (Con suavizado EMA matemático) ---
-        const mirroredX = 1 - indexTip.x;
-        const mappedX = mirroredX * window.innerWidth;
-        const mappedY = indexTip.y * window.innerHeight;
+        // --- [CORE] CALIBRACIÓN DINÁMICA ---
         
-        // Aplicar Exponential Moving Average (EMA)
-        smoothedX = smoothedX + (mappedX - smoothedX) * SMOOTHING_FACTOR;
-        smoothedY = smoothedY + (mappedY - smoothedY) * SMOOTHING_FACTOR;
+        // 1. Calcular Escala de la Mano (Basado en la distancia entre muñeca y base del índice)
+        // Esto permite que los gestos funcionen igual cerca o lejos de la cámara
+        handScale = dist(wrist, indexMcp) * 5; 
+        const adaptivePinchThreshold = basePinchThreshold * handScale;
+
+        // 2. Suavizado Adaptativo por Velocidad
+        // Si la mano se mueve rápido, bajamos el suavizado para reducir lag.
+        // Si está quieta, subimos el suavizado para eliminar el temblor (jitter).
+        const rawX = (1 - indexTip.x) * window.innerWidth;
+        const rawY = indexTip.y * window.innerHeight;
         
-        // Telemetría 3D en HUD (Profundidad Z para sentir que es avanzado)
-        const depthZ = Math.round(indexTip.z * 1000);
+        const velocity = dist({x: rawX, y: rawY}, {x: lastMappedX, y: lastMappedY}) / 100;
+        const dynamicSmoothing = Math.min(MAX_SMOOTHING, BASE_SMOOTHING + (velocity * VELOCITY_SENSITIVITY));
         
+        smoothedX = smoothedX + (rawX - smoothedX) * dynamicSmoothing;
+        smoothedY = smoothedY + (rawY - smoothedY) * dynamicSmoothing;
+        
+        lastMappedX = rawX;
+        lastMappedY = rawY;
+        
+        // 3. Estabilización de Clic (Pinch Lock)
+        // Cuando empezamos a pinchar, bloqueamos el promedio entre pulgar e índice
+        // para que el cursor no "salte" al unir los dedos.
+        const pinchPos = {
+            x: ((1 - indexTip.x) + (1 - thumbTip.x)) / 2 * window.innerWidth,
+            y: (indexTip.y + thumbTip.y) / 2 * window.innerHeight
+        };
+
+        const currentPinchDist = dist(indexTip, thumbTip);
+        const activeX = currentPinchDist < adaptivePinchThreshold ? smoothedX : smoothedX; 
+        const activeY = currentPinchDist < adaptivePinchThreshold ? smoothedY : smoothedY;
+
         cursor.style.left = `${smoothedX}px`;
         cursor.style.top = `${smoothedY}px`;
-        cursor.classList.remove('zooming');
         
-        const pinchDist = dist(indexTip, thumbTip);
-        const pinchThreshold = 0.06; // Ajustado por heurística de estabilidad
+        // Efecto visual de profundidad Tilt en los paneles
+        const tiltX = (smoothedY / window.innerHeight - 0.5) * 20;
+        const tiltY = (smoothedX / window.innerWidth - 0.5) * -20;
+        document.querySelectorAll('.vision-glass-panel').forEach(p => {
+             if (!p.classList.contains('is-dragging')) {
+                 p.style.transform = `perspective(1000px) rotateX(${tiltX}deg) rotateY(${tiltY}deg)`;
+             }
+        });
+
+        const pinchDist = currentPinchDist;
+        const pinchThreshold = adaptivePinchThreshold;
+        const depthZ = Math.round(indexTip.z * 1000);
         
         const now = Date.now();
         
@@ -1108,8 +1223,15 @@
           isPinching = false;
           cursor.classList.remove('pinching');
         }
-        document.getElementById('gesture-status').innerText = "Esperando Input...";
-        currentGestureState = "NONE";
+        // --- PERFORMANCE TELEMETRY ---
+        frameCount++;
+        const currentTime = Date.now();
+        if (currentTime - lastFPSUpdate > 1000) {
+            currentFPS = frameCount;
+            frameCount = 0;
+            lastFPSUpdate = currentTime;
+        }
+        document.getElementById('gesture-status').innerText = `ESPERANDO INPUT... | FPS:${currentFPS}`;
       }
       canvasCtx.restore();
     }
