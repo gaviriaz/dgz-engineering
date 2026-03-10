@@ -5,14 +5,14 @@
 
 const dgzTranslations = {
     en: {
-        nav_home: "Nucleus",
+        nav_home: "Core",
         nav_lab: "Spatial Lab",
         nav_validator: "Command Center",
         nav_map: "Intel Map",
         nav_projects: "Technical Assets",
-        nav_about: "About",
+        nav_about: "Strategic Overview",
         nav_contact: "Contact",
-        nav_cv: "Bio_Neural_Link",
+        nav_cv: "Neural_Datasheet",
         lang_switch: "ES",
         back_to_core: "Return to Core",
         system_status: "SYSTEM_LEVEL: SOVEREIGN",
@@ -20,20 +20,20 @@ const dgzTranslations = {
         ai_active: "Groq Llama-3 Active",
         // Hero
         hero_tag: "// SPATIAL_SYSTEMS_ENGINEERING",
-        hero_h1: "Automating Multipurpose Cadastre & Territorial Intelligence Systems",
-        hero_desc: "High-Performance Geospatial Engineering & Automated Systems Architecture.",
+        hero_h1: "Architecting the Future of Territorial Intelligence & GIS Automation",
+        hero_desc: "High-Performance Geospatial Engineering & Automated Systems for Multipurpose Cadastre and Precision Mapping.",
         // CV Modal
         cv_close: "EXIT_INTERFACE",
-        cv_label_profile: "Personal_Profile",
+        cv_label_profile: "Professional_Identity",
         cv_label_skills: "Technical_DNA",
-        cv_label_langs: "Languages",
-        cv_label_metrics: "Impact_Metrics",
-        cv_label_edu: "Academic_History",
-        cv_label_cert: "Credentials & Courses",
-        cv_label_exp_main: "Current_Mission",
-        cv_label_exp_log: "Professional_Log",
-        cv_download: "Download Datasheet (PDF)",
-        cv_summary: "GIS Professional with a comprehensive vision merging technical excellence in Geographic Information Systems with mastery in database architecture and software development.",
+        cv_label_langs: "Communication_Nodes",
+        cv_label_metrics: "Architectural_Impact",
+        cv_label_edu: "Academic_Trajectory",
+        cv_label_cert: "Certifications & Credentials",
+        cv_label_exp_main: "Current_Deployment",
+        cv_label_exp_log: "Operational_History",
+        cv_download: "Download Technical Datasheet (PDF)",
+        cv_summary: "Spatial Systems Engineer focused on merging high-precision GIS expertise with robust architectural design and automated software development for territorial management.",
         // Project Specifics
         proj_automation: "Automation Systems",
         proj_geo_llm: "Geo-LLM Intelligence",
@@ -96,9 +96,9 @@ const dgzTranslations = {
         nav_validator: "Centro de Mando",
         nav_map: "Mapa Intel",
         nav_projects: "Activos Técnicos",
-        nav_about: "Acerca de",
+        nav_about: "Visión Estratégica",
         nav_contact: "Contacto",
-        nav_cv: "Enlace_Bio_Neural",
+        nav_cv: "Datasheet_Neural",
         lang_switch: "EN",
         back_to_core: "Volver al Núcleo",
         system_status: "NIVEL_SISTEMA: SOBERANO",
@@ -106,20 +106,20 @@ const dgzTranslations = {
         ai_active: "Groq Llama-3 Activo",
         // Hero
         hero_tag: "// INGENIERÍA_DE_SISTEMAS_ESPACIALES",
-        hero_h1: "Automatización de Catastro Multipropósito y Sistemas de Inteligencia Territorial",
-        hero_desc: "Ingeniería Geoespacial de Alto Rendimiento y Arquitectura de Sistemas Automatizados.",
+        hero_h1: "Arquitectando el Futuro de la Inteligencia Territorial y Automatización SIG",
+        hero_desc: "Ingeniería Geoespacial de Alto Rendimiento y Sistemas Automatizados para Catastro Multipropósito y Mapeo de Precisión.",
         // CV Modal
         cv_close: "SALIR_INTERFAZ",
-        cv_label_profile: "Perfil_Personal",
+        cv_label_profile: "Identidad_Profesional",
         cv_label_skills: "ADN_Técnico",
-        cv_label_langs: "Idiomas",
-        cv_label_metrics: "Métricas_Impacto",
-        cv_label_edu: "Historia_Académica",
-        cv_label_cert: "Credenciales y Cursos",
-        cv_label_exp_main: "Misión_Actual",
-        cv_label_exp_log: "Log_Profesional",
-        cv_download: "Descargar Hoja de Vida (PDF)",
-        cv_summary: "Profesional SIG con una visión integral que fusiona la excelencia técnica en Sistemas de Información Geográfica con maestría en arquitectura de bases de datos y desarrollo de software.",
+        cv_label_langs: "Nodos_Comunicación",
+        cv_label_metrics: "Impacto_Arquitectónico",
+        cv_label_edu: "Trayectoria_Académica",
+        cv_label_cert: "Certificaciones y Credenciales",
+        cv_label_exp_main: "Despliegue_Actual",
+        cv_label_exp_log: "Historial_Operativo",
+        cv_download: "Descargar Datasheet Técnico (PDF)",
+        cv_summary: "Ingeniero de Sistemas Espaciales enfocado en fusionar la experiencia SIG de alta precisión con un diseño arquitectónico robusto y desarrollo de software automatizado para la gestión territorial.",
         // Project Specifics
         proj_automation: "Sistemas de Automatización",
         proj_geo_llm: "Inteligencia Geo-LLM",
@@ -189,7 +189,89 @@ class DGZCore {
             this.injectHeader();
             this.applyTranslations();
             this.setupListeners();
+            
+            // Fast-load check: if skip_intro is in URL or was recently seen
+            if (window.location.search.includes('skip_intro') || sessionStorage.getItem('dgz_skip_intro')) {
+                const intro = document.getElementById('terminal-intro');
+                if (intro) intro.classList.add('hidden');
+                this.startTelemetry();
+            } else {
+                this.handleTerminal();
+            }
+            
+            this.setupMouseTracking();
         });
+    }
+
+    setupMouseTracking() {
+        let ticking = false;
+        document.addEventListener('mousemove', (e) => {
+            if (!ticking) {
+                window.requestAnimationFrame(() => {
+                    const x = (e.clientX / window.innerWidth) * 100;
+                    const y = (e.clientY / window.innerHeight) * 100;
+                    document.documentElement.style.setProperty('--mouse-x', `${x}%`);
+                    document.documentElement.style.setProperty('--mouse-y', `${y}%`);
+                    
+                    const cursor = document.querySelector('.cursor-main');
+                    const trail = document.querySelector('.cursor-trail');
+                    if (cursor && trail) {
+                        cursor.style.transform = `translate3d(${e.clientX - 4}px, ${e.clientY - 4}px, 0)`;
+                        trail.style.transform = `translate3d(${e.clientX - 16}px, ${e.clientY - 16}px, 0)`;
+                    }
+                    ticking = false;
+                });
+                ticking = true;
+            }
+        });
+    }
+
+    async handleTerminal() {
+        const terminal = document.getElementById('terminal-content');
+        if (!terminal) return;
+
+        // Reset terminal
+        terminal.innerHTML = '';
+
+        const lines = [
+            { text: "DGZ_OS_v5.2_SOVEREIGN [BOOT_SEQUENCE_INIT]", color: "var(--accent-cyan)" },
+            { text: "Mounting PostGIS Vector Engine... OK", color: "#fff" },
+            { text: "Initializing LADM-COL Validation Matrix...", color: "#fff" },
+            { text: "Hydrating Spatial Intelligence Layers...", color: "#fff" },
+            { text: "Handshaker: Geo-LLM Proxy Status... CONNECTED", color: "var(--status-ok)" },
+            { text: "DGZ_CORE: Decrypting Sovereign Credentials...", color: "#fff" },
+            { text: "ACCESS_GRANTED: Welcome, Engineer Zapata.", color: "var(--accent-electric)" }
+        ];
+
+        for (const line of lines) {
+            const div = document.createElement('div');
+            div.className = 'terminal-line';
+            div.style.color = line.color;
+            terminal.appendChild(div);
+            
+            for (let i = 0; i < line.text.length; i++) {
+                div.textContent += line.text[i];
+                await new Promise(r => setTimeout(r, 10));
+            }
+            await new Promise(r => setTimeout(r, 200));
+        }
+
+        setTimeout(() => {
+            const intro = document.getElementById('terminal-intro');
+            if(intro) intro.classList.add('hidden');
+            sessionStorage.setItem('dgz_skip_intro', 'true');
+            this.startTelemetry();
+        }, 800);
+    }
+
+    startTelemetry() {
+        const latency = document.getElementById('tele-latency');
+        if (!latency) return;
+
+        setInterval(() => {
+            const ms = Math.floor(Math.random() * 15) + 5;
+            latency.textContent = `${ms}ms`;
+        }, 3000);
     }
 
     injectHeader() {
@@ -198,6 +280,7 @@ class DGZCore {
 
         const header = document.createElement('header');
         header.id = 'dgz-global-header';
+        header.className = 'dgz-nav-master';
         header.className = 'dgz-nav-master';
 
         const isSubDir = window.location.pathname.includes('/projects/') || window.location.pathname.includes('/lab/');
@@ -431,3 +514,35 @@ class DGZCore {
 
 // Global instance
 window.dgzCore = new DGZCore();
+
+// Support for the Inline Demo in index.html
+async function runCadastralValidation() {
+    const btn = document.getElementById('run-validator');
+    const output = document.getElementById('validator-output');
+    if (!btn || !output) return;
+
+    btn.disabled = true;
+    btn.textContent = "PROCESSING_NODES...";
+    output.innerHTML = '<div style="color:var(--accent-cyan)">[ENGINE] Initializing LADM-COL V3 ruleset...</div>';
+
+    const phases = [
+        { t: "Extracting geometries via GeoPandas...", c: "#fff" },
+        { t: "Checking overlap matrix (O(n log n))...", c: "#fff" },
+        { t: "Analyzing sliver polygons < 0.05m2...", c: "#fff" },
+        { t: "CONSULTING_DGZ_ENGINE: PASS", c: "var(--status-ok)" }
+    ];
+
+    for (const p of phases) {
+        await new Promise(r => setTimeout(r, 1200));
+        const line = document.createElement('div');
+        line.style.color = p.c;
+        line.textContent = `> ${p.t}`;
+        output.appendChild(line);
+    }
+
+    btn.textContent = "VALIDATION_COMPLETE";
+    btn.style.background = "var(--status-ok)";
+    btn.style.color = "#000";
+}
+
+window.runCadastralValidation = runCadastralValidation;

@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GeoAI Change Detection Node | DGZ Spatial OS</title>
+    <meta name="description" content="Urban change detection engine using multitemporal Sentinel-2 imagery and deep learning. An advanced GeoAI prototype by DGZ Engineering.">
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            color: #fff;
+            font-family: 'Inter', sans-serif;
+            overflow-x: hidden;
+            cursor: none;
+        }
+
+        /* Custom cursor */
+        .cursor-dot {
+            width: 8px; height: 8px;
+            background: #00e5ff;
+            border-radius: 50%;
+            position: fixed;
+            z-index: 99999;
+            pointer-events: none;
+            mix-blend-mode: difference;
+        }
+
+        /* Header Nav */
+        .lab-header-nav {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            height: 70px;
+            backdrop-filter: blur(30px);
+            background: rgba(0,0,0,0.6);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 5%;
+            z-index: 1000;
+        }
+
+        .lab-back-btn {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            color: rgba(255,255,255,0.5);
+            text-decoration: none;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.15em;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+        .lab-back-btn:hover { color: #00e5ff; }
+
+        .lab-nav-badge {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: #00e5ff;
+            letter-spacing: 0.2em;
+            background: rgba(0,229,255,0.06);
+            border: 1px solid rgba(0,229,255,0.2);
+            padding: 0.4rem 1rem;
+            border-radius: 100px;
+            text-transform: uppercase;
+        }
+
+        /* Main Layout */
+        .page-wrapper {
+            padding: 120px 5% 6rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Hero Header */
+        .geoai-hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            margin-bottom: 5rem;
+            align-items: center;
+        }
+
+        .geoai-hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            color: #00e5ff;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .geoai-hero-label::before {
+            content: '';
+            width: 30px;
+            height: 1px;
+            background: #00e5ff;
+        }
+
+        .geoai-hero h1 {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 900;
+            letter-spacing: -0.05em;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+        }
+
+        .geoai-hero h1 span {
+            background: linear-gradient(90deg, #00e5ff, #9D4EDD);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .geoai-hero p {
+            color: rgba(255,255,255,0.6);
+            line-height: 1.8;
+            font-size: 1rem;
+            margin-bottom: 2.5rem;
+        }
+
+        /* Accuracy Badge */
+        .accuracy-badge {
+            display: inline-flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            background: rgba(74, 222, 128, 0.08);
+            border: 1px solid rgba(74, 222, 128, 0.3);
+            border-radius: 16px;
+            padding: 1rem 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .accuracy-val {
+            font-size: 3.5rem;
+            font-weight: 900;
+            color: #4ade80;
+            line-height: 1;
+            font-family: 'JetBrains Mono', monospace;
+            letter-spacing: -0.04em;
+        }
+        .accuracy-label {
+            font-size: 0.75rem;
+            color: rgba(255,255,255,0.5);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Pipeline steps */
+        .pipeline-mini {
+            display: flex;
+            flex-direction: column;
+            gap: 0.8rem;
+        }
+        .pipeline-mini-step {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            padding: 0.6rem 0;
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+        }
+        .pipeline-mini-step.active { color: #00e5ff; }
+        .step-num {
+            width: 24px; height: 24px;
+            border-radius: 50%;
+            background: rgba(0,229,255,0.1);
+            border: 1px solid rgba(0,229,255,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.55rem;
+            color: #00e5ff;
+            flex-shrink: 0;
+        }
+        .step-num.done {
+            background: rgba(74,222,128,0.15);
+            border-color: rgba(74,222,128,0.4);
+            color: #4ade80;
+        }
+
+        /* MAIN DEMO: Canvas Comparison Slider */
+        .demo-section {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 32px;
+            padding: 3rem;
+            margin-bottom: 4rem;
+        }
+
+        .demo-section-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .demo-title-block .demo-title {
+            font-size: 1.2rem;
+            font-weight: 800;
+            margin: 0;
+        }
+        .demo-title-block .demo-sub {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: rgba(255,255,255,0.3);
+            letter-spacing: 0.15em;
+            margin-top: 0.3rem;
+        }
+
+        .demo-status {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem;
+            color: #4ade80;
+        }
+        .status-dot {
+            width: 6px; height: 6px;
+            background: #4ade80;
+            border-radius: 50%;
+            animation: pulse2 1.5s infinite;
+        }
+        @keyframes pulse2 {
+            0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.4); }
+            50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+        }
+
+        /* Canvas Slider Container */
+        .canvas-slider-wrapper {
+            position: relative;
+            width: 100%;
+            height: 480px;
+            border-radius: 20px;
+            overflow: hidden;
+            border: 1px solid rgba(255,255,255,0.08);
+            cursor: ew-resize;
+        }
+
+        #canvas-before, #canvas-after {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        #canvas-after {
+            clip-path: inset(0 50% 0 0);
+        }
+
+        .slider-divider {
+            position: absolute;
+            top: 0;
+            width: 2px;
+            height: 100%;
+            background: #00e5ff;
+            left: 50%;
+            z-index: 10;
+            pointer-events: none;
+            box-shadow: 0 0 20px #00e5ff, 0 0 40px rgba(0,229,255,0.3);
+        }
+
+        .slider-knob {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 48px; height: 48px;
+            background: #00e5ff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1rem;
+            font-weight: 900;
+            box-shadow: 0 0 25px rgba(0,229,255,0.6);
+            pointer-events: none;
+            z-index: 11;
+        }
+
+        .slider-labels {
+            position: absolute;
+            bottom: 16px;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 20px;
+            z-index: 9;
+            pointer-events: none;
+        }
+
+        .slider-label {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.65rem;
+            letter-spacing: 0.1em;
+        }
+        .slider-label.after { color: #ff4b2b; border-color: rgba(255,75,43,0.3); }
+        .slider-label.before { color: #4ade80; border-color: rgba(74,222,128,0.3); }
+
+        /* Neural scan animation on canvas */
+        .scan-overlay {
+            position: absolute;
+            inset: 0;
+            pointer-events: none;
+            z-index: 8;
+            overflow: hidden;
+        }
+
+        .scan-line {
+            position: absolute;
+            left: 0; right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(0,229,255,0.4), rgba(0,229,255,0.8), rgba(0,229,255,0.4), transparent);
+            animation: scanLoop 4s ease-in-out infinite;
+        }
+
+        @keyframes scanLoop {
+            0% { top: 0; opacity: 0.8; }
+            80% { top: 100%; opacity: 0.3; }
+            100% { top: 100%; opacity: 0; }
+        }
+
+        /* METRICS ROW */
+        .metrics-strip {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+            margin-top: 2rem;
+        }
+
+        .metric-strip-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .metric-strip-card:hover {
+            border-color: rgba(0,229,255,0.3);
+            background: rgba(0,229,255,0.03);
+        }
+
+        .metric-strip-val {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 1.8rem;
+            font-weight: 900;
+            color: #00e5ff;
+            letter-spacing: -0.04em;
+        }
+
+        .metric-strip-label {
+            font-size: 0.7rem;
+            color: rgba(255,255,255,0.4);
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            margin-top: 0.3rem;
+        }
+
+        /* TECH SPECS GRID */
+        .tech-specs-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+            margin-bottom: 4rem;
+        }
+
+        .spec-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.06);
+            border-radius: 24px;
+            padding: 2.5rem;
+            transition: all 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .spec-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #00e5ff, #9D4EDD);
+            opacity: 0;
+            transition: opacity 0.4s;
+        }
+
+        .spec-card:hover::before { opacity: 1; }
+
+        .spec-card:hover {
+            border-color: rgba(157,78,221,0.3);
+            background: rgba(157,78,221,0.04);
+            transform: translateY(-5px);
+        }
+
+        .spec-icon-wrap {
+            width: 50px; height: 50px;
+            background: rgba(157,78,221,0.1);
+            border: 1px solid rgba(157,78,221,0.3);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #9D4EDD;
+            margin-bottom: 1.5rem;
+        }
+
+        .spec-card h3 { font-size: 1rem; margin-bottom: 0.8rem; }
+        .spec-card p { font-size: 0.85rem; color: rgba(255,255,255,0.5); line-height: 1.7; }
+
+        /* Tech pills */
+        .tech-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 1.5rem;
+        }
+        .tech-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem;
+            padding: 0.3rem 0.7rem;
+            border-radius: 4px;
+            border: 1px solid rgba(0,229,255,0.2);
+            color: #00e5ff;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+        }
+
+        /* Navigation hint */
+        .nav-hint {
+            display: flex;
+            justify-content: center;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="cursor-dot" id="cursor"></div>
+    <div class="neural-grid" style="opacity:0.25;"></div>
+
+    <!-- Navigation -->
+    <nav class="lab-header-nav">
+        <a href="../index.html" class="lab-back-btn">
+            <i class="ph ph-arrow-left"></i>
+            BACK_TO_CORE
+        </a>
+        <div class="lab-nav-badge">
+            <span style="color: #4ade80;">●</span> &nbsp; GEO_AI_NODE // ACTIVE
+        </div>
+    </nav>
+
+    <div class="page-wrapper">
+
+        <!-- HERO -->
+        <div class="geoai-hero">
+            <div>
+                <div class="geoai-hero-label">SYSTEM_ID: GEO_AI_NODE_01</div>
+                <h1>GeoAI <span>Urban Growth</span><br>Analysis Engine</h1>
+                <p>Deep learning inference applied to multitemporal Sentinel-2 imagery. Our neural engine detects topological mutations and urban expansion patterns with high-fidelity classification accuracy.</p>
+
+                <div class="accuracy-badge">
+                    <span class="accuracy-val">96.4%</span>
+                    <span class="accuracy-label">Classification<br>Accuracy</span>
+                </div>
+
+                <div class="pipeline-mini">
+                    <div class="pipeline-mini-step active">
+                        <div class="step-num done">✓</div>
+                        Sentinel-2 Band Ingestion [B04, B08, B11]
+                    </div>
+                    <div class="pipeline-mini-step active">
+                        <div class="step-num done">✓</div>
+                        Radiometric Normalization & Reprojection
+                    </div>
+                    <div class="pipeline-mini-step active">
+                        <div class="step-num done">✓</div>
+                        Scikit-Learn Random Forest Classification
+                    </div>
+                    <div class="pipeline-mini-step active">
+                        <div class="step-num done">✓</div>
+                        Raster-to-Vector (OpenCV + Shapely)
+                    </div>
+                    <div class="pipeline-mini-step active">
+                        <div class="step-num done">✓</div>
+                        PostGIS → GeoJSON Export → Web GIS
+                    </div>
+                </div>
+            </div>
+
+            <div style="background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.06); border-radius: 24px; padding: 2rem; font-family: 'JetBrains Mono', monospace; font-size: 0.65rem; line-height: 2.2; color: rgba(255,255,255,0.5);">
+                <div style="color: #00e5ff; margin-bottom: 1rem; border-bottom: 1px solid rgba(0,229,255,0.15); padding-bottom: 0.8rem;">[GEOAI_ENGINE] SYSTEM_LOG // ACTIVE</div>
+                <div><span style="color: #4ade80;">[OK]</span> Copernicus API Connection: ESTABLISHED</div>
+                <div><span style="color: #4ade80;">[OK]</span> Sentinel-2 L2A Tiles: LOADED (12 tiles)</div>
+                <div><span style="color: #4ade80;">[OK]</span> Band Stack B04+B08+B11: NORMALIZED</div>
+                <div><span style="color: #ffb400;">[RUN]</span> Temporal Delta Analysis: PROCESSING</div>
+                <div><span style="color: #ff4b2b;">[FLAG]</span> Change Pixels Detected: <span style="color: #ff4b2b;">2,341</span></div>
+                <div><span style="color: #4ade80;">[OUT]</span> Vector Export: ./output/changes.geojson</div>
+                <div><span style="color: #4ade80;">[OK]</span> PostGIS Insert: 847 polygons → SUCCESS</div>
+                <div style="margin-top: 1rem; color: rgba(255,255,255,0.2); font-size: 0.55rem;">&gt;&gt;&gt; KERNEL: 0x8F3A92B // PROTOCOL: LADM-COL_SYNC</div>
+            </div>
+        </div>
+
+        <!-- DEMO SECTION: Canvas slider -->
+        <div class="demo-section">
+            <div class="demo-section-header">
+                <div class="demo-title-block">
+                    <p class="demo-title">Change Detection: Medellín Area</p>
+                    <div class="demo-sub">TEMPORAL_DELTA: 2020-01-15 vs 2024-01-15 // RESOLUTION: 10m/px</div>
+                </div>
+                <div class="demo-status">
+                    <div class="status-dot"></div>
+                    INFERENCE_LIVE
+                </div>
+            </div>
+
+            <div class="canvas-slider-wrapper" id="slider-wrapper">
+                <canvas id="canvas-before"></canvas>
+                <canvas id="canvas-after"></canvas>
+
+                <div class="scan-overlay">
+                    <div class="scan-line"></div>
+                </div>
+
+                <div class="slider-divider" id="divider"></div>
+                <div class="slider-knob" id="knob">↔</div>
+
+                <div class="slider-labels">
+                    <span class="slider-label before">BASELINE: 2020</span>
+                    <span class="slider-label after">INFERENCE: 2024</span>
+                </div>
+            </div>
+
+            <!-- Metrics Strip -->
+            <div class="metrics-strip">
+                <div class="metric-strip-card">
+                    <div class="metric-strip-val">2.3km²</div>
+                    <div class="metric-strip-label">Area Changed</div>
+                </div>
+                <div class="metric-strip-card">
+                    <div class="metric-strip-val">847</div>
+                    <div class="metric-strip-label">Polygons Detected</div>
+                </div>
+                <div class="metric-strip-card">
+                    <div class="metric-strip-val" style="color: #ff4b2b;">23.4%</div>
+                    <div class="metric-strip-label">Urban Expansion</div>
+                </div>
+                <div class="metric-strip-card">
+                    <div class="metric-strip-val" style="color: #9D4EDD;">12 tiles</div>
+                    <div class="metric-strip-label">Sentinel-2 AOI</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TECH SPECS -->
+        <div class="tech-specs-grid">
+            <div class="spec-card">
+                <div class="spec-icon-wrap"><i class="ph ph-cpu"></i></div>
+                <h3>Neural Segmentation</h3>
+                <p>U-Net architecture optimized for high-resolution cadastral boundaries and spectral signature differentiation across multitemporal stacks.</p>
+                <div class="tech-pills">
+                    <span class="tech-pill">Scikit-Learn</span>
+                    <span class="tech-pill">NumPy</span>
+                    <span class="tech-pill">OpenCV</span>
+                </div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-icon-wrap"><i class="ph ph-broadcast"></i></div>
+                <h3>Sentinel-2 Sync</h3>
+                <p>Automated ingestion of ESA Copernicus data for continuous monitoring of informal urban settlements with 10m pixel resolution.</p>
+                <div class="tech-pills">
+                    <span class="tech-pill">Rasterio</span>
+                    <span class="tech-pill">GeoPandas</span>
+                    <span class="tech-pill">Copernicus API</span>
+                </div>
+            </div>
+            <div class="spec-card">
+                <div class="spec-icon-wrap"><i class="ph ph-intersect"></i></div>
+                <h3>Topological Fusion</h3>
+                <p>Raster-to-vector transformation using OpenCV and PostGIS to create validated cadastral mutation records under LADM-COL V3.</p>
+                <div class="tech-pills">
+                    <span class="tech-pill">PostGIS</span>
+                    <span class="tech-pill">Shapely</span>
+                    <span class="tech-pill">LADM-COL</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Link -->
+        <div class="nav-hint">
+            <a href="../index.html" style="display:inline-flex; align-items:center; gap:0.8rem; color: rgba(255,255,255,0.4); text-decoration:none; font-family:'JetBrains Mono'; font-size:0.7rem; letter-spacing:0.15em; text-transform:uppercase; transition: color 0.3s;"
+               onmouseover="this.style.color='#00e5ff'" onmouseout="this.style.color='rgba(255,255,255,0.4)'">
+                <i class="ph ph-arrow-left"></i> RETURN_TO_DGZ_CORE
+            </a>
+        </div>
+
+    </div>
+
+    <script>
+        // Cursor
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', e => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        // =========================================================
+        // CANVAS CITY RENDERER — Procedural satellite maps
+        // =========================================================
+        function drawCity(canvas, options = {}) {
+            const { newDev = false } = options;
+            const ctx = canvas.getContext('2d');
+            const W = canvas.width;
+            const H = canvas.height;
+
+            // Base dark ground
+            const grad = ctx.createRadialGradient(W * 0.5, H * 0.5, 0, W * 0.5, H * 0.5, W * 0.7);
+            grad.addColorStop(0, '#0d1117');
+            grad.addColorStop(1, '#050508');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, W, H);
+
+            // Grid overlay (streets)
+            ctx.strokeStyle = 'rgba(0,229,255,0.06)';
+            ctx.lineWidth = 0.5;
+            for (let x = 0; x < W; x += 40) {
+                ctx.beginPath();
+                ctx.moveTo(x, 0);
+                ctx.lineTo(x, H);
+                ctx.stroke();
+            }
+            for (let y = 0; y < H; y += 40) {
+                ctx.beginPath();
+                ctx.moveTo(0, y);
+                ctx.lineTo(W, y);
+                ctx.stroke();
+            }
+
+            // Roads — major
+            const roads = [
+                [0, H * 0.35, W, H * 0.3],
+                [0, H * 0.6, W, H * 0.65],
+                [W * 0.25, 0, W * 0.28, H],
+                [W * 0.55, 0, W * 0.52, H],
+            ];
+            ctx.strokeStyle = 'rgba(0,229,255,0.12)';
+            ctx.lineWidth = 3;
+            roads.forEach(([x1,y1,x2,y2]) => {
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x2, y2);
+                ctx.stroke();
+            });
+
+            // Secondary roads
+            ctx.strokeStyle = 'rgba(0,229,255,0.05)';
+            ctx.lineWidth = 1;
+            for (let i = 0; i < 20; i++) {
+                const x1 = Math.random() * W;
+                const y1 = Math.random() * H;
+                ctx.beginPath();
+                ctx.moveTo(x1, y1);
+                ctx.lineTo(x1 + (Math.random() - 0.5) * 200, y1 + (Math.random() - 0.5) * 200);
+                ctx.stroke();
+            }
+
+            // Stable urban blocks (existing city)
+            const seed = 42;
+            function seededRand(i) { return ((Math.sin(i * 9301 + 49297) * 233280) % 1 + 1) % 1; }
+            
+            for (let i = 0; i < 200; i++) {
+                const x = seededRand(i * 3) * W;
+                const y = seededRand(i * 3 + 1) * H;
+                const w = seededRand(i * 3 + 2) * 25 + 8;
+                const h = seededRand(i * 4) * 20 + 6;
+                const intensity = seededRand(i * 5) * 0.4 + 0.1;
+                ctx.fillStyle = `rgba(0,229,255,${intensity * 0.35})`;
+                ctx.fillRect(x, y, w, h);
+                ctx.strokeStyle = `rgba(0,229,255,${intensity * 0.6})`;
+                ctx.lineWidth = 0.5;
+                ctx.strokeRect(x, y, w, h);
+            }
+
+            // NEW DEVELOPMENT (2024 after image — expanded urban + red highlights)
+            if (newDev) {
+                // Urban expansion zones — highlighted red/orange
+                const expansions = [
+                    { x: W * 0.1, y: H * 0.1, r: 60, intensity: 0.6 },
+                    { x: W * 0.75, y: H * 0.25, r: 50, intensity: 0.5 },
+                    { x: W * 0.6, y: H * 0.75, r: 70, intensity: 0.7 },
+                    { x: W * 0.3, y: H * 0.8, r: 45, intensity: 0.5 },
+                    { x: W * 0.85, y: H * 0.6, r: 55, intensity: 0.6 },
+                ];
+
+                expansions.forEach(({ x, y, r, intensity }) => {
+                    const g = ctx.createRadialGradient(x, y, 0, x, y, r);
+                    g.addColorStop(0, `rgba(255,75,43,${intensity * 0.4})`);
+                    g.addColorStop(1, 'transparent');
+                    ctx.fillStyle = g;
+                    ctx.fillRect(x - r, y - r, r * 2, r * 2);
+
+                    // New buildings in expansion zone
+                    for (let i = 0; i < 20; i++) {
+                        const angle = Math.random() * Math.PI * 2;
+                        const dist = Math.random() * r;
+                        const bx = x + Math.cos(angle) * dist;
+                        const by = y + Math.sin(angle) * dist;
+                        const bw = Math.random() * 18 + 5;
+                        const bh = Math.random() * 14 + 4;
+                        ctx.fillStyle = `rgba(255,75,43,${0.3 + Math.random() * 0.4})`;
+                        ctx.fillRect(bx, by, bw, bh);
+                        ctx.strokeStyle = `rgba(255,120,60,${0.5 + Math.random() * 0.3})`;
+                        ctx.lineWidth = 0.5;
+                        ctx.strokeRect(bx, by, bw, bh);
+                    }
+                });
+
+                // Additional dense urban
+                for (let i = 200; i < 350; i++) {
+                    const x = seededRand(i * 7) * W;
+                    const y = seededRand(i * 7 + 1) * H;
+                    const w = seededRand(i * 7 + 2) * 20 + 5;
+                    const h = seededRand(i * 8) * 15 + 4;
+                    const intensity = seededRand(i * 5) * 0.3 + 0.1;
+                    ctx.fillStyle = `rgba(0,229,255,${intensity * 0.25})`;
+                    ctx.fillRect(x, y, w, h);
+                }
+
+                // Highlight aura
+                const aura = ctx.createRadialGradient(W * 0.5, H * 0.5, 0, W * 0.5, H * 0.5, W * 0.5);
+                aura.addColorStop(0, 'transparent');
+                aura.addColorStop(1, 'rgba(255,75,43,0.04)');
+                ctx.fillStyle = aura;
+                ctx.fillRect(0, 0, W, H);
+            }
+
+            // Crosshair markers
+            const markers = newDev
+                ? [[W*0.1,H*0.1],[W*0.75,H*0.25],[W*0.6,H*0.75],[W*0.3,H*0.8],[W*0.85,H*0.6]]
+                : [[W*0.5,H*0.35],[W*0.3,H*0.6],[W*0.7,H*0.5]];
+
+            markers.forEach(([mx, my]) => {
+                const color = newDev ? '#ff4b2b' : '#00e5ff';
+                ctx.strokeStyle = color;
+                ctx.lineWidth = 1;
+                ctx.beginPath(); ctx.moveTo(mx - 8, my); ctx.lineTo(mx + 8, my); ctx.stroke();
+                ctx.beginPath(); ctx.moveTo(mx, my - 8); ctx.lineTo(mx, my + 8); ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(mx, my, 12, 0, Math.PI * 2);
+                ctx.strokeStyle = `rgba(${newDev ? '255,75,43' : '0,229,255'},0.4)`;
+                ctx.stroke();
+            });
+        }
+
+        // Init canvases
+        const wrapper = document.getElementById('slider-wrapper');
+        const beforeCanvas = document.getElementById('canvas-before');
+        const afterCanvas = document.getElementById('canvas-after');
+        const divider = document.getElementById('divider');
+        const knob = document.getElementById('knob');
+
+        function initCanvases() {
+            const W = wrapper.offsetWidth;
+            const H = wrapper.offsetHeight;
+            [beforeCanvas, afterCanvas].forEach(c => {
+                c.width = W;
+                c.height = H;
+                c.style.width = '100%';
+                c.style.height = '100%';
+            });
+            drawCity(beforeCanvas, { newDev: false });
+            drawCity(afterCanvas, { newDev: true });
+        }
+
+        // Slider interaction
+        let sliderPos = 50; // percentage
+        let isDragging = false;
+
+        function updateSlider(x) {
+            const rect = wrapper.getBoundingClientRect();
+            let pct = ((x - rect.left) / rect.width) * 100;
+            pct = Math.max(2, Math.min(98, pct));
+            sliderPos = pct;
+            afterCanvas.style.clipPath = `inset(0 ${100 - pct}% 0 0)`;
+            divider.style.left = `${pct}%`;
+            knob.style.left = `${pct}%`;
+        }
+
+        wrapper.addEventListener('mousedown', e => { isDragging = true; updateSlider(e.clientX); });
+        wrapper.addEventListener('mousemove', e => { if (isDragging) updateSlider(e.clientX); });
+        window.addEventListener('mouseup', () => isDragging = false);
+
+        wrapper.addEventListener('touchstart', e => { isDragging = true; updateSlider(e.touches[0].clientX); });
+        wrapper.addEventListener('touchmove', e => { if (isDragging) updateSlider(e.touches[0].clientX); e.preventDefault(); }, { passive: false });
+        window.addEventListener('touchend', () => isDragging = false);
+
+        // Init
+        initCanvases();
+        window.addEventListener('resize', initCanvases);
+
+        // Animate counter metrics
+        function animateVal(el, target, suffix = '') {
+            let current = 0;
+            const step = target / 60;
+            const interval = setInterval(() => {
+                current = Math.min(current + step, target);
+                el.textContent = (Number.isInteger(target) ? Math.floor(current) : current.toFixed(1)) + suffix;
+                if (current >= target) clearInterval(interval);
+            }, 16);
+        }
+    </script>
+</body>
+</html>

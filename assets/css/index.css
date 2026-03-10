@@ -10,6 +10,11 @@
     --text-tertiary: rgba(255, 255, 255, 0.4);
     --border-glass: rgba(255, 255, 255, 0.08);
     --glass-blur: blur(20px);
+    
+    /* --- STATUS COLORS --- */
+    --status-ok: #4ade80;
+    --status-err: #ff4b2b;
+    --status-warn: #ffb400;
 
     /* --- TYPOGRAPHY (Apple/Tesla Standard) --- */
     --font-main: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
@@ -18,8 +23,14 @@
     /* --- SPACING & TRANSITIONS --- */
     --section-gap: 160px;
     --ease-apple: cubic-bezier(0.4, 0, 0.2, 1);
+    --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Springy feel for hovers */
     --transition-slow: all 0.8s var(--ease-apple);
     --transition-fast: all 0.4s var(--ease-apple);
+    
+    /* --- GLASS & DEPTH (Sovereign Quality) --- */
+    --glass-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8);
+    --glass-border: 1px solid rgba(255, 255, 255, 0.1);
+    --glass-highlight: inset 0 1px 1px rgba(255, 255, 255, 0.05);
 }
 
 * {
@@ -183,7 +194,7 @@ body::-webkit-scrollbar {
     z-index: 40000;
     pointer-events: none;
     mix-blend-mode: difference;
-    transition: width 0.3s, height 0.3s, background 0.3s;
+    transition: width 0.3s var(--ease-spring), height 0.3s var(--ease-spring), background 0.3s;
 }
 
 .cursor-trail {
@@ -258,6 +269,105 @@ body::-webkit-scrollbar {
     }
 }
 
+/* --- TECH DNA SECTION (MODERN) --- */
+.tech-dna-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    padding: 4rem 0;
+}
+
+.tech-group-modern {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid var(--border-glass);
+    padding: 2.5rem;
+    border-radius: 24px;
+    transition: all 0.5s var(--ease-spring);
+    position: relative;
+    overflow: hidden;
+}
+
+.tech-group-modern:hover {
+    background: rgba(0, 229, 255, 0.05);
+    border-color: var(--accent-electric);
+    transform: translateY(-10px);
+}
+
+.tech-group-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.tech-group-header i {
+    font-size: 1.5rem;
+    color: var(--accent-electric);
+}
+
+.tech-group-modern h3 {
+    font-size: 0.8rem;
+    font-family: var(--font-mono);
+    color: #fff;
+    margin: 0;
+    letter-spacing: 0.1em;
+}
+
+.tech-icons-modern {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tech-icons-modern img {
+    height: 38px;
+    filter: grayscale(1) opacity(0.5);
+    transition: all 0.4s ease;
+}
+
+.tech-group-modern:hover .tech-icons-modern img {
+    filter: grayscale(0) opacity(1);
+    transform: scale(1.1);
+}
+
+.tech-group-desc {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+@media (max-width: 900px) {
+    .tech-dna-container { flex-direction: column; gap: 2rem; }
+}
+
+/* --- CONTACT SECURE CHANNEL --- */
+.contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-top: 4rem;
+}
+
+.contact-secure-card {
+    background: rgba(0, 229, 255, 0.03);
+    border: 1px solid var(--border-glass);
+    padding: 3rem;
+    border-radius: 24px;
+    position: relative;
+}
+
+.contact-secure-card::before {
+    content: 'SECURE_CHANNEL_ENCRYPTED';
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 0.5rem;
+    font-family: var(--font-mono);
+    color: var(--status-ok);
+    opacity: 0.5;
+}
+
+
 /* --- THE NEURAL GRID (Electronic Void) --- */
 .neural-grid {
     position: fixed;
@@ -268,6 +378,16 @@ body::-webkit-scrollbar {
     background-size: 80px 80px;
     z-index: -1;
     pointer-events: none;
+    opacity: 0.8;
+}
+
+.neural-grid::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at var(--mouse-x, 50%) var(--mouse-y, 50%), rgba(0, 229, 255, 0.05) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 1;
 }
 
 .neural-grid::after {
@@ -688,17 +808,34 @@ header.scrolled::before {
 .bento-item {
     background: var(--bg-surface);
     border: 1px solid var(--border-glass);
-    border-radius: 32px;
-    padding: 3rem;
+    border-radius: 24px;
+    padding: 2.5rem;
     position: relative;
     overflow: hidden;
-    transition: var(--transition-fast);
+    transition: all 0.5s var(--ease-spring);
+    box-shadow: var(--glass-shadow);
+    backdrop-filter: var(--glass-blur);
+    transform-style: preserve-3d;
+}
+
+.bento-item::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(255,255,255,0.05) 0%, transparent 100%);
+    opacity: 0;
+    transition: opacity 0.5s;
 }
 
 .bento-item:hover {
     border-color: var(--accent-electric);
-    background: rgba(255, 255, 255, 0.03);
-    transform: translateY(-8px);
+    background: rgba(255, 255, 255, 0.04);
+    transform: translateY(-12px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(0, 229, 255, 0.1);
+}
+
+.bento-item:hover::before {
+    opacity: 1;
 }
 
 /* Large Flagship Hero Card */
@@ -718,9 +855,19 @@ header.scrolled::before {
     height: 750px;
 }
 
-.bento-item.small {
-    grid-column: span 4;
-    height: 350px;
+.validator-output {
+    margin-top: 1rem;
+    padding: 10px;
+    background: rgba(0, 0, 0, 0.4);
+    border-radius: 4px;
+    color: var(--text-secondary);
+    min-height: 40px;
+    border-left: 2px solid var(--accent-electric);
+}
+
+.validator-run-btn:disabled {
+    opacity: 0.5;
+    cursor: wait;
 }
 
 /* --- BUTTONS (Tesla Minimalism) --- */
@@ -969,34 +1116,33 @@ section {
     color: var(--text-tertiary);
 }
 
-/* --- SOCIAL DOCK EVOLUTION (The Identifier) --- */
+/* --- SOCIAL DOCK (SOVEREIGN HANDLE) --- */
 .social-dock {
     position: fixed;
-    left: 2rem;
+    left: 1.5rem;
     top: 50%;
     transform: translateY(-50%);
     display: flex;
     flex-direction: column;
     gap: 1.2rem;
-    z-index: 999;
-    padding: 1.5rem 0.8rem;
+    z-index: 10002;
+    padding: 1.5rem 0.5rem;
     border-radius: 100px;
     background: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(15px);
+    backdrop-filter: blur(25px);
     border: 1px solid var(--border-glass);
+    width: 12px; /* Minimized */
+    height: 180px;
+    transition: all 0.6s var(--ease-spring);
+    overflow: hidden;
+    cursor: pointer;
 }
 
-.social-dock::before {
-    content: 'DEVICES';
-    position: absolute;
-    top: -5rem;
-    left: 50%;
-    transform: translateX(-50%) rotate(-90deg);
-    font-family: var(--font-mono);
-    font-size: 0.5rem;
-    letter-spacing: 0.5em;
-    color: var(--text-tertiary);
-    white-space: nowrap;
+.social-dock:hover {
+    width: 60px;
+    background: rgba(0, 0, 0, 0.85);
+    border-color: var(--accent-electric);
+    padding: 1.5rem 0.8rem;
 }
 
 .social-item {
@@ -1010,12 +1156,20 @@ section {
     justify-content: center;
     color: var(--text-tertiary);
     transition: var(--transition-fast);
+    opacity: 0;
+    transform: translateX(-20px);
+}
+
+.social-dock:hover .social-item {
+    opacity: 1;
+    transform: translateX(0);
 }
 
 .social-item:hover {
     border-color: var(--accent-electric);
     color: var(--accent-electric);
     background: rgba(0, 229, 255, 0.05);
+    transform: scale(1.1);
 }
 
 /* RESPONSIVE --- */
@@ -2519,4 +2673,1656 @@ section {
     -ms-user-select: none;
     user-select: none;
     -webkit-user-drag: none;
+}
+
+/* ============================================================
+   GIS WORKSTATION — ArcGIS Pro / QGIS Inspired Interface
+   ============================================================ */
+
+.gis-mono {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: rgba(255,255,255,0.4);
+}
+
+.gis-workstation {
+    width: 100%;
+    background: #050508;
+    border: 1px solid rgba(0,229,255,0.1);
+    border-left: none;
+    border-right: none;
+    display: flex;
+    flex-direction: column;
+    height: 780px;
+}
+
+/* TOP TOOLBAR */
+.gis-toolbar {
+    height: 44px;
+    background: #0a0a0f;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 0 1rem;
+    flex-shrink: 0;
+}
+
+.gis-toolbar-brand {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding-right: 1.5rem;
+    border-right: 1px solid rgba(255,255,255,0.06);
+    white-space: nowrap;
+}
+
+.gis-status-dot {
+    width: 6px; height: 6px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse2 1.5s infinite;
+    flex-shrink: 0;
+}
+
+.gis-toolbar-tools {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+}
+
+.gis-tool {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    padding: 0.3rem 0.7rem;
+    background: transparent;
+    border: 1px solid transparent;
+    border-radius: 6px;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.05em;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.gis-tool i { font-size: 0.9rem; }
+
+.gis-tool:hover {
+    background: rgba(255,255,255,0.05);
+    color: #fff;
+    border-color: rgba(255,255,255,0.1);
+}
+
+.gis-tool.active {
+    background: rgba(0,229,255,0.1);
+    border-color: rgba(0,229,255,0.3);
+    color: #00e5ff;
+}
+
+.gis-toolbar-coords {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: auto;
+    padding-left: 1rem;
+    border-left: 1px solid rgba(255,255,255,0.06);
+    white-space: nowrap;
+}
+
+.gis-coord-val {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: #00e5ff;
+}
+
+/* MAIN AREA */
+.gis-main {
+    display: grid;
+    grid-template-columns: 230px 1fr 220px;
+    flex: 1;
+    overflow: hidden;
+}
+
+/* PANELS */
+.gis-panel {
+    background: #07070b;
+    border-color: rgba(255,255,255,0.06);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+}
+
+.gis-panel-left {
+    border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.gis-panel-right {
+    border-left: 1px solid rgba(255,255,255,0.06);
+}
+
+.gis-panel-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 0.8rem;
+    background: rgba(255,255,255,0.02);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+.gis-panel-header i { font-size: 0.9rem; color: #00e5ff; }
+
+.gis-panel-toggle {
+    margin-left: auto;
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.3);
+    cursor: pointer;
+    font-size: 0.8rem;
+    padding: 0 0.2rem;
+    transition: color 0.2s;
+}
+.gis-panel-toggle:hover { color: #00e5ff; }
+
+.gis-panel-section {
+    padding: 0.8rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+}
+
+.gis-panel-label {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.25);
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+}
+
+/* Basemap buttons */
+.gis-basemap-btns {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+}
+
+.gis-basemap-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: transparent;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 6px;
+    padding: 0.4rem 0.6rem;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.gis-basemap-btn:hover {
+    border-color: rgba(0,229,255,0.3);
+    color: #fff;
+}
+
+.gis-basemap-btn.active {
+    border-color: rgba(0,229,255,0.4);
+    background: rgba(0,229,255,0.05);
+    color: #00e5ff;
+}
+
+.basemap-preview {
+    width: 24px; height: 16px;
+    border-radius: 3px;
+    flex-shrink: 0;
+}
+.dark-preview { background: linear-gradient(135deg, #0a0a0f, #111); }
+.sat-preview  { background: linear-gradient(135deg, #1a3a1a, #2d5a2d); }
+.topo-preview { background: linear-gradient(135deg, #2a2a4a, #1a1a3a); }
+
+/* Layer list */
+.gis-layer-list { display: flex; flex-direction: column; gap: 0.2rem; }
+
+.gis-layer-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.35rem 0.4rem;
+    border-radius: 5px;
+    transition: background 0.2s;
+}
+
+.gis-layer-item:hover { background: rgba(255,255,255,0.03); }
+
+.gis-layer-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.6);
+}
+
+.gis-layer-toggle input[type="checkbox"] {
+    appearance: none;
+    width: 12px; height: 12px;
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 2px;
+    background: transparent;
+    cursor: pointer;
+    position: relative;
+    flex-shrink: 0;
+}
+
+.gis-layer-toggle input:checked {
+    background: rgba(0,229,255,0.3);
+    border-color: #00e5ff;
+}
+
+.gis-layer-toggle input:checked::after {
+    content: '✓';
+    position: absolute;
+    top: -1px; left: 1px;
+    font-size: 0.5rem;
+    color: #00e5ff;
+}
+
+.gis-layer-icon {
+    width: 14px; height: 10px;
+    border-radius: 2px;
+    flex-shrink: 0;
+}
+
+.gis-layer-actions { display: flex; gap: 0.2rem; }
+
+.gis-layer-btn {
+    background: none;
+    border: none;
+    color: rgba(255,255,255,0.2);
+    cursor: pointer;
+    font-size: 0.65rem;
+    padding: 0 0.2rem;
+    transition: color 0.2s;
+}
+.gis-layer-btn:hover { color: #00e5ff; }
+
+/* Legend */
+.gis-legend { display: flex; flex-direction: column; gap: 0.4rem; }
+
+.legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.4);
+}
+
+.legend-symbol {
+    width: 14px; height: 10px;
+    flex-shrink: 0;
+}
+
+/* Projection info */
+.gis-proj-info {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    font-size: 0.55rem;
+    line-height: 1.6;
+    color: rgba(255,255,255,0.3);
+}
+
+/* MAP CONTAINER */
+.gis-map-container {
+    position: relative;
+    overflow: hidden;
+}
+
+/* Zoom controls */
+.gis-zoom-controls {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 500;
+    background: rgba(10,10,15,0.85);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.gis-zoom-btn {
+    display: block;
+    width: 32px; height: 32px;
+    background: transparent;
+    border: none;
+    color: rgba(255,255,255,0.6);
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.2s;
+    line-height: 32px;
+    text-align: center;
+}
+.gis-zoom-btn:hover { background: rgba(0,229,255,0.1); color: #00e5ff; }
+
+.gis-zoom-sep {
+    height: 1px;
+    background: rgba(255,255,255,0.06);
+}
+
+/* Scale bar */
+.gis-scalebar {
+    position: absolute;
+    bottom: 14px;
+    left: 14px;
+    z-index: 500;
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.scalebar-line {
+    height: 4px;
+    width: 80px;
+    background: linear-gradient(90deg, #00e5ff 50%, rgba(0,229,255,0.2) 50%);
+    border: 1px solid rgba(0,229,255,0.4);
+    border-radius: 2px;
+}
+
+.scalebar-label {
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.5);
+}
+
+/* Measure widget */
+.gis-measure-widget {
+    position: absolute;
+    top: 12px;
+    left: 12px;
+    z-index: 600;
+    background: rgba(5,5,15,0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(0,229,255,0.3);
+    border-radius: 10px;
+    padding: 1rem;
+    min-width: 180px;
+}
+
+.gis-clear-measure {
+    margin-top: 0.8rem;
+    width: 100%;
+    background: rgba(255,75,43,0.1);
+    border: 1px solid rgba(255,75,43,0.3);
+    color: #ff4b2b;
+    border-radius: 4px;
+    padding: 0.3rem;
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    transition: all 0.2s;
+}
+.gis-clear-measure:hover { background: rgba(255,75,43,0.2); }
+
+/* Identify hint */
+.gis-identify-hint {
+    position: absolute;
+    top: 12px; left: 50%;
+    transform: translateX(-50%);
+    background: rgba(0,0,0,0.85);
+    border: 1px solid rgba(0,229,255,0.4);
+    border-radius: 8px;
+    padding: 0.5rem 1rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: #00e5ff;
+    z-index: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    animation: fadeInSlide 0.3s ease;
+    backdrop-filter: blur(10px);
+}
+
+@keyframes fadeInSlide {
+    from { opacity: 0; transform: translateX(-50%) translateY(-8px); }
+    to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* Attribute panel */
+.attr-system-id {
+    font-size: 0.55rem;
+    color: #00e5ff;
+    background: rgba(0,229,255,0.05);
+    border: 1px solid rgba(0,229,255,0.15);
+    border-radius: 5px;
+    padding: 0.4rem 0.6rem;
+    margin-bottom: 0.8rem;
+}
+
+.attr-table {
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+    margin-bottom: 1rem;
+}
+
+.attr-row {
+    display: grid;
+    grid-template-columns: 45% 55%;
+    border-radius: 3px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.04);
+}
+
+.attr-key {
+    padding: 0.3rem 0.4rem;
+    background: rgba(255,255,255,0.02);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+    border-right: 1px solid rgba(255,255,255,0.04);
+}
+
+.attr-val {
+    padding: 0.3rem 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.7);
+}
+
+.attr-actions {
+    display: flex;
+    gap: 0.4rem;
+}
+
+.attr-action-btn {
+    flex: 1;
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 6px;
+    color: rgba(255,255,255,0.5);
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    padding: 0.4rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3rem;
+    transition: all 0.2s;
+}
+
+.attr-action-btn:hover {
+    background: rgba(0,229,255,0.1);
+    border-color: rgba(0,229,255,0.3);
+    color: #00e5ff;
+}
+
+.attr-action-btn i { font-size: 0.8rem; }
+
+/* Map stats */
+.gis-map-stats {
+    margin-top: auto;
+    padding: 0.8rem;
+    border-top: 1px solid rgba(255,255,255,0.04);
+}
+
+.gis-stat-row {
+    display: flex;
+    justify-content: space-between;
+    padding: 0.25rem 0;
+    border-bottom: 1px solid rgba(255,255,255,0.03);
+    font-size: 0.55rem;
+}
+
+/* STATUS BAR */
+.gis-statusbar {
+    height: 24px;
+    background: #050508;
+    border-top: 1px solid rgba(255,255,255,0.06);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0 1rem;
+    font-size: 0.5rem;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.gis-clock {
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.05em;
+}
+
+/* Custom Leaflet popup override for GIS */
+.leaflet-popup-content-wrapper {
+    background: rgba(5,5,15,0.95) !important;
+    border: 1px solid rgba(0,229,255,0.3) !important;
+    border-radius: 12px !important;
+    backdrop-filter: blur(20px) !important;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.8), 0 0 20px rgba(0,229,255,0.1) !important;
+    color: #fff !important;
+}
+
+.leaflet-popup-tip { background: rgba(5,5,15,0.95) !important; }
+.leaflet-popup-close-button { color: rgba(255,255,255,0.4) !important; }
+.leaflet-popup-close-button:hover { color: #00e5ff !important; }
+
+.gis-popup-header {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: #00e5ff;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    margin-bottom: 0.6rem;
+    padding-bottom: 0.4rem;
+    border-bottom: 1px solid rgba(0,229,255,0.15);
+}
+
+.gis-popup-title {
+    font-size: 0.9rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    margin-bottom: 0.8rem;
+}
+
+.gis-popup-table { width: 100%; border-collapse: collapse; }
+.gis-popup-table td {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    padding: 0.25rem 0.3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    vertical-align: top;
+}
+
+.gis-popup-table td:first-child { color: rgba(255,255,255,0.3); width: 45%; }
+.gis-popup-table td:last-child { color: rgba(255,255,255,0.8); }
+
+/* GIS Responsive */
+@media (max-width: 900px) {
+    .gis-main { grid-template-columns: 1fr; }
+    .gis-panel-left, .gis-panel-right { display: none; }
+    .gis-workstation { height: 550px; }
+    .gis-toolbar-tools span { display: none; }
+    .gis-toolbar-coords { display: none; }
+}
+
+/* ============================================================
+   PRICING — ENTERPRISE COMMERCIAL ENGINE
+   ============================================================ */
+
+.pricing-section {
+    padding: 10rem 5%;
+    background: var(--bg-base);
+    position: relative;
+    overflow: hidden;
+}
+
+.pricing-bg-deco {
+    position: absolute;
+    inset: 0;
+    background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,229,255,0.04) 0%, transparent 60%),
+        radial-gradient(ellipse at 80% 50%, rgba(157,78,221,0.04) 0%, transparent 60%);
+    pointer-events: none;
+}
+
+.pricing-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.pricing-header-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.2em;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-title {
+    font-size: clamp(2.5rem, 5vw, 4.5rem) !important;
+    margin-bottom: 1.5rem;
+}
+
+.pricing-subtitle {
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto 3rem;
+    font-size: 1.05rem;
+    line-height: 1.8;
+}
+
+/* ROI Strip */
+.pricing-roi-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    overflow: hidden;
+}
+
+.roi-stat {
+    flex: 1;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.roi-val {
+    font-size: 1.8rem;
+    font-weight: 900;
+    color: #00e5ff;
+    letter-spacing: -0.04em;
+    font-family: var(--font-mono);
+    line-height: 1;
+    margin-bottom: 0.3rem;
+}
+
+.roi-label {
+    font-size: 0.65rem;
+    color: rgba(255,255,255,0.4);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.roi-divider {
+    width: 1px;
+    height: 50px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+/* COMPARE */
+.pricing-compare {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    max-width: 900px;
+    margin: 4rem auto;
+}
+
+.compare-col {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 20px;
+    padding: 2rem;
+}
+
+.compare-col.compare-after {
+    border-color: rgba(74,222,128,0.2);
+    background: rgba(74,222,128,0.02);
+}
+
+.compare-header { margin-bottom: 1.2rem; }
+
+.compare-badge {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    letter-spacing: 0.1em;
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    text-transform: uppercase;
+}
+
+.compare-badge.bad { background: rgba(255,75,43,0.1); color: #ff4b2b; border: 1px solid rgba(255,75,43,0.2); }
+.compare-badge.good { background: rgba(74,222,128,0.1); color: #4ade80; border: 1px solid rgba(74,222,128,0.2); }
+
+.compare-list {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    font-size: 0.85rem;
+    color: rgba(255,255,255,0.5);
+}
+
+.compare-list li { display: flex; align-items: center; gap: 0.6rem; }
+
+.cmp-x { color: #ff4b2b; font-weight: 900; }
+.cmp-ok { color: #4ade80; font-weight: 900; }
+
+.compare-vs {
+    font-family: var(--font-mono);
+    font-size: 1.2rem;
+    font-weight: 900;
+    color: rgba(255,255,255,0.15);
+    text-align: center;
+    flex-shrink: 0;
+}
+
+/* PLAN CARDS */
+.pricing-plans {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    max-width: 1200px;
+    margin: 0 auto 4rem;
+    align-items: start;
+}
+
+.plan-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 28px;
+    padding: 2.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.4s var(--ease-apple);
+}
+
+.plan-card:hover {
+    border-color: rgba(255,255,255,0.12);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 50px rgba(0,0,0,0.5);
+}
+
+.plan-card.plan-featured {
+    border-color: rgba(0,229,255,0.3);
+    background: rgba(0,229,255,0.02);
+    transform: scale(1.03);
+}
+
+.plan-card.plan-featured:hover {
+    border-color: rgba(0,229,255,0.5);
+    box-shadow: 0 20px 60px rgba(0,229,255,0.1);
+    transform: scale(1.03) translateY(-5px);
+}
+
+.plan-card.plan-gold {
+    border-color: rgba(255,180,0,0.15);
+}
+
+.plan-card.plan-gold:hover {
+    border-color: rgba(255,180,0,0.3);
+    box-shadow: 0 20px 50px rgba(255,180,0,0.08);
+}
+
+/* Beam effect for featured card */
+.plan-beam {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #00e5ff, #9D4EDD, transparent);
+    animation: beamSlide 3s ease-in-out infinite;
+}
+
+@keyframes beamSlide {
+    0%, 100% { opacity: 0.6; }
+    50% { opacity: 1; }
+}
+
+.plan-popular-badge {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: linear-gradient(90deg, #00e5ff, #9D4EDD);
+    color: #000;
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    font-weight: 900;
+    padding: 0.3rem 1.2rem;
+    border-radius: 0 0 12px 12px;
+    letter-spacing: 0.1em;
+    white-space: nowrap;
+}
+
+.plan-tier {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 0.8rem;
+    margin-top: 1rem;
+}
+
+.plan-name {
+    font-size: 1.6rem;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+    margin-bottom: 0.4rem;
+}
+
+.plan-for {
+    font-size: 0.8rem;
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+}
+
+.plan-price {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5rem;
+    margin-bottom: 1.2rem;
+}
+
+.price-amount {
+    font-size: 3rem;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+    line-height: 1;
+}
+
+.price-period {
+    font-size: 0.75rem;
+    color: rgba(255,255,255,0.4);
+}
+
+/* Capacity bar */
+.plan-capacity { margin-bottom: 1.5rem; }
+
+.capacity-label {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.3);
+    margin-bottom: 0.4rem;
+}
+
+.capacity-bar {
+    height: 4px;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2px;
+    overflow: hidden;
+}
+
+.capacity-fill {
+    height: 100%;
+    border-radius: 2px;
+    transition: width 1s ease;
+}
+
+/* Features */
+.plan-features {
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    margin-bottom: 2rem;
+    flex: 1;
+}
+
+.plan-features li {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    font-size: 0.82rem;
+    color: rgba(255,255,255,0.6);
+}
+
+.plan-features li i { font-size: 0.9rem; flex-shrink: 0; }
+
+.feat-ok i { color: rgba(255,255,255,0.3); }
+.feat-no { opacity: 0.35; }
+.feat-no i { color: rgba(255,75,43,0.5); }
+.feat-cyan i { color: #00e5ff; }
+.feat-cyan { color: rgba(255,255,255,0.8); }
+.feat-gold i { color: #ffb400; }
+.feat-gold { color: rgba(255,255,255,0.8); }
+
+/* Plan buttons */
+.plan-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.9rem 1.5rem;
+    border-radius: 12px;
+    font-family: var(--font-mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.1em;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    border: none;
+    transition: all 0.3s;
+    margin-bottom: 0.8rem;
+}
+
+.plan-btn i { font-size: 1rem; }
+
+.plan-btn-ghost {
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.1);
+    color: rgba(255,255,255,0.7);
+}
+.plan-btn-ghost:hover {
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    border-color: rgba(255,255,255,0.2);
+}
+
+.plan-btn-primary {
+    background: linear-gradient(135deg, #00e5ff, #9D4EDD);
+    color: #000;
+    font-weight: 900;
+    box-shadow: 0 4px 20px rgba(0,229,255,0.25);
+}
+.plan-btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 30px rgba(0,229,255,0.4);
+}
+
+.plan-btn-gold {
+    background: rgba(255,180,0,0.1);
+    border: 1px solid rgba(255,180,0,0.3);
+    color: #ffb400;
+}
+.plan-btn-gold:hover {
+    background: rgba(255,180,0,0.15);
+    border-color: rgba(255,180,0,0.5);
+    transform: translateY(-2px);
+}
+
+.plan-trust {
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.25);
+    text-align: center;
+    letter-spacing: 0.05em;
+}
+
+/* TRUST STRIP */
+.trust-strip {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0;
+    max-width: 1000px;
+    margin: 0 auto;
+    border: 1px solid rgba(255,255,255,0.05);
+    border-radius: 16px;
+    background: rgba(255,255,255,0.01);
+    padding: 1.5rem 2rem;
+}
+
+.trust-item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.6rem;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: rgba(255,255,255,0.5);
+    letter-spacing: 0.05em;
+    text-align: center;
+}
+
+.trust-divider {
+    width: 1px;
+    height: 30px;
+    background: rgba(255,255,255,0.06);
+    flex-shrink: 0;
+}
+
+/* Pricing Responsive */
+@media (max-width: 1100px) {
+    .pricing-plans { grid-template-columns: 1fr; max-width: 480px; }
+    .plan-card.plan-featured { transform: none; }
+    .pricing-compare { grid-template-columns: 1fr; }
+    .compare-vs { display: none; }
+    .trust-strip { flex-wrap: wrap; gap: 1rem; }
+}
+/* ====================================================================
+   UPGRADES V6.5  Hero, Timeline V2, Contact V2, Footer V2, Fullscreen
+   ==================================================================== */
+
+/* HERO: Availability Tag (replaces identity badge) */
+.hero-availability-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.25);
+    padding: 0.4rem 1rem;
+    border-radius: 100px;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: #4ade80;
+    letter-spacing: 0.08em;
+    margin-bottom: 1.5rem;
+}
+.avail-dot {
+    width: 6px;
+    height: 6px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse-green 1.5s ease infinite;
+    flex-shrink: 0;
+}
+@keyframes pulse-green {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(74,222,128,0.5); }
+    50% { box-shadow: 0 0 0 6px rgba(74,222,128,0); }
+}
+
+/* =====================================================
+   TIMELINE V2  Vertical Rich Cards
+   ===================================================== */
+.timeline-v2 {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    max-width: 900px;
+}
+
+.tlv2-item {
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 0 2rem;
+    position: relative;
+    padding-bottom: 3rem;
+}
+.tlv2-item:last-child { padding-bottom: 0; }
+
+.tlv2-marker {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+}
+.tlv2-dot-outer {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    background: rgba(0,229,255,0.1);
+    border: 2px solid rgba(0,229,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    z-index: 2;
+    margin-top: 3px;
+}
+.tlv2-item.active-node .tlv2-dot-outer {
+    border-color: #4ade80;
+    background: rgba(74,222,128,0.15);
+    box-shadow: 0 0 12px rgba(74,222,128,0.4);
+    animation: pulse-green 2s ease infinite;
+}
+.tlv2-dot-inner {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: rgba(0,229,255,0.8);
+}
+.tlv2-item.active-node .tlv2-dot-inner {
+    background: #4ade80;
+}
+.tlv2-line {
+    width: 1px;
+    flex: 1;
+    background: linear-gradient(to bottom, rgba(0,229,255,0.2), transparent);
+    margin-top: 4px;
+}
+
+.tlv2-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 1.5rem 2rem;
+    transition: border-color 0.3s, background 0.3s;
+}
+.tlv2-card:hover {
+    border-color: rgba(0,229,255,0.2);
+    background: rgba(0,229,255,0.03);
+}
+.tlv2-item.active-node .tlv2-card {
+    border-color: rgba(74,222,128,0.2);
+    background: rgba(74,222,128,0.03);
+}
+
+.tlv2-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.6rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+.tlv2-period {
+    color: rgba(255,255,255,0.4);
+    font-size: 0.55rem !important;
+}
+.tlv2-badge {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 100px;
+    letter-spacing: 0.08em;
+}
+.tlv2-badge.active {
+    color: #4ade80;
+    background: rgba(74,222,128,0.1);
+    border: 1px solid rgba(74,222,128,0.3);
+}
+.tlv2-badge.done {
+    color: rgba(255,255,255,0.4);
+    background: rgba(255,255,255,0.04);
+    border: 1px solid rgba(255,255,255,0.08);
+}
+.tlv2-role {
+    font-size: 1.15rem;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 0.3rem;
+}
+.tlv2-company {
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    color: var(--accent-electric);
+    letter-spacing: 0.05em;
+    margin-bottom: 0.8rem;
+}
+.tlv2-city {
+    color: rgba(255,255,255,0.3);
+}
+.tlv2-desc {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 1rem;
+}
+.tlv2-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.tlv2-pills span {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(0,229,255,0.06);
+    border: 1px solid rgba(0,229,255,0.15);
+    color: rgba(0,229,255,0.7);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+}
+@media (max-width: 768px) {
+    .tlv2-item { grid-template-columns: 28px 1fr; gap: 0 1rem; }
+    .tlv2-role { font-size: 1rem; }
+    .tlv2-card { padding: 1rem 1.2rem; }
+}
+
+/* =====================================================
+   MAP FULLSCREEN
+   ===================================================== */
+.gis-workstation.fullscreen-mode {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    height: 100vh !important;
+    border-radius: 0;
+}
+.gis-btn-fullscreen {
+    margin-left: auto;
+    background: rgba(0,229,255,0.08);
+    border: 1px solid rgba(0,229,255,0.2);
+    color: var(--accent-electric);
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    padding: 0.3rem 0.7rem;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    transition: all 0.2s;
+    letter-spacing: 0.05em;
+}
+.gis-btn-fullscreen:hover {
+    background: rgba(0,229,255,0.15);
+    border-color: var(--accent-electric);
+}
+
+/* =====================================================
+   CONTACT V2  Enterprise Grid 
+   ===================================================== */
+.contact-section-v2 {
+    padding: 12rem 5%;
+    position: relative;
+}
+.contact-portal-v2 {
+    display: grid;
+    grid-template-columns: 1fr 1.1fr;
+    gap: 6rem;
+    align-items: start;
+    margin-top: 4rem;
+}
+.contact-big-title {
+    font-size: 4.5rem;
+    letter-spacing: -0.06em;
+    line-height: 0.9;
+    font-weight: 900;
+    margin-bottom: 1.5rem;
+}
+.contact-lead {
+    color: var(--text-secondary);
+    font-size: 1.05rem;
+    line-height: 1.8;
+    margin-bottom: 2.5rem;
+    max-width: 420px;
+}
+.contact-cards-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+.contact-card {
+    background: rgba(255,255,255,0.02);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 12px;
+    padding: 1.2rem;
+    text-decoration: none;
+    transition: all 0.3s;
+    cursor: pointer;
+}
+.contact-card:hover {
+    border-color: rgba(0,229,255,0.25);
+    background: rgba(0,229,255,0.04);
+    transform: translateY(-2px);
+}
+.cc-icon {
+    font-size: 1.4rem;
+    margin-bottom: 0.4rem;
+}
+.cc-label {
+    font-family: var(--font-mono);
+    font-size: 0.5rem;
+    color: rgba(255,255,255,0.3);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.2rem;
+}
+.cc-value {
+    font-size: 0.7rem;
+    color: rgba(255,255,255,0.7);
+    font-weight: 600;
+    word-break: break-all;
+}
+.contact-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    padding: 1rem 1.2rem;
+    background: rgba(0,229,255,0.03);
+    border: 1px solid rgba(0,229,255,0.1);
+    border-radius: 10px;
+    color: rgba(0,229,255,0.6) !important;
+    font-size: 0.55rem !important;
+}
+.contact-form-col {
+    background: rgba(255,255,255,0.015);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 20px;
+    padding: 2.5rem;
+}
+.contact-form-header {
+    font-size: 0.5rem !important;
+    color: rgba(0,229,255,0.5) !important;
+    margin-bottom: 2rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+
+/* Select styling */
+.portal-input select,
+select.portal-input {
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg width='12' height='8' viewBox='0 0 12 8' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M1 1L6 7L11 1' stroke='rgba(0,229,255,0.5)' stroke-width='1.5'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 1rem center;
+}
+
+@media (max-width: 900px) {
+    .contact-portal-v2 { grid-template-columns: 1fr; gap: 3rem; }
+    .contact-big-title { font-size: 3rem; }
+    .contact-cards-grid { grid-template-columns: 1fr 1fr; }
+}
+
+/* =====================================================
+   FOOTER BOTTOM V2  Enterprise grade
+   ===================================================== */
+.footer-bottom-v2 {
+    border-top: 1px solid rgba(255,255,255,0.04);
+    padding: 1.5rem 5%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+}
+.footer-bottom-left {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+.fb-logo-mark {
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    font-weight: 900;
+    color: rgba(0,229,255,0.4);
+    border: 1px solid rgba(0,229,255,0.15);
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    letter-spacing: 0.15em;
+    flex-shrink: 0;
+}
+.fb-legal {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    flex-wrap: wrap;
+    font-size: 0.55rem;
+    color: rgba(255,255,255,0.25);
+}
+.fb-sep {
+    color: rgba(255,255,255,0.1);
+}
+.footer-bottom-center {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+.fb-status-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: 1px solid rgba(74,222,128,0.15);
+    padding: 0.3rem 0.8rem;
+    border-radius: 100px;
+    background: rgba(74,222,128,0.04);
+}
+.fb-status-dot {
+    width: 5px;
+    height: 5px;
+    background: #4ade80;
+    border-radius: 50%;
+    animation: pulse-green 2s ease infinite;
+    flex-shrink: 0;
+}
+.footer-bottom-right {
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+    font-size: 0.5rem !important;
+}
+@media (max-width: 768px) {
+    .footer-bottom-v2 { flex-direction: column; text-align: center; gap: 1rem; }
+    .footer-bottom-center { width: 100%; }
+}
+
+/* ====================================================================
+   TIMELINE V3  Sophisticated Glassmorphism + Gradient Accent
+   ==================================================================== */
+
+/* Override V2 with enhanced V3 styles (these take precedence) */
+
+.timeline-v2 {
+    position: relative;
+    padding-left: 3.5rem;
+}
+
+/* Continuous gradient accent line */
+.timeline-v2::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 8px;
+    bottom: 0;
+    width: 2px;
+    background: linear-gradient(
+        to bottom,
+        #4ade80 0%,
+        rgba(0,229,255,0.6) 25%,
+        rgba(0,229,255,0.3) 50%,
+        rgba(0,229,255,0.15) 75%,
+        transparent 100%
+    );
+    border-radius: 2px;
+}
+
+/* Redo marker alignment  fixed left column */
+.tlv2-item {
+    display: block;
+    position: relative;
+    padding-bottom: 2.5rem;
+    padding-left: 0;
+}
+.tlv2-item:last-child { padding-bottom: 0; }
+
+.tlv2-marker {
+    position: absolute;
+    left: -3.5rem;
+    top: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+}
+
+.tlv2-dot-outer {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    background: rgba(2,2,5,1);
+    border: 2px solid rgba(0,229,255,0.4);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    box-shadow: 0 0 0 4px rgba(2,2,5,1);
+    transition: all 0.3s;
+}
+.tlv2-item.active-node .tlv2-dot-outer {
+    border-color: #4ade80;
+    box-shadow: 0 0 0 4px rgba(2,2,5,1), 0 0 14px rgba(74,222,128,0.5);
+}
+.tlv2-dot-inner {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: rgba(0,229,255,0.8);
+    transition: all 0.3s;
+}
+.tlv2-item.active-node .tlv2-dot-inner {
+    background: #4ade80;
+    box-shadow: 0 0 8px rgba(74,222,128,0.8);
+}
+.tlv2-line { display: none; }
+
+/* The card  glassmorphism V3 */
+.tlv2-card {
+    background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, rgba(255,255,255,0.01) 100%);
+    border: 1px solid rgba(255,255,255,0.07);
+    border-radius: 18px;
+    padding: 1.6rem 2rem;
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    overflow: hidden;
+}
+
+/* Subtle top accent line per card */
+.tlv2-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(0,229,255,0.2), transparent);
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.tlv2-card:hover::before { opacity: 1; }
+
+/* Active card has green accent */
+.tlv2-item.active-node .tlv2-card::before {
+    background: linear-gradient(90deg, transparent, rgba(74,222,128,0.4), transparent);
+    opacity: 1;
+}
+.tlv2-item.active-node .tlv2-card {
+    border-color: rgba(74,222,128,0.18);
+    background: linear-gradient(135deg, rgba(74,222,128,0.04) 0%, rgba(0,229,255,0.02) 100%);
+}
+
+.tlv2-card:hover {
+    border-color: rgba(0,229,255,0.2);
+    transform: translateX(4px);
+    background: linear-gradient(135deg, rgba(0,229,255,0.04) 0%, rgba(255,255,255,0.02) 100%);
+}
+.tlv2-item.active-node .tlv2-card:hover {
+    border-color: rgba(74,222,128,0.35);
+    transform: translateX(4px);
+}
+
+/* Small connector arrow from line to card */
+.tlv2-card::after {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 13px;
+    width: 8px;
+    height: 1px;
+    background: rgba(0,229,255,0.25);
+}
+.tlv2-item.active-node .tlv2-card::after {
+    background: rgba(74,222,128,0.4);
+}
+
+/* Year floating above badge */
+.tlv2-period {
+    font-size: 0.6rem !important;
+    color: rgba(0,229,255,0.5) !important;
+    letter-spacing: 0.12em;
+}
+.tlv2-item.active-node .tlv2-period {
+    color: rgba(74,222,128,0.6) !important;
+}
+
+/* Role title  premium typography */
+.tlv2-role {
+    font-size: 1.2rem;
+    font-weight: 900;
+    letter-spacing: -0.03em;
+    color: #fff;
+    margin-bottom: 0.35rem;
+    line-height: 1.2;
+}
+
+/* Company line */
+.tlv2-company {
+    font-family: var(--font-mono);
+    font-size: 0.55rem;
+    color: rgba(0,229,255,0.6);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+}
+.tlv2-item.active-node .tlv2-company {
+    color: rgba(74,222,128,0.7);
+}
+.tlv2-city {
+    color: rgba(255,255,255,0.25);
+    font-weight: 400;
+}
+
+/* Description */
+.tlv2-desc {
+    font-size: 0.88rem;
+    color: rgba(255,255,255,0.5);
+    line-height: 1.75;
+    margin-bottom: 1.1rem;
+}
+
+/* Pills  refined */
+.tlv2-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.4rem;
+}
+.tlv2-pills span {
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    padding: 0.2rem 0.6rem;
+    border-radius: 4px;
+    background: rgba(0,229,255,0.05);
+    border: 1px solid rgba(0,229,255,0.12);
+    color: rgba(0,229,255,0.6);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    transition: all 0.2s;
+}
+.tlv2-pills span:hover {
+    background: rgba(0,229,255,0.1);
+    border-color: rgba(0,229,255,0.3);
+    color: rgba(0,229,255,0.9);
+}
+.tlv2-item.active-node .tlv2-pills span {
+    background: rgba(74,222,128,0.05);
+    border-color: rgba(74,222,128,0.15);
+    color: rgba(74,222,128,0.7);
+}
+
+/* Badge */
+.tlv2-badge {
+    font-family: var(--font-mono);
+    font-size: 0.48rem;
+    padding: 0.2rem 0.7rem;
+    border-radius: 100px;
+    letter-spacing: 0.1em;
+    font-weight: 700;
+}
+.tlv2-badge.active {
+    color: #4ade80;
+    background: rgba(74,222,128,0.08);
+    border: 1px solid rgba(74,222,128,0.25);
+    animation: pulse-green 2s ease infinite;
+}
+.tlv2-badge.done {
+    color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.03);
+    border: 1px solid rgba(255,255,255,0.07);
+}
+
+@media (max-width: 768px) {
+    .timeline-v2 { padding-left: 2.5rem; }
+    .tlv2-marker { left: -2.5rem; }
+    .tlv2-role { font-size: 1rem; }
+    .tlv2-card { padding: 1.2rem 1.3rem; }
+    .tlv2-card::after { display: none; }
 }

@@ -1,352 +1,90 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGZ | Territorial Automation Systems</title>
-    <link rel="stylesheet" href="../../assets/css/index.css">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Spatial ETL Automation | DGZ Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
-        rel="stylesheet">
-    <script src="../../assets/js/dgz-core.js"></script>
     <style>
-        .project-hero {
-            padding: 8rem 5% 4rem;
-            position: relative;
-            background: radial-gradient(circle at top right, rgba(0, 229, 255, 0.05), transparent);
-        }
-
-        .back-link {
-            color: var(--accent-electric);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            transition: 0.3s;
-        }
-
-        .back-link:hover {
-            letter-spacing: 2px;
-            text-shadow: 0 0 10px var(--accent-electric);
-        }
-
-        .article-body {
-            max-width: 1000px;
-            margin: 0 auto;
-            color: var(--text-secondary);
-            padding-bottom: 10rem;
-        }
-
-        /* ETL SIMULATOR */
-        .etl-display {
-            background: #050507;
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 3rem;
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .etl-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            padding-bottom: 1rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .etl-status {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .pulse-dot {
-            width: 8px;
-            height: 8px;
-            background: var(--accent-electric);
-            border-radius: 50%;
-            animation: pulse 1.5s infinite;
-        }
-
-        .pipeline-container {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 2rem;
-            position: relative;
-        }
-
-        .pipeline-container::after {
-            content: '';
-            position: absolute;
-            top: 25px;
-            left: 10%;
-            right: 10%;
-            height: 2px;
-            background: linear-gradient(90deg, var(--accent-electric), var(--accent-gold));
-            z-index: 0;
-            opacity: 0.2;
-        }
-
-        .pipeline-step {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 1rem;
-            z-index: 1;
-            position: relative;
-        }
-
-        .step-icon {
-            width: 50px;
-            height: 50px;
-            background: #0A0A0F;
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            color: var(--accent-electric);
-            transition: 0.3s;
-        }
-
-        .pipeline-step.active .step-icon {
-            border-color: var(--accent-electric);
-            box-shadow: 0 0 20px rgba(0, 229, 255, 0.3);
-            color: #fff;
-            background: var(--accent-electric);
-        }
-
-        .step-label {
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            color: #fff;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        /* TERMINAL AREA */
-        .terminal-log {
-            background: rgba(0, 0, 0, 0.8);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1rem;
-            font-family: var(--font-mono);
-            font-size: 0.75rem;
-            height: 200px;
-            overflow-y: auto;
-            color: #888;
-        }
-
-        .log-entry {
-            margin-bottom: 6px;
-            animation: logFadeIn 0.3s forwards;
-            display: flex;
-            gap: 10px;
-        }
-
-        .log-time {
-            color: var(--accent-electric);
-            opacity: 0.6;
-        }
-
-        .log-info {
-            color: #fff;
-        }
-
-        .log-success {
-            color: #4ade80;
-        }
-
-        @keyframes pulse {
-            0% {
-                opacity: 0.3;
-            }
-
-            50% {
-                opacity: 1;
-            }
-
-            100% {
-                opacity: 0.3;
-            }
-        }
-
-        @keyframes logFadeIn {
-            from {
-                opacity: 0;
-                transform: translateX(-5px);
-            }
-
-            to {
-                opacity: 1;
-                transform: translateX(0);
-            }
-        }
-
-        .btn-action {
-            background: linear-gradient(135deg, var(--accent-electric), #0077b6);
-            color: #000;
-            border: none;
-            padding: 1rem 2rem;
-            border-radius: 8px;
-            font-family: var(--font-mono);
-            font-weight: 800;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: 0.3s;
-            text-transform: uppercase;
-        }
-
-        .btn-action:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 10px 20px rgba(0, 229, 255, 0.4);
-        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        :root{--mono:'JetBrains Mono',monospace;--gold:#ffb400;--electric:#00e5ff}
+        body{background:#020205;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;padding:8rem 5% 5rem}
+        .noise{position:fixed;inset:0;background-image:url('https://grainy-gradients.vercel.app/noise.svg');opacity:.03;pointer-events:none;z-index:0}
+        .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;width:400px;height:400px;background:radial-gradient(circle,rgba(255,180,0,.06),transparent);top:-5%;right:-5%}
+        .back-link{position:fixed;top:1.5rem;left:5%;font-family:var(--mono);font-size:.6rem;color:rgba(255,180,0,.7);text-decoration:none;display:flex;align-items:center;gap:.5rem;z-index:100;letter-spacing:.08em;transition:color .2s}
+        .back-link:hover{color:var(--gold)}
+        .sys-label{font-family:var(--mono);font-size:.55rem;color:rgba(255,180,0,.5);letter-spacing:.2em;margin-bottom:1rem;text-transform:uppercase;position:relative;z-index:1}
+        h1{font-size:clamp(2rem,5vw,4.5rem);font-weight:900;letter-spacing:-.04em;margin-bottom:1.5rem;line-height:1;position:relative;z-index:1}
+        .lead{color:rgba(255,255,255,.5);max-width:700px;font-size:1rem;line-height:1.8;margin-bottom:3rem;position:relative;z-index:1}
+        /* Pipeline */
+        .pipe-wrap{background:rgba(255,255,255,.02);border:1px solid rgba(255,180,0,.12);border-radius:20px;padding:2.5rem;margin-bottom:3rem;position:relative;z-index:1;overflow-x:auto}
+        .pipe-flow{display:flex;align-items:center;justify-content:flex-start;gap:0;min-width:600px}
+        .pipe-node{text-align:center;flex:1;min-width:100px}
+        .pipe-icon{font-size:2rem;margin-bottom:.5rem}
+        .pipe-name{font-weight:800;font-size:.8rem;margin-bottom:.3rem}
+        .pipe-sub{font-family:var(--mono);font-size:.45rem;color:rgba(255,255,255,.3);letter-spacing:.05em}
+        .pipe-arr{font-size:1.2rem;color:rgba(255,180,0,.35);flex-shrink:0;padding:0 .5rem}
+        /* Steps */
+        .steps{display:flex;flex-direction:column;gap:1rem;margin-bottom:3rem;position:relative;z-index:1}
+        .step-row{display:grid;grid-template-columns:40px 1fr;gap:1rem;align-items:start;padding:1.2rem 1.5rem;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.06);border-radius:14px}
+        .step-num{font-family:var(--mono);font-size:.9rem;font-weight:900;color:rgba(255,180,0,.5)}
+        .step-title{font-weight:800;font-size:.95rem;margin-bottom:.3rem}
+        .step-desc{font-size:.85rem;color:rgba(255,255,255,.4);line-height:1.6}
+        /* Features */
+        .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:3rem;position:relative;z-index:1}
+        .feat-card{background:rgba(255,255,255,.02);border:1px solid rgba(255,180,0,.1);border-radius:14px;padding:1.4rem}
+        .feat-icon{font-size:1.6rem;margin-bottom:.6rem}
+        .feat-title{font-weight:800;margin-bottom:.4rem;color:var(--gold);font-size:.9rem}
+        .feat-desc{color:rgba(255,255,255,.4);font-size:.8rem;line-height:1.6}
+        /* CTA */
+        .cta-row{display:flex;gap:1rem;flex-wrap:wrap;position:relative;z-index:1}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;padding:.8rem 1.5rem;border-radius:10px;text-decoration:none;transition:all .3s}
+        .btn-gold{background:rgba(255,180,0,.1);border:1px solid rgba(255,180,0,.3);color:var(--gold)}
+        .btn-gold:hover{background:rgba(255,180,0,.2);transform:translateY(-2px)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+        .btn-outline:hover{border-color:rgba(255,255,255,.2);color:#fff}
     </style>
 </head>
+<body>
+    <div class="noise"></div>
+    <div class="orb"></div>
+    <a href="../index.html" class="back-link"><i class="ph ph-arrow-left"></i> PROJECTS_HUB</a>
 
-<body class="dgz-secure-shield">
-    <div class="noise-overlay"></div>
-    <div class="glow-orb orb-1"></div>
-    <div class="neural-grid"></div>
+    <div class="sys-label">// SYSTEM_ID: ETL_AUTOMATION_02 // STATUS: LIVE // ZERO_COST_ARCH</div>
+    <h1>Spatial ETL<br>Automation Pipeline</h1>
+    <p class="lead">Unattended geospatial data processing engine — from raw field capture to validated PostGIS records with zero manual intervention. LADM-COL V3 compliant by design.</p>
 
-    <main>
-        <div class="project-hero">
-            <a href="../../index.html#projects" class="back-link" style="display: none;">
-                <i class="ph ph-arrow-left"></i> RETURN_TO_CORE
-            </a>
-            <div class="hero-identity-badge" style="margin-bottom: 1rem;">System_ID: DGZ_ETL_PIPELINE</div>
-            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.05em;"
-                data-i18n="auto_hero_title">Automation Systems</h1>
-            <p style="font-size: 1.4rem; color: var(--text-secondary); max-width: 600px;" data-i18n="auto_hero_desc">
-                Unattended geographical data transformations replacing hundreds of manual clicking hours.
-            </p>
-
-            <div style="margin-top: 2rem; display: flex; gap: 1rem;">
-                <span class="tech-tag">Python & GDAL</span>
-                <span class="tech-tag">PostGIS</span>
-                <span class="tech-tag">Airflow</span>
-                <span class="tech-tag">Docker</span>
-            </div>
+    <div class="pipe-wrap">
+        <div class="pipe-flow">
+            <div class="pipe-node"><div class="pipe-icon">📡</div><div class="pipe-name">Field Input</div><div class="pipe-sub">KML // GeoJSON // XLS</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-node"><div class="pipe-icon">🐍</div><div class="pipe-name">Python Engine</div><div class="pipe-sub">GDAL // Shapely // pandas</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-node"><div class="pipe-icon">🔍</div><div class="pipe-name">QA/QC</div><div class="pipe-sub">Topology // Overlaps // LADM</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-node"><div class="pipe-icon">🗄️</div><div class="pipe-name">PostGIS</div><div class="pipe-sub">Spatial DB // LADM-COL</div></div>
+            <div class="pipe-arr">→</div>
+            <div class="pipe-node"><div class="pipe-icon">🌐</div><div class="pipe-name">Web GIS</div><div class="pipe-sub">FastAPI // MapLibre</div></div>
         </div>
+    </div>
 
-        <div class="article-body">
-            <!-- INTERACTIVE PIPELINE DEMO -->
-            <div class="etl-display">
-                <div class="etl-status">
-                    <div class="pulse-dot"></div>
-                    <span>KERNEL_V2.1 // STATUS: OPERATIONAL</span>
-                </div>
-                <button class="btn-action" data-i18n="auto_init_btn" onclick="startSimulation()">Initialize
-                    Pipeline</button>
-            </div>
+    <div class="steps">
+        <div class="step-row"><div class="step-num">01</div><div><div class="step-title">Ingest — Multi-Format Input</div><div class="step-desc">Watches a directory for KML, GeoJSON, Shapefile, DXF, or Excel inputs. Automatically detects format and normalizes to WGS84.</div></div></div>
+        <div class="step-row"><div class="step-num">02</div><div><div class="step-title">Transform — GDAL/OGR + GeoPandas</div><div class="step-desc">Reprojects, clips to study area, joins attribute tables, and applies LADM-COL V3 schema enforcing required fields.</div></div></div>
+        <div class="step-row"><div class="step-num">03</div><div><div class="step-title">Validate — Shapely Topology Engine</div><div class="step-desc">Detects overlaps, gaps, slivers, invalid geometries, and attribute completeness violations. Flags errors with severity codes.</div></div></div>
+        <div class="step-row"><div class="step-num">04</div><div><div class="step-title">Load — PostGIS + Audit Log</div><div class="step-desc">Clean features inserted into PostgreSQL/PostGIS with full audit trail: timestamp, source file, user, validation score, and spatial index.</div></div></div>
+    </div>
 
-            <div class="pipeline-container">
-                <div class="pipeline-step" id="step-1">
-                    <div class="step-icon"><i class="ph-fill ph-file-arrow-down"></i></div>
-                    <div class="step-label">Extract</div>
-                </div>
-                <div class="pipeline-step" id="step-2">
-                    <div class="step-icon"><i class="ph-fill ph-intersect"></i></div>
-                    <div class="step-label">Transform</div>
-                </div>
-                <div class="pipeline-step" id="step-3">
-                    <div class="step-icon"><i class="ph-fill ph-database"></i></div>
-                    <div class="step-label">Load</div>
-                </div>
-            </div>
+    <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon">⚙️</div><div class="feat-title">Zero Config</div><div class="feat-desc">Drop files in folder — pipeline triggers automatically. No GUI needed.</div></div>
+        <div class="feat-card"><div class="feat-icon">🔍</div><div class="feat-title">Topology QA</div><div class="feat-desc">Overlap & gap detection using Shapely. LADM-COL V3 schema enforcement.</div></div>
+        <div class="feat-card"><div class="feat-icon">📋</div><div class="feat-title">Audit Logging</div><div class="feat-desc">Full transaction history per record — timestamp, source, validation result.</div></div>
+        <div class="feat-card"><div class="feat-icon">🔄</div><div class="feat-title">Multi-Format</div><div class="feat-desc">KML, GeoJSON, SHP, DXF, XLS unified into one PostGIS LADM schema.</div></div>
+    </div>
 
-            <div class="terminal-log" id="terminal">
-                <div class="log-entry">> System idle. Waiting for pilot initialization...</div>
-            </div>
-        </div>
-
-        <div style="margin-top: 5rem;">
-            <h2 style="color: #fff; font-size: 2.5rem; margin-bottom: 2rem;" data-i18n="auto_challenge_title">The
-                Engineering Challenge</h2>
-            <div class="bento-grid">
-                <div class="bento-item large reveal" style="padding: 3rem;">
-                    <h3 style="color: var(--accent-electric); margin-bottom: 1.5rem;">Massive Data Ingestion</h3>
-                    <p style="line-height: 2;">Our ETL systems process over <strong>50,000 spatial records per
-                            batch</strong>. Using specialized OGR/GDAL libraries, we bypass the traditional GIS
-                        desktop bottleneck, achieving transformation speeds that are 800% faster than manual
-                        processing.</p>
-                </div>
-                <div class="bento-item reveal" style="padding: 2rem; border-color: rgba(255,255,255,0.05);">
-                    <h4 style="color: var(--accent-gold); margin-bottom: 1rem;">Protocol: LADM-COL</h4>
-                    <p style="font-size: 0.9rem;">Strict adherence to Colombian cadastral standards. Automatic
-                        topology healing and identifier generation.</p>
-                </div>
-            </div>
-        </div>
-        </div>
-    </main>
-
-    <script>
-        const terminal = document.getElementById('terminal');
-        const logs = [
-            { t: "[INIT]", m: "Starting DGZ_ENGINE Core...", s: "info" },
-            { t: "[AUTH]", m: "Validating Secure Clearance...", s: "info" },
-            { t: "[ETL]", m: "Extracting node: SNR_RECORDS_2026.zip", s: "info", step: 1 },
-            { t: "[ETL]", m: "Parsed 12,482 geometries in 450ms.", s: "success" },
-            { t: "[ETL]", m: "Applying Topological Rules: LADM_STRICT_V2", s: "info", step: 2 },
-            { t: "[ETL]", m: "Fixed 45 overlapping polygons (ST_Union)", s: "success" },
-            { t: "[ETL]", m: "Calculated centroid offsets for NPU generation.", s: "info" },
-            { t: "[ETL]", m: "Streaming to PostGIS Production Node...", s: "info", step: 3 },
-            { t: "[OK]", m: "Pipeline Completed. 0 Errors. Database Synced.", s: "success" }
-        ];
-
-        let logIndex = 0;
-
-        function startSimulation() {
-            if (logIndex > 0) return; // Prevent double trigger
-            terminal.innerHTML = '';
-            processNextLog();
-        }
-
-        function processNextLog() {
-            if (logIndex >= logs.length) {
-                logIndex = 0;
-                document.querySelectorAll('.pipeline-step').forEach(s => s.classList.remove('active'));
-                return;
-            }
-
-            const entry = logs[logIndex];
-            const div = document.createElement('div');
-            div.className = 'log-entry';
-            const timestamp = new Date().toISOString().split('T')[1].split('.')[0];
-
-            div.innerHTML = `
-                <span class="log-time">[${timestamp}]</span>
-                <span class="${entry.s === 'success' ? 'log-success' : 'log-info'}">${entry.t} ${entry.m}</span>
-            `;
-
-            terminal.appendChild(div);
-            terminal.scrollTop = terminal.scrollHeight;
-
-            if (entry.step) {
-                document.querySelectorAll('.pipeline-step').forEach(s => s.classList.remove('active'));
-                document.getElementById('step-' + entry.step).classList.add('active');
-            }
-
-            logIndex++;
-            setTimeout(processNextLog, 600 + Math.random() * 1000);
-        }
-    </script>
+    <div class="cta-row">
+        <a href="../../lab/validator.html" class="btn btn-gold"><i class="ph ph-rocket-launch"></i> LAUNCH VALIDATOR DEMO</a>
+        <a href="../../index.html#lab" class="btn btn-outline"><i class="ph ph-flask"></i> BACK TO LAB</a>
+    </div>
 </body>
-
 </html>

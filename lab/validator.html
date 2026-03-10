@@ -19,21 +19,22 @@
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   <style>
     :root {
-      --bg-base: #030305;
-      --bg-panel: rgba(15, 15, 20, 0.7);
+      --bg-base: #000000;
+      --bg-panel: rgba(10, 10, 15, 0.7);
       --bg-panel-solid: #0A0A0F;
-      --border-primary: rgba(0, 229, 255, 0.15);
-      --border-highlight: rgba(0, 229, 255, 0.4);
+      --border-primary: rgba(0, 229, 255, 0.1);
+      --border-highlight: rgba(0, 229, 255, 0.3);
       --accent-cyan: #00E5FF;
       --accent-gold: #FFB400;
       --accent-purple: #9D4EDD;
       --status-ok: #4ade80;
       --status-err: #ff4b2b;
       --text-main: #FFFFFF;
-      --text-muted: #888899;
+      --text-muted: rgba(255, 255, 255, 0.5);
       --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
       --font-sans: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-      --glass-blur: blur(12px);
+      --glass-blur: blur(20px);
+      --ease-spring: cubic-bezier(0.175, 0.885, 0.32, 1.275);
     }
 
     * {
@@ -168,7 +169,16 @@
       display: flex;
       flex-direction: column;
       z-index: 40;
-      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.5);
+      box-shadow: 10px 0 30px rgba(0, 0, 0, 0.8);
+      position: relative;
+    }
+
+    .panel-container::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(135deg, rgba(255,255,255,0.03) 0%, transparent 100%);
+      pointer-events: none;
     }
 
     .panel-header {
@@ -548,6 +558,9 @@
 
 <body>
 
+  <!-- NEURAL GRID FROM CORE -->
+  <div class="neural-grid" style="z-index: -1; opacity: 0.4;"></div>
+
   <!-- AUTH OVERLAY -->
   <div id="auth-overlay">
     <div class="auth-box">
@@ -573,8 +586,10 @@
   <header class="os-header">
     <div class="header-brand">
       <a href="../index.html" class="back-btn"><i class="ph ph-arrow-left"></i> Hub</a>
-      <img src="../assets/img/dgz_os_logo.png" style="height: 32px; filter: drop-shadow(0 0 5px var(--accent-cyan));"
-        alt="DGZ Logo">
+      <svg width="32" height="32" viewBox="0 0 32 32" fill="none" style="filter: drop-shadow(0 0 5px var(--accent-cyan));">
+        <rect width="32" height="32" rx="6" fill="rgba(0,229,255,0.1)" stroke="rgba(0,229,255,0.4)" stroke-width="1"/>
+        <text x="16" y="21" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" font-weight="900" fill="#00e5ff">DGZ</text>
+      </svg>
       <span style="font-weight: 700; letter-spacing: 0.5px;">DGZ</span>
       <span style="color: var(--text-muted); font-weight: 300;">Spatial OS</span>
       <span class="sys-badge">V2.0 LADM</span>
@@ -681,8 +696,9 @@
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
+      <!-- MODULE 2: INTEROPERABILIDAD MATRICULAR -->
         <div id="module-2" class="module-view">
           <div class="panel-header">
             <h2 class="panel-title"><i class="ph-fill ph-scales" style="color:var(--accent-purple);"></i> <span
@@ -753,7 +769,10 @@
             </div>
           </div>
         </div>
+      </div> <!-- End of panel-container -->
 
+      <!-- Map Section -->
+      <div class="map-section">
         <div id="map-container"></div>
 
         <!-- Neural Scan Effect -->
@@ -775,8 +794,9 @@
             </div>
           </div>
         </div>
-      </div>
-    </div>
+        </div>
+      </div> <!-- End of map-section -->
+    </div> <!-- End of os-workspace -->
 
     <style>
       @keyframes neuralPulse {
@@ -808,55 +828,75 @@
 
     <!-- Scripts -->
     <script>
-      // --- 0. SUPABASE AUTH INTEGRATION ---
-      const supabaseUrl = 'https://mxrgondwvbxbgwtpviyv.supabase.co';
-      // ⚠️ ALBERT: PEGA EL "API KEY" Y REEMPLAZA ESTE TEXTO CON ÉL
-      const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im14cmdvbmR3dmJ4Ymd3dHB2aXl2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzIzMDAwNjcsImV4cCI6MjA4Nzg3NjA2N30.3Jxx6lccDYSaU1io2mDTtXeZY3EULkPSMUHyWjB6uPI';
-      const sbClient = window.supabase.createClient(supabaseUrl, supabaseKey);
+      // --- 0. DEMO AUTH MODE (Supabase offline — lab demo) ---
+      // The validator works fully offline. Auth is bypassed in demo mode.
+      // To connect a real Supabase project, replace DGZ_SUPABASE_URL and DGZ_SUPABASE_KEY.
+      const DGZ_SUPABASE_URL = '';
+      const DGZ_SUPABASE_KEY = '';
 
-      async function checkAuthStatus() {
-        const { data: { session }, error } = await sbClient.auth.getSession();
+      const DEMO_MODE = !DGZ_SUPABASE_URL; // true when no project configured
 
-        if (session) {
-          // User logged in: unlock app
-          document.getElementById('auth-overlay').style.opacity = '0';
-          setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
-
-          // Show Profile
-          document.getElementById('user-profile').style.display = 'flex';
-          const meta = session.user.user_metadata;
-          document.getElementById('user-name').innerText = meta.full_name || session.user.email;
-          if (meta.avatar_url) document.getElementById('user-avatar').src = meta.avatar_url;
-        } else {
-          // Not logged in: lock app
-          document.getElementById('auth-overlay').style.display = 'flex';
-          document.getElementById('auth-overlay').style.opacity = '1';
-          document.getElementById('user-profile').style.display = 'none';
+      function checkAuthStatus() {
+        if (DEMO_MODE) {
+          // Bypass auth in demo mode
+          const overlay = document.getElementById('auth-overlay');
+          if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 400); }
+          const profile = document.getElementById('user-profile');
+          if (profile) profile.style.display = 'flex';
+          const nameEl = document.getElementById('user-name');
+          if (nameEl) nameEl.innerText = 'DGZ_DEMO';
+          const avatarEl = document.getElementById('user-avatar');
+          if (avatarEl) avatarEl.src = 'data:image/svg+xml,' + encodeURIComponent('<svg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"><rect width="40" height="40" rx="20" fill="rgba(0,229,255,0.15)"/><text x="20" y="25" text-anchor="middle" font-family="monospace" font-size="14" font-weight="900" fill="#00e5ff">D</text></svg>');
+          return;
         }
-      }
-
-      async function signInWithGoogle() {
-        const btn = document.getElementById('btn-login');
-        btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
-
-        const { data, error } = await sbClient.auth.signInWithOAuth({
-          provider: 'google',
-          options: {
-            queryParams: {
-              access_type: 'offline',
-              prompt: 'consent',
+        // Real Supabase mode — only runs if DGZ_SUPABASE_URL is set
+        try {
+          const sbClient = window.supabase.createClient(DGZ_SUPABASE_URL, DGZ_SUPABASE_KEY);
+          sbClient.auth.getSession().then(({ data: { session } }) => {
+            if (session) {
+              document.getElementById('auth-overlay').style.opacity = '0';
+              setTimeout(() => document.getElementById('auth-overlay').style.display = 'none', 500);
+              document.getElementById('user-profile').style.display = 'flex';
+              const meta = session.user.user_metadata;
+              document.getElementById('user-name').innerText = meta.full_name || session.user.email;
+              if (meta.avatar_url) document.getElementById('user-avatar').src = meta.avatar_url;
+            } else {
+              document.getElementById('auth-overlay').style.display = 'flex';
+              document.getElementById('auth-overlay').style.opacity = '1';
+              document.getElementById('user-profile').style.display = 'none';
             }
-          }
-        });
-        if (error) {
-          alert("Authentication failed: " + error.message);
-          btn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G"> Log in with Google`;
+          });
+        } catch(e) {
+          console.warn('DGZ: Supabase not configured, running in demo mode.', e);
+          checkAuthStatus(); // recurse into demo
         }
       }
 
-      async function signOut() {
-        await sbClient.auth.signOut();
-        window.location.reload();
+      function signInWithGoogle() {
+        if (DEMO_MODE) {
+          // Demo mode: just close the overlay
+          const overlay = document.getElementById('auth-overlay');
+          if (overlay) { overlay.style.opacity = '0'; setTimeout(() => overlay.style.display = 'none', 500); }
+          const profile = document.getElementById('user-profile');
+          if (profile) profile.style.display = 'flex';
+          document.getElementById('user-name').innerText = 'DGZ_DEMO';
+          return;
+        }
+        const btn = document.getElementById('btn-login');
+        if(btn) btn.innerHTML = `<div class="spinner" style="width:20px;height:20px;"></div> Authenticating...`;
+        try {
+          const sbClient = window.supabase.createClient(DGZ_SUPABASE_URL, DGZ_SUPABASE_KEY);
+          sbClient.auth.signInWithOAuth({
+            provider: 'google',
+            options: { queryParams: { access_type: 'offline', prompt: 'consent' } }
+          }).then(({ error }) => {
+            if (error && btn) btn.innerHTML = `<img src="https://www.svgrepo.com/show/475656/google-color.svg" alt="G"> Log in with Google`;
+          });
+        } catch(e) { console.error(e); }
+      }
+
+      function signOut() {
+        location.reload();
       }
 
       // Initialize Auth state right on load
@@ -899,13 +939,20 @@
       async function loadAnalyticsDashboard() {
         try {
           const res = await fetch("https://dgz-engineering.onrender.com/api/v1/analytics");
+          if (!res.ok) throw new Error("Analytics API returned " + res.status);
           const data = await res.json();
 
-          document.getElementById('stats-total-parcels').innerText = data.aggregate_stats.total_parcels.toLocaleString();
-          document.getElementById('stats-total-errors').innerText = data.aggregate_stats.total_errors;
-
-          initAnalyticsChart(data.historical_data);
-        } catch (e) { console.error("Analytics Error", e); }
+          if (data && data.aggregate_stats) {
+            document.getElementById('stats-total-parcels').innerText = data.aggregate_stats.total_parcels.toLocaleString();
+            document.getElementById('stats-total-errors').innerText = data.aggregate_stats.total_errors;
+          }
+          if (data && data.historical_data) {
+            initAnalyticsChart(data.historical_data);
+          }
+        } catch (e) {
+          console.error("Analytics Error", e);
+          document.getElementById('stats-total-parcels').innerText = "N/A";
+        }
       }
 
       function initAnalyticsChart(history) {

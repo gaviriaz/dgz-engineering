@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DGZ Projects Hub | Spatial Engineering Deployments</title>
+    <meta name="description" content="Enterprise geospatial project deployments — GIS automation, LADM-COL, GeoAI, Smart City, and research platforms by Albert Gaviria.">
+    <link rel="stylesheet" href="../assets/css/index.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { background: #020205; color: #fff; font-family: 'Inter', sans-serif; min-height: 100vh; }
+        .noise-overlay { position: fixed; inset: 0; background-image: url('https://grainy-gradients.vercel.app/noise.svg'); opacity: 0.03; pointer-events: none; z-index: 0; }
+        .glow-orb { position: fixed; border-radius: 50%; filter: blur(80px); pointer-events: none; z-index: 0; }
+        .orb-1 { width: 500px; height: 500px; background: radial-gradient(circle, rgba(0,229,255,0.06), transparent); top: -10%; left: -10%; }
+        .orb-2 { width: 400px; height: 400px; background: radial-gradient(circle, rgba(157,78,221,0.05), transparent); bottom: 10%; right: 5%; }
+
+        /* BACK NAV */
+        .proj-topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            display: flex; align-items: center; justify-content: space-between;
+            padding: 1rem 5%;
+            background: rgba(2,2,5,0.85);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(255,255,255,0.04);
+            z-index: 1000;
+        }
+        .proj-back {
+            display: flex; align-items: center; gap: 0.6rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; color: rgba(0,229,255,0.7);
+            text-decoration: none; letter-spacing: 0.08em;
+            transition: color 0.2s;
+        }
+        .proj-back:hover { color: #00e5ff; }
+        .proj-topbar-brand {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem; color: rgba(255,255,255,0.2);
+            letter-spacing: 0.2em;
+        }
+
+        /* HERO */
+        .proj-hero {
+            padding: 12rem 5% 6rem;
+            position: relative; z-index: 1;
+        }
+        .proj-hero-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; color: rgba(0,229,255,0.6);
+            letter-spacing: 0.2em; text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+        .proj-hero h1 {
+            font-size: clamp(2.5rem, 6vw, 5rem);
+            font-weight: 900; letter-spacing: -0.04em;
+            line-height: 1; margin-bottom: 1.5rem;
+        }
+        .proj-hero p {
+            color: rgba(255,255,255,0.5); max-width: 600px;
+            font-size: 1.05rem; line-height: 1.8; margin-bottom: 2rem;
+        }
+        .proj-stats {
+            display: flex; gap: 3rem; flex-wrap: wrap;
+        }
+        .proj-stat-num {
+            font-size: 2rem; font-weight: 900;
+            background: linear-gradient(135deg, #00e5ff, #9D4EDD);
+            -webkit-background-clip: text; background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .proj-stat-label {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.55rem; color: rgba(255,255,255,0.3);
+            letter-spacing: 0.1em; text-transform: uppercase;
+        }
+
+        /* GRID */
+        .proj-grid {
+            padding: 0 5% 8rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(340px, 1fr));
+            gap: 2rem;
+            position: relative; z-index: 1;
+        }
+        .proj-card {
+            background: rgba(255,255,255,0.02);
+            border: 1px solid rgba(255,255,255,0.07);
+            border-radius: 20px;
+            padding: 2rem;
+            text-decoration: none;
+            color: #fff;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex; flex-direction: column;
+            position: relative; overflow: hidden;
+        }
+        .proj-card::before {
+            content: '';
+            position: absolute; inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(0,229,255,0.04), transparent 60%);
+            opacity: 0; transition: opacity 0.4s;
+        }
+        .proj-card:hover { transform: translateY(-6px); border-color: rgba(0,229,255,0.25); }
+        .proj-card:hover::before { opacity: 1; }
+        .proj-card.gold:hover { border-color: rgba(255,180,0,0.3); }
+        .proj-card.gold::before { background: radial-gradient(circle at 30% 30%, rgba(255,180,0,0.05), transparent 60%); }
+
+        .proj-card-id {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem; color: rgba(255,255,255,0.2);
+            letter-spacing: 0.15em; margin-bottom: 1rem;
+        }
+        .proj-card-icon {
+            font-size: 2.5rem; margin-bottom: 1rem;
+        }
+        .proj-card-status {
+            display: inline-flex; align-items: center; gap: 0.4rem;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem; letter-spacing: 0.1em;
+            padding: 0.2rem 0.6rem; border-radius: 100px;
+            margin-bottom: 1rem; width: fit-content;
+        }
+        .status-active { color: #4ade80; background: rgba(74,222,128,0.1); border: 1px solid rgba(74,222,128,0.3); }
+        .status-beta { color: #ffb400; background: rgba(255,180,0,0.1); border: 1px solid rgba(255,180,0,0.3); }
+        .status-research { color: #9D4EDD; background: rgba(157,78,221,0.1); border: 1px solid rgba(157,78,221,0.3); }
+        .status-dot { width: 5px; height: 5px; border-radius: 50%; background: currentColor; }
+
+        .proj-card h3 {
+            font-size: 1.3rem; font-weight: 800;
+            letter-spacing: -0.03em; margin-bottom: 0.8rem;
+        }
+        .proj-card p {
+            color: rgba(255,255,255,0.5); font-size: 0.9rem;
+            line-height: 1.7; margin-bottom: 1.5rem; flex: 1;
+        }
+        .proj-card-pills {
+            display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.5rem;
+        }
+        .proj-pill {
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.5rem; padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            background: rgba(0,229,255,0.06);
+            border: 1px solid rgba(0,229,255,0.15);
+            color: rgba(0,229,255,0.7);
+            letter-spacing: 0.05em; text-transform: uppercase;
+        }
+        .proj-pill.gold {
+            background: rgba(255,180,0,0.06);
+            border-color: rgba(255,180,0,0.15);
+            color: rgba(255,180,0,0.7);
+        }
+        .proj-launch {
+            display: flex; align-items: center; justify-content: space-between;
+            font-family: 'JetBrains Mono', monospace;
+            font-size: 0.6rem; color: rgba(0,229,255,0.6);
+            letter-spacing: 0.08em; text-transform: uppercase;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255,255,255,0.05);
+        }
+        .proj-card.gold .proj-launch { color: rgba(255,180,0,0.6); }
+    </style>
+</head>
+<body>
+    <div class="noise-overlay"></div>
+    <div class="glow-orb orb-1"></div>
+    <div class="glow-orb orb-2"></div>
+
+    <nav class="proj-topbar">
+        <a href="../index.html" class="proj-back">
+            <i class="ph ph-arrow-left"></i>
+            BACK_TO_MAIN
+        </a>
+        <div class="proj-topbar-brand">DGZ_ENGINEERING // PROJECTS_HUB_V6</div>
+    </nav>
+
+    <section class="proj-hero">
+        <div class="proj-hero-label">// FLAGSHIP_ASSETS // ACTIVE_DEPLOYMENTS</div>
+        <h1>Technical<br>Deployments.</h1>
+        <p>Enterprise-grade geospatial systems — from LADM-COL automation to GeoAI and Smart City platforms. Each project is production-ready and battle-tested.</p>
+        <div class="proj-stats">
+            <div>
+                <div class="proj-stat-num">5+</div>
+                <div class="proj-stat-label">Active Systems</div>
+            </div>
+            <div>
+                <div class="proj-stat-num">50k+</div>
+                <div class="proj-stat-label">Parcels Processed</div>
+            </div>
+            <div>
+                <div class="proj-stat-num">LADM-COL</div>
+                <div class="proj-stat-label">Certified Standard</div>
+            </div>
+        </div>
+    </section>
+
+    <div class="proj-grid">
+
+        <!-- GIS Dashboard -->
+        <a href="gis-dashboard/index.html" class="proj-card">
+            <div class="proj-card-id">SYSTEM_ID: GIS_DASHBOARD_01</div>
+            <div class="proj-card-icon">🗺️</div>
+            <div class="proj-card-status status-active"><span class="status-dot"></span>LIVE</div>
+            <h3>Enterprise GIS Dashboard</h3>
+            <p>Real-time territorial analytics platform — filterable by geographic zone, with dynamic chart updates, SLA monitoring, and spatial workflow orchestration.</p>
+            <div class="proj-card-pills">
+                <span class="proj-pill">MapLibre GL</span>
+                <span class="proj-pill">PostGIS</span>
+                <span class="proj-pill">Chart.js</span>
+                <span class="proj-pill">FastAPI</span>
+            </div>
+            <div class="proj-launch">EXECUTE_DASHBOARD <i class="ph ph-arrow-square-out"></i></div>
+        </a>
+
+        <!-- Automation Systems -->
+        <a href="automation-systems/index.html" class="proj-card gold">
+            <div class="proj-card-id">SYSTEM_ID: ETL_AUTOMATION_02</div>
+            <div class="proj-card-icon">⚙️</div>
+            <div class="proj-card-status status-active"><span class="status-dot"></span>LIVE</div>
+            <h3>Spatial ETL Automation</h3>
+            <p>Unattended pipeline system for massive GeoJSON/KML ingestion, LADM-COL topology validation, overlap detection, and automated PostgreSQL sync without human intervention.</p>
+            <div class="proj-card-pills">
+                <span class="proj-pill gold">Python</span>
+                <span class="proj-pill gold">GDAL/OGR</span>
+                <span class="proj-pill gold">Shapely</span>
+                <span class="proj-pill gold">GeoPandas</span>
+            </div>
+            <div class="proj-launch">EXECUTE_PIPELINE <i class="ph ph-arrow-square-out"></i></div>
+        </a>
+
+        <!-- GeoLLM -->
+        <a href="geo-llm/index.html" class="proj-card">
+            <div class="proj-card-id">SYSTEM_ID: GEOLLM_03</div>
+            <div class="proj-card-icon">🧠</div>
+            <div class="proj-card-status status-beta"><span class="status-dot"></span>BETA</div>
+            <h3>GeoLLM Intelligence Node</h3>
+            <p>Natural language interface for territorial data — query your GIS database in plain language. Ask "Show all parcels with topology errors in zone B" and get an instant map response.</p>
+            <div class="proj-card-pills">
+                <span class="proj-pill">LLM API</span>
+                <span class="proj-pill">LangChain</span>
+                <span class="proj-pill">PostGIS</span>
+                <span class="proj-pill">FastAPI</span>
+            </div>
+            <div class="proj-launch">EXECUTE_GEOLLM <i class="ph ph-arrow-square-out"></i></div>
+        </a>
+
+        <!-- QGIS Plugin -->
+        <a href="qgis-plugin/index.html" class="proj-card gold">
+            <div class="proj-card-id">SYSTEM_ID: QGIS_PLUGIN_04</div>
+            <div class="proj-card-icon">🔌</div>
+            <div class="proj-card-status status-beta"><span class="status-dot"></span>BETA</div>
+            <h3>PyQGIS LADM-COL Plugin</h3>
+            <p>Custom QGIS plugin automating LADM-COL V3 compliance checks, batch parcel renaming, coordinate transformation, and direct PostGIS export with topological validation built-in.</p>
+            <div class="proj-card-pills">
+                <span class="proj-pill gold">PyQGIS</span>
+                <span class="proj-pill gold">LADM-COL V3</span>
+                <span class="proj-pill gold">PyQt5</span>
+                <span class="proj-pill gold">PostGIS</span>
+            </div>
+            <div class="proj-launch">VIEW_PLUGIN <i class="ph ph-arrow-square-out"></i></div>
+        </a>
+
+        <!-- Research -->
+        <a href="research/index.html" class="proj-card">
+            <div class="proj-card-id">SYSTEM_ID: RESEARCH_05</div>
+            <div class="proj-card-icon">🔬</div>
+            <div class="proj-card-status status-research"><span class="status-dot"></span>RESEARCH</div>
+            <h3>GeoAI Research Lab</h3>
+            <p>Applied GeoAI research — Sentinel-2 change detection, Random Forest land cover classification, urban growth modeling, and machine learning applied to cadastral quality prediction.</p>
+            <div class="proj-card-pills">
+                <span class="proj-pill">Rasterio</span>
+                <span class="proj-pill">Scikit-learn</span>
+                <span class="proj-pill">NumPy</span>
+                <span class="proj-pill">Sentinel-2</span>
+            </div>
+            <div class="proj-launch">VIEW_RESEARCH <i class="ph ph-arrow-square-out"></i></div>
+        </a>
+
+    </div>
+</body>
+</html>

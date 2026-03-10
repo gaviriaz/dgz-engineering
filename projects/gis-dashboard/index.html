@@ -1,245 +1,95 @@
 <!DOCTYPE html>
-<html lang="es">
-
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DGZ | GIS Dashboard Architecture</title>
-    <link rel="stylesheet" href="../../assets/css/index.css">
+    <meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enterprise GIS Dashboard | DGZ Engineering</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/@phosphor-icons/web"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800;900&family=JetBrains+Mono:wght@500&display=swap"
-        rel="stylesheet">
-    <script src="../../assets/js/dgz-core.js"></script>
     <style>
-        .project-hero {
-            padding: 8rem 5% 4rem;
-            position: relative;
-            background: radial-gradient(circle at top right, rgba(255, 180, 0, 0.05), transparent);
-        }
-
-        .back-link {
-            color: var(--accent-electric);
-            text-decoration: none;
-            font-family: var(--font-mono);
-            font-size: 0.8rem;
-            margin-bottom: 2rem;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-
-        .dashboard-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding-bottom: 10rem;
-        }
-
-        /* DASHBOARD PREVIEW */
-        .dash-preview {
-            background: #050507;
-            border: 1px solid var(--border-glass);
-            border-radius: 12px;
-            padding: 2rem;
-            margin-top: 3rem;
-            display: grid;
-            grid-template-columns: 3fr 1fr;
-            gap: 2rem;
-            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.7);
-        }
-
-        .dash-widget {
-            background: rgba(255, 255, 255, 0.02);
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            border-radius: 8px;
-            padding: 1.5rem;
-        }
-
-        .widget-title {
-            font-family: var(--font-mono);
-            font-size: 0.7rem;
-            color: var(--accent-gold);
-            text-transform: uppercase;
-            margin-bottom: 1.5rem;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .stat-card {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        .stat-val {
-            font-size: 2rem;
-            font-weight: 900;
-            color: #fff;
-        }
-
-        .stat-label {
-            font-size: 0.7rem;
-            color: var(--text-tertiary);
-            text-transform: uppercase;
-        }
-
-        .live-map-mask {
-            height: 400px;
-            background: url('https://st3.depositphotos.com/1054326/18659/v/600/depositphotos_186595562-stock-video-dark-gray-map-background-abstract.jpg') center/cover;
-            border-radius: 8px;
-            position: relative;
-            overflow: hidden;
-            border: 1px solid #222;
-        }
-
-        .map-ping {
-            position: absolute;
-            width: 10px;
-            height: 10px;
-            background: var(--accent-gold);
-            border-radius: 50%;
-            animation: ping 1.5s infinite;
-        }
-
-        @keyframes ping {
-            0% {
-                transform: scale(0.5);
-                opacity: 1;
-            }
-
-            100% {
-                transform: scale(3);
-                opacity: 0;
-            }
-        }
-
-        @media(max-width: 768px) {
-            .dash-preview {
-                grid-template-columns: 1fr;
-            }
-        }
+        *{box-sizing:border-box;margin:0;padding:0}
+        :root{--mono:'JetBrains Mono',monospace;--gold:#ffb400;--electric:#00e5ff}
+        body{background:#020205;color:#fff;font-family:'Inter',sans-serif;min-height:100vh;padding:8rem 5% 5rem}
+        .noise{position:fixed;inset:0;background-image:url('https://grainy-gradients.vercel.app/noise.svg');opacity:.03;pointer-events:none;z-index:0}
+        .orb{position:fixed;border-radius:50%;filter:blur(100px);pointer-events:none;z-index:0;width:500px;height:500px;background:radial-gradient(circle,rgba(0,229,255,.06),transparent);top:5%;right:-10%}
+        .back-link{position:fixed;top:1.5rem;left:5%;font-family:var(--mono);font-size:.6rem;color:rgba(0,229,255,.7);text-decoration:none;display:flex;align-items:center;gap:.5rem;z-index:100;letter-spacing:.08em}
+        .back-link:hover{color:var(--electric)}
+        .sys-label{font-family:var(--mono);font-size:.55rem;color:rgba(0,229,255,.5);letter-spacing:.2em;margin-bottom:1rem;text-transform:uppercase;position:relative;z-index:1}
+        h1{font-size:clamp(2rem,5vw,4rem);font-weight:900;letter-spacing:-.04em;margin-bottom:1.5rem;line-height:1;position:relative;z-index:1}
+        .lead{color:rgba(255,255,255,.5);max-width:700px;font-size:1rem;line-height:1.8;margin-bottom:3rem;position:relative;z-index:1}
+        /* Zone selector mockup */
+        .zone-demo{background:rgba(255,255,255,.02);border:1px solid rgba(0,229,255,.15);border-radius:20px;padding:2rem;margin-bottom:3rem;position:relative;z-index:1}
+        .zone-label{font-family:var(--mono);font-size:.5rem;color:rgba(0,229,255,.4);letter-spacing:.15em;margin-bottom:1rem}
+        .zone-btns{display:flex;flex-wrap:wrap;gap:.6rem;margin-bottom:1.5rem}
+        .zone-btn{font-family:var(--mono);font-size:.55rem;padding:.3rem .8rem;border-radius:6px;border:1px solid rgba(0,229,255,.2);background:rgba(0,229,255,.05);color:rgba(0,229,255,.6);cursor:pointer;letter-spacing:.08em;transition:all .2s}
+        .zone-btn.active,.zone-btn:hover{background:rgba(0,229,255,.15);border-color:rgba(0,229,255,.5);color:var(--electric)}
+        .zone-stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:1rem}
+        .zs-card{background:rgba(0,0,0,.3);border-radius:10px;padding:1rem;text-align:center}
+        .zs-num{font-size:1.5rem;font-weight:900;color:var(--electric)}
+        .zs-label{font-family:var(--mono);font-size:.45rem;color:rgba(255,255,255,.3);letter-spacing:.08em;text-transform:uppercase;margin-top:.3rem}
+        /* Feature grid */
+        .feat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:1.2rem;margin-bottom:3rem;position:relative;z-index:1}
+        .feat-card{background:rgba(255,255,255,.02);border:1px solid rgba(0,229,255,.1);border-radius:14px;padding:1.4rem}
+        .feat-icon{font-size:1.6rem;margin-bottom:.6rem}
+        .feat-title{font-weight:800;margin-bottom:.4rem;color:var(--electric);font-size:.9rem}
+        .feat-desc{color:rgba(255,255,255,.4);font-size:.8rem;line-height:1.6}
+        /* CTA */
+        .cta-row{display:flex;gap:1rem;flex-wrap:wrap;position:relative;z-index:1}
+        .btn{display:inline-flex;align-items:center;gap:.5rem;font-family:var(--mono);font-size:.6rem;letter-spacing:.1em;padding:.8rem 1.5rem;border-radius:10px;text-decoration:none;transition:all .3s}
+        .btn-cyan{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.3);color:var(--electric)}
+        .btn-cyan:hover{background:rgba(0,229,255,.2);transform:translateY(-2px)}
+        .btn-outline{background:transparent;border:1px solid rgba(255,255,255,.1);color:rgba(255,255,255,.5)}
+        .btn-outline:hover{border-color:rgba(255,255,255,.2);color:#fff}
     </style>
 </head>
+<body>
+    <div class="noise"></div>
+    <div class="orb"></div>
+    <a href="../index.html" class="back-link"><i class="ph ph-arrow-left"></i> PROJECTS_HUB</a>
 
-<body class="dgz-secure-shield">
-    <div class="noise-overlay"></div>
-    <div class="glow-orb orb-1" style="background: rgba(255, 180, 0, 0.1);"></div>
+    <div class="sys-label">// SYSTEM_ID: GIS_DASHBOARD_01 // STATUS: LIVE // POSTGIS + MAPLIBRE</div>
+    <h1>Enterprise GIS<br>Territorial Dashboard</h1>
+    <p class="lead">Real-time territorial analytics platform for multipurpose cadastre operations. Filter by geographic zone, track SLA compliance, monitor field team progress, and visualize topology errors on an interactive map.</p>
 
-    <main>
-        <div class="project-hero" style="margin-top: 60px;">
-            <a href="../../index.html#projects" class="back-link" style="display: none;">
-                <i class="ph ph-arrow-left"></i> BACK_TO_DASHBOARD_ARCH
-            </a>
-            <div class="hero-identity-badge" style="border-color: var(--accent-gold); color: var(--accent-gold);">
-                System_ID: MASSIVE_SPATIAL_SYNC</div>
-            <h1 style="font-size: 4rem; margin-bottom: 1rem; font-weight: 900; letter-spacing: -0.05em;"
-                data-i18n="proj_gis_dash">Enterprise GIS Dashboard</h1>
-            <p style="font-size: 1.4rem; color: var(--text-secondary); max-width: 600px;" data-i18n="gis_dash_desc">
-                Real-time telemetry and spatial analytics for large-scale cadastral monitoring.
-            </p>
+    <!-- Zone filter mockup -->
+    <div class="zone-demo">
+        <div class="zone-label">ZONE_FILTER_DEMO // CLICK TO SIMULATE</div>
+        <div class="zone-btns">
+            <div class="zone-btn active" onclick="selectZone(this,'Norte',12450,94,3,1.2)">NORTE</div>
+            <div class="zone-btn" onclick="selectZone(this,'Centro',8930,87,7,0.8)">CENTRO</div>
+            <div class="zone-btn" onclick="selectZone(this,'Sur',15600,98,1,2.1)">SUR</div>
+            <div class="zone-btn" onclick="selectZone(this,'Oriente',6780,91,5,0.6)">ORIENTE</div>
         </div>
-
-        <div class="dashboard-container">
-            <!-- INTERACTIVE DASHBOARD PREVIEW -->
-            <div class="dash-preview">
-                <div class="dash-main">
-                    <div class="dash-widget" style="height: 100%;">
-                        <div class="widget-title"><i class="ph ph-activity"></i> Live Spatial Telemetry</div>
-                        <canvas id="telemetryChart" height="150"></canvas>
-
-                        <div style="margin-top: 2rem;">
-                            <div class="widget-title"><i class="ph ph-map-pin"></i> ACTIVE_SURVEY_NODES</div>
-                            <div class="live-map-mask">
-                                <div class="map-ping" style="top: 30%; left: 40%;"></div>
-                                <div class="map-ping" style="top: 60%; left: 70%;"></div>
-                                <div class="map-ping" style="top: 20%; left: 80%;"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="dash-side" style="display: flex; flex-direction: column; gap: 1rem;">
-                    <div class="dash-widget">
-                        <div class="widget-title"><i class="ph ph-users"></i> FIELD_OPS</div>
-                        <div class="stat-val" id="ops-count">12</div>
-                        <div class="stat-label">Active Technicians</div>
-                    </div>
-                    <div class="dash-widget">
-                        <div class="widget-title"><i class="ph ph-polygon"></i> TOPOLOGY_ERRS</div>
-                        <div class="stat-val" style="color: var(--status-err);">284</div>
-                        <div class="stat-label">Critical Breaches</div>
-                    </div>
-                    <div class="dash-widget">
-                        <div class="widget-title"><i class="ph ph-database"></i> SYNC_STATUS</div>
-                        <div style="font-family: var(--font-mono); color: #4ade80; font-size: 0.8rem;">[STABLE] 99.8%
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <div style="margin-top: 5rem; line-height: 1.8; color: var(--text-secondary);">
-                <h2 style="color: #fff; margin-bottom: 2rem;">Seamless Interoperability</h2>
-                <div class="bento-grid">
-                    <div class="bento-item large" style="padding: 2.5rem;">
-                        <p>This module provides an interactive dashboard interface that connects directly to the PostGIS
-                            backend. It aggregates massive spatial datasets and visualizes key metrics (such as property
-                            value distributions, topological error rates, and surveying progress) in real-time.</p>
-                    </div>
-                    <div class="bento-item"
-                        style="padding: 2rem; background: rgba(255, 180, 0, 0.05); border-color: rgba(255,180,0,0.2);">
-                        <h4 style="color: var(--accent-gold);">System Status</h4>
-                        <p style="font-size: 0.8rem;">DEPLOYMENT PENDING // Integrated into Master React Shell.</p>
-                    </div>
-                </div>
-            </div>
+        <div class="zone-stats">
+            <div class="zs-card"><div class="zs-num" id="zs-parcels">12,450</div><div class="zs-label">Parcels</div></div>
+            <div class="zs-card"><div class="zs-num" id="zs-sla" style="color:#4ade80">94%</div><div class="zs-label">SLA Compliance</div></div>
+            <div class="zs-card"><div class="zs-num" id="zs-errors" style="color:#ff4b2b">3</div><div class="zs-label">Topology Errors</div></div>
+            <div class="zs-card"><div class="zs-num" id="zs-progress" style="color:#ffb400">1.2k</div><div class="zs-label">Processed Today</div></div>
         </div>
-    </main>
+    </div>
+
+    <div class="feat-grid">
+        <div class="feat-card"><div class="feat-icon">🗺️</div><div class="feat-title">Live Map</div><div class="feat-desc">Vector tile rendering with real-time parcel status overlays and clickable attribute inspection.</div></div>
+        <div class="feat-card"><div class="feat-icon">📊</div><div class="feat-title">Zone Analytics</div><div class="feat-desc">Filter by Norte, Centro, Sur, Oriente with instant animated chart transitions.</div></div>
+        <div class="feat-card"><div class="feat-icon">⚠️</div><div class="feat-title">SLA Alerts</div><div class="feat-desc">Automated threshold alerts for bottlenecks and deadline overruns with severity levels.</div></div>
+        <div class="feat-card"><div class="feat-icon">👤</div><div class="feat-title">Field Teams</div><div class="feat-desc">Track operator progress, assign parcels, and monitor daily production targets in real time.</div></div>
+    </div>
+
+    <div class="cta-row">
+        <a href="../../lab/map.html" class="btn btn-cyan"><i class="ph ph-rocket-launch"></i> LAUNCH LIVE DEMO</a>
+        <a href="../../index.html#map" class="btn btn-outline"><i class="ph ph-map-trifold"></i> GIS WORKSTATION</a>
+    </div>
 
     <script>
-        // Chart Initialization
-        const ctx = document.getElementById('telemetryChart').getContext('2d');
-        const chart = new Chart(ctx, {
-            type: 'line',
-            data: {
-                labels: ['10:00', '11:00', '12:00', '13:00', '14:00', '15:00'],
-                datasets: [{
-                    label: 'Sync Ingestion (MB/s)',
-                    data: [12, 19, 3, 5, 2, 3],
-                    borderColor: '#FFB400',
-                    backgroundColor: 'rgba(255, 180, 0, 0.1)',
-                    fill: true,
-                    tension: 0.4,
-                    borderWidth: 2,
-                    pointRadius: 0
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: { legend: { display: false } },
-                scales: {
-                    x: { display: false },
-                    y: { grid: { color: 'rgba(255,255,255,0.05)' }, ticks: { color: '#666' } }
-                }
-            }
-        });
-
-        // Simulate live data
-        setInterval(() => {
-            const newVal = Math.floor(Math.random() * 20) + 5;
-            chart.data.datasets[0].data.shift();
-            chart.data.datasets[0].data.push(newVal);
-            chart.update('none');
-
-            const ops = document.getElementById('ops-count');
-            const current = parseInt(ops.innerText);
-            if (Math.random() > 0.8) ops.innerText = current + 1;
-            else if (Math.random() > 0.8) ops.innerText = current - 1;
-        }, 2000);
+        function selectZone(el, name, parcels, sla, errors, progress) {
+            document.querySelectorAll('.zone-btn').forEach(b => b.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('zs-parcels').textContent = parcels.toLocaleString();
+            document.getElementById('zs-sla').textContent = sla + '%';
+            document.getElementById('zs-sla').style.color = sla >= 95 ? '#4ade80' : sla >= 85 ? '#ffb400' : '#ff4b2b';
+            document.getElementById('zs-errors').textContent = errors;
+            document.getElementById('zs-errors').style.color = errors === 0 ? '#4ade80' : errors <= 3 ? '#ffb400' : '#ff4b2b';
+            document.getElementById('zs-progress').textContent = progress + 'k';
+        }
     </script>
 </body>
-
 </html>

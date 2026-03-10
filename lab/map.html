@@ -860,6 +860,7 @@
             container: 'spatial-map',
             style: {
                 version: 8,
+                glyphs: 'https://demotiles.maplibre.org/font/{fontstack}/{range}.pbf',
                 sources: {
                     'carto-dark': {
                         type: 'raster',
@@ -954,7 +955,7 @@
                 source: 'predios-src',
                 layout: {
                     'text-field': ['get', 'barrio'],
-                    'text-font': ['Open Sans Regular'],
+                    'text-font': ['Open Sans Regular', 'Arial Unicode MS Regular'],
                     'text-size': 7,
                     'text-anchor': 'center'
                 },

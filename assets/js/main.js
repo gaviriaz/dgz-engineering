@@ -58,6 +58,40 @@ const translations = {
         lab_desc: "Real-world projects demonstrating GIS capabilities, cadastral automation, and spatial systems architecture. This is NOT just a portfolio — it's an active lab.",
         geoai_title: "GeoAI Intelligence",
         geoai_subtitle: "Urban Change Detection with Sentinel Imagery",
+        hero_avail: "Available for Projects — Colombia & Remote",
+        hero_btn_lab: "⭐ Explore Spatial Lab",
+        hero_btn_map: "🗺️ Intel Map",
+        map_label: "// SPATIAL_INTEL_WORKSTATION_V6",
+        map_title: "Territorial Intelligence Hub",
+        map_desc: "Full-stack GIS workstation — interactive parcel data, toggleable layers, real coordinate intelligence. Click any map node to inspect LADM-COL attributes.",
+        timeline_label: "// TEMPORAL_NODES",
+        timeline_title: "Professional Trajectory",
+        timeline_desc: "6+ years of specialized GIS and territorial engineering across Colombia's most complex cadastral projects.",
+        tl_role_1: "Geographic Analyst",
+        tl_desc_1: "Advanced geospatial processing via photointerpretation, 360° input analysis and vector restitution. Mass digitization for cadastral update with topological validation under LADM-COL V3.",
+        tl_role_2: "Cadastral Quality Control (QA/QC)",
+        tl_desc_2: "Technical quality audits for predial recognition. IGAC QA standards enforcement, topological consistency checks, and field report validation.",
+        tl_role_3: "Field Coordinator & GIS Leader",
+        tl_desc_3: "Co-leader of field survey teams. Urban/rural topographic leveling, mass digitization, and GIS coordination for multipurpose cadastre missions in complex terrain.",
+        tl_role_4: "Professional GIS Coordinator",
+        tl_desc_4: "LADM-COL standards implementation, mass digitization and GIS coordination for Smart City multipurpose cadastre deployment. QA/QC across distributed field nodes.",
+        tl_role_5: "GIS Professional — Drones & Geomatics",
+        tl_desc_5: "Drone-based photogrammetric surveys, predial management, and vector GIS production. Spatial analysis and cartographic outputs for real estate and environmental projects.",
+        tl_role_6: "Digitizer / Topographer",
+        tl_desc_6: "Road topography surveys and GIS digitization for vial infrastructure projects. GPS field surveys and cartographic production under professional standards.",
+        contact_title: "INITIATE\nCONNECTION.",
+        contact_desc: "Architecting the next generation of spatial intelligence. Let's discuss your project, municipality, or enterprise GIS challenge.",
+        contact_label: "// PROJECT_INITIATION",
+        contact_email_label: "Email",
+        contact_loc_label: "Location",
+        form_service: "Service_Type",
+        form_service_select: "— Select Service —",
+        form_svc_1: "GIS Automation & ETL Pipeline",
+        form_svc_2: "Cadastral QA/QC (LADM-COL)",
+        form_svc_3: "Enterprise GIS Dashboard",
+        form_svc_4: "GeoAI / Satellite Analysis",
+        form_svc_5: "Government / Municipal Project",
+        form_svc_6: "Other / Consulting",
         cv_download: "Download Datasheet (PDF)"
     },
     es: {
@@ -119,6 +153,40 @@ const translations = {
         lab_desc: "Proyectos reales demostrando capacidades GIS, automatización catastral y arquitectura de sistemas espaciales. Esto NO es un portafolio — es un laboratorio activo.",
         geoai_title: "GeoAI Intelligence",
         geoai_subtitle: "Detección de Cambios Urbanos con Imagenería Sentinel",
+        hero_avail: "Disponible para Proyectos — Colombia y Remoto",
+        hero_btn_lab: "⭐ Explorar Spatial Lab",
+        hero_btn_map: "🗺️ Mapa Intel",
+        map_label: "// ESTACIÓN_SIG_INTEL_V6",
+        map_title: "Hub de Inteligencia Territorial",
+        map_desc: "Estación GIS full-stack — datos prediales interactivos, capas configurables, inteligencia de coordenadas en vivo. Haga clic en cualquier nodo para inspeccionar atributos LADM-COL.",
+        timeline_label: "// NODOS_TEMPORALES",
+        timeline_title: "Trayectoria Profesional",
+        timeline_desc: "Más de 6 años de ingeniería GIS especializada y territorial en los proyectos catastrales más complejos de Colombia.",
+        tl_role_1: "Analista Geográfico",
+        tl_desc_1: "Procesamiento avanzado de información geoespacial mediante fotointerpretación, análisis de insumos 360° y restitución vectorial. Digitalización masiva para actualización catastral con validación topológica bajo LADM-COL V3.",
+        tl_role_2: "Control de Calidad Catastral (QA/QC)",
+        tl_desc_2: "Auditorías técnicas de calidad sobre información predial. Aplicación de estándares QA IGAC, verificación de consistencia topológica y validación de informes de campo.",
+        tl_role_3: "Coordinador y Líder de Campo SIG",
+        tl_desc_3: "Co-líder de equipos de reconocimiento predial. Nivelación topográfica urbana/rural, digitalización masiva y coordinación GIS para misiones de catastro multipropósito en terrenos complejos.",
+        tl_role_4: "Coordinador Profesional SIG",
+        tl_desc_4: "Implementación de estándares LADM-COL, digitalización masiva y coordinación GIS para despliegue de catastro multipropósito en Smart City. QA/QC en nodos de campo distribuidos.",
+        tl_role_5: "Profesional SIG — Drones y Geomática",
+        tl_desc_5: "Levantamientos fotogrametrícos con drones, gestión predial y producción de GIS vectorial. Análisis espacial y salidas cartográficas para proyectos inmobiliarios y ambientales.",
+        tl_role_6: "Digitalizador / Topógrafo",
+        tl_desc_6: "Levantamientos topográficos viales y digitalización GIS para proyectos de infraestructura. Trabajo de campo GPS y producción cartográfica bajo estándares profesionales.",
+        contact_title: "INICIAR\nCONEXIÓN.",
+        contact_desc: "Arquitectando la próxima generación de inteligencia espacial. Hablemos de su proyecto, municipio o desafío GIS empresarial.",
+        contact_label: "// INICIO_PROYECTO",
+        contact_email_label: "Correo",
+        contact_loc_label: "Ubicación",
+        form_service: "Tipo_Servicio",
+        form_service_select: "— Seleccionar Servicio —",
+        form_svc_1: "Automatización GIS y Pipeline ETL",
+        form_svc_2: "QA/QC Catastral (LADM-COL)",
+        form_svc_3: "Dashboard GIS Empresarial",
+        form_svc_4: "GeoAI / Análisis Satelital",
+        form_svc_5: "Proyecto Gubernamental / Municipal",
+        form_svc_6: "Otro / Consultoría",
         cv_download: "Descargar Datasheet (PDF)"
     }
 };
@@ -287,100 +355,201 @@ document.addEventListener('DOMContentLoaded', () => {
     }, { threshold: 0.1 });
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-    // 5. MAP ARCHITECTURE (V5.2 Immersive Spatial Intelligence)
+    // 5. MAP ARCHITECTURE — ENTERPRISE GIS WORKSTATION V6
     const mapElement = document.getElementById('interactive-map');
     if (mapElement && typeof L !== 'undefined') {
         const hqCoord = [6.2442, -75.5812];
+
         const map = L.map('interactive-map', {
             center: hqCoord,
-            zoom: 13,
+            zoom: 6,
             zoomControl: false,
             attributionControl: false,
-            scrollWheelZoom: false
+            scrollWheelZoom: true
         });
 
-        // Layer System
+        // ---- BASEMAP TILES ----
         const tiles = {
-            dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png'),
-            satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}'),
-            topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png')
+            dark: L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', { maxZoom: 19 }),
+            satellite: L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', { maxZoom: 19 }),
+            topo: L.tileLayer('https://{s}.tile.opentopomap.org/{z}/{x}/{y}.png', { maxZoom: 17 })
         };
-
         tiles.dark.addTo(map);
 
-        // Real-time HUD
-        const hudLat = document.getElementById('hud-lat');
-        const hudLng = document.getElementById('hud-lng');
-        const hudZoom = document.getElementById('hud-zoom');
+        // ---- SIMULATED CADASTRAL PARCELS (GeoJSON) ----
+        // Medellín area parcels with LADM-COL attributes
+        const cadastralData = {
+            type: 'FeatureCollection',
+            features: [
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Polygon', coordinates: [[[-75.578, 6.248], [-75.575, 6.248], [-75.575, 6.245], [-75.578, 6.245], [-75.578, 6.248]]] },
+                    properties: { NUMERO_PREDIO: 'ANT-001-0012', MUNICIPIO: 'Medellín', AREA_GRF: '2,340 m²', ESTADO: 'VALIDATED', PROPIETARIO: 'Empresa A S.A.S', MATRICULA: 'SNR-0012-2023', CRR: 'A01', FEC_ACTUALIZ: '2024-11-15', TIPO: 'Comercial', VALOR_CATASTRAL: '$450,000,000' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Polygon', coordinates: [[[-75.583, 6.243], [-75.580, 6.243], [-75.580, 6.240], [-75.583, 6.240], [-75.583, 6.243]]] },
+                    properties: { NUMERO_PREDIO: 'ANT-001-0087', MUNICIPIO: 'Medellín', AREA_GRF: '1,890 m²', ESTADO: 'ERROR', PROPIETARIO: 'Persona Natural', MATRICULA: 'SNR-0087-2022', CRR: 'B03', FEC_ACTUALIZ: '2023-08-22', TIPO: 'Residencial', VALOR_CATASTRAL: '$230,000,000' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Polygon', coordinates: [[[-75.572, 6.252], [-75.569, 6.252], [-75.569, 6.249], [-75.572, 6.249], [-75.572, 6.252]]] },
+                    properties: { NUMERO_PREDIO: 'ANT-001-0234', MUNICIPIO: 'Medellín', AREA_GRF: '3,120 m²', ESTADO: 'VALIDATED', PROPIETARIO: 'Constructora XYZ', MATRICULA: 'SNR-0234-2024', CRR: 'C02', FEC_ACTUALIZ: '2024-01-10', TIPO: 'Industrial', VALOR_CATASTRAL: '$890,000,000' }
+                },
+                {
+                    type: 'Feature',
+                    geometry: { type: 'Polygon', coordinates: [[[-75.565, 6.238], [-75.562, 6.238], [-75.562, 6.236], [-75.565, 6.236], [-75.565, 6.238]]] },
+                    properties: { NUMERO_PREDIO: 'ANT-001-0456', MUNICIPIO: 'Medellín', AREA_GRF: '780 m²', ESTADO: 'VALIDATED', PROPIETARIO: 'Fondo Nacional', MATRICULA: 'SNR-0456-2023', CRR: 'D05', FEC_ACTUALIZ: '2024-03-30', TIPO: 'Dotacional', VALOR_CATASTRAL: '$1,200,000,000' }
+                }
+            ]
+        };
 
-        map.on('mousemove', (e) => {
-            if (hudLat) hudLat.textContent = e.latlng.lat.toFixed(4) + '° N';
-            if (hudLng) hudLng.textContent = e.latlng.lng.toFixed(4) + '° W';
-        });
-
-        map.on('zoomend', () => {
-            if (hudZoom) hudZoom.textContent = map.getZoom().toFixed(2);
-        });
-
-        // Layer Switcher Logic
-        document.querySelectorAll('.layer-opt').forEach(opt => {
-            opt.addEventListener('click', () => {
-                const layerKey = opt.getAttribute('data-layer');
-                document.querySelectorAll('.layer-opt').forEach(el => el.classList.remove('active'));
-                opt.classList.add('active');
-
-                Object.values(tiles).forEach(t => map.removeLayer(t));
-                tiles[layerKey].addTo(map);
-            });
-        });
-
-        // Custom Buttons
-        document.getElementById('map-recenter')?.addEventListener('click', () => {
-            map.flyTo(hqCoord, 13, { duration: 2 });
-        });
-
-        document.getElementById('map-scan')?.addEventListener('click', () => {
-            scanRadius = 0;
-            animateScan();
-        });
-
-        // Core Node (Medellín HQ)
-        const coreIcon = L.divIcon({
-            className: 'custom-marker',
-            html: `
-                <div class="marker-pulse"></div>
-                <div class="marker-core" style="width:12px; height:12px; background:var(--accent-electric); border-radius:50%; border:2px solid #fff; position:relative; z-index:2;"></div>
-            `,
-            iconSize: [20, 20]
-        });
-
-        const mainNode = L.marker(hqCoord, { icon: coreIcon }).addTo(map);
-
-        mainNode.bindPopup(`
-            <div style="background: rgba(0,0,0,0.9); padding: 15px; border: 1px solid var(--accent-electric); border-radius: 12px; font-family: var(--font-mono);">
-                <div style="color: var(--accent-electric); font-size: 0.7rem; margin-bottom: 5px; font-weight:800;">[PRIMARY_HUB_ACTIVE]</div>
-                <div style="color: #fff; font-size: 0.9rem; font-weight:900; letter-spacing:-0.03em;">MEDELLÍN_SOVEREIGN_V5.2</div>
-                <div style="color: var(--text-tertiary); font-size: 0.6rem; margin-top: 8px; border-top:1px solid rgba(255,255,255,0.1); padding-top:8px;">
-                    STATUS: OPTIMAL<br>
-                    UPLINK: STABLE<br>
-                    NODES: 6_ACTIVE
-                </div>
-            </div>
-        `, { className: 'custom-popup', closeButton: false });
-
-        // Neural Scan Effect
-        let scanRadius = 0;
-        const scanCircle = L.circle(hqCoord, {
-            radius: 0,
-            color: 'var(--accent-electric)',
-            weight: 1,
-            fillOpacity: 0.05,
-            fillColor: 'var(--accent-electric)',
+        // ---- URBAN BOUNDARY (Simplified Medellín perimeter) ----
+        const urbanBoundary = L.polygon([
+            [6.355, -75.665], [6.37, -75.60], [6.34, -75.535], [6.29, -75.51],
+            [6.22, -75.52], [6.18, -75.555], [6.165, -75.62], [6.20, -75.68],
+            [6.27, -75.695], [6.32, -75.68], [6.355, -75.665]
+        ], {
+            color: '#4ade80',
+            weight: 2,
+            fill: true,
+            fillColor: '#4ade80',
+            fillOpacity: 0.03,
+            dashArray: '8 4',
             interactive: false
-        }).addTo(map);
+        });
 
-        let isMapVisible = false;
-        const mapObserver = new IntersectionObserver((entries) => {
+        // ---- ATTRIBUTE FUNCTION ----
+        let selectedFeatureLayer = null;
+
+        const showAttributes = (properties, layerRef, title) => {
+            document.getElementById('attr-default-state').style.display = 'none';
+            document.getElementById('attr-panel-content').style.display = 'block';
+            document.getElementById('attr-system-id').textContent = 'LAYER: ' + title;
+
+            const table = document.getElementById('attr-table');
+            table.innerHTML = '';
+            Object.entries(properties).forEach(([k, v]) => {
+                const row = document.createElement('div');
+                row.className = 'attr-row';
+                row.innerHTML = `<div class="attr-key">${k}</div><div class="attr-val">${v}</div>`;
+                table.appendChild(row);
+            });
+
+            if (selectedFeatureLayer) {
+                try { selectedFeatureLayer.setStyle && selectedFeatureLayer.setStyle({ weight: 1 }); } catch(e) {}
+            }
+            selectedFeatureLayer = layerRef;
+            if (layerRef && layerRef.setStyle) {
+                layerRef.setStyle({ weight: 3, color: '#fff' });
+            }
+
+            setStatus(`Feature selected — ${Object.keys(properties)[0]}: ${Object.values(properties)[0]}`);
+        };
+
+        // ---- CADASTRAL LAYER ----
+        const cadastralLayer = L.geoJSON(cadastralData, {
+            style: feat => ({
+                color: feat.properties.ESTADO === 'ERROR' ? '#ff4b2b' : '#ffb400',
+                weight: 1.5,
+                fill: true,
+                fillColor: feat.properties.ESTADO === 'ERROR' ? '#ff4b2b' : '#ffb400',
+                fillOpacity: feat.properties.ESTADO === 'ERROR' ? 0.25 : 0.12
+            }),
+            onEachFeature: (feat, layer) => {
+                const popup = L.popup({ closeButton: true, maxWidth: 280 }).setContent(`
+                    <div style="min-width:240px; padding:4px;">
+                        <div class="gis-popup-header">LADM-COL // REGISTRO_CATASTRAL</div>
+                        <div class="gis-popup-title">${feat.properties.NUMERO_PREDIO}</div>
+                        <table class="gis-popup-table">
+                            <tr><td>Municipio</td><td>${feat.properties.MUNICIPIO}</td></tr>
+                            <tr><td>Área Gráfica</td><td>${feat.properties.AREA_GRF}</td></tr>
+                            <tr><td>Estado</td><td style="color:${feat.properties.ESTADO==='ERROR'?'#ff4b2b':'#4ade80'}">${feat.properties.ESTADO}</td></tr>
+                            <tr><td>Propietario</td><td>${feat.properties.PROPIETARIO}</td></tr>
+                            <tr><td>Matrícula SNR</td><td>${feat.properties.MATRICULA}</td></tr>
+                            <tr><td>Tipo</td><td>${feat.properties.TIPO}</td></tr>
+                            <tr><td>Valor Catastral</td><td>${feat.properties.VALOR_CATASTRAL}</td></tr>
+                        </table>
+                    </div>
+                `);
+                layer.bindPopup(popup);
+                layer.on('click', () => showAttributes(feat.properties, layer, 'CADASTRAL_PARCELS'));
+            }
+        });
+
+        // ---- EXPERIENCE NODES ----
+        const expNodes = [
+            { loc:[6.2442,-75.5812], key:'node_medellin', accent:'#00e5ff', isHQ:true,
+              attrs:{ NODO:'MED_HQ', EMPRESA:'GEOSAT S.A.S', ROL:'Analista Geográfico', PERÍODO:'2025 Q4', PROTOCOLO:'LADM-COL', ESTADO:'ACTIVE' } },
+            { loc:[0.9639,-75.6453], key:'node_solita', accent:'#ff4b2b', isHQ:false,
+              attrs:{ NODO:'SOLITA_01', EMPRESA:'ACCION DEL CAUCA S.A.S', ROL:'QA/QC Reconocimiento', PERÍODO:'2025 Q2', PROTOCOLO:'IGAC_QA', ESTADO:'COMPLETE' } },
+            { loc:[10.9685,-74.7813], key:'node_barranquilla', accent:'#ffb400', isHQ:false,
+              attrs:{ NODO:'BQ_SMART', EMPRESA:'UT SMART CITY', ROL:'Coordinador Profesional SIG', PERÍODO:'2024-Act', PROTOCOLO:'LADM-COL V3', ESTADO:'ACTIVE' } },
+            { loc:[8.2753,-76.3773], key:'node_uraba', accent:'#00e5ff', isHQ:false,
+              attrs:{ NODO:'URB_02', EMPRESA:'ARBIRTRIUM S.A.S', ROL:'Líder y Coordinador SIG', PERÍODO:'2024 Q3', PROTOCOLO:'IGAC_TOPO', ESTADO:'COMPLETE' } },
+            { loc:[8.8504,-76.4255], key:'node_arboletes', accent:'#ffb400', isHQ:false,
+              attrs:{ NODO:'ARB_03', EMPRESA:'ARBIRTRIUM S.A.S', ROL:'Coordinador Campo', PERÍODO:'2023-24', PROTOCOLO:'BARRIDO_PRED', ESTADO:'COMPLETE' } },
+            { loc:[4.3134,-72.0811], key:'node_gaitan', accent:'#00e5ff', isHQ:false,
+              attrs:{ NODO:'GAI_ENV', EMPRESA:'COSARGO SAS', ROL:'Gestor Ambiental', PERÍODO:'2022', PROTOCOLO:'ENV_NORM', ESTADO:'ARCHIVED' } }
+        ];
+
+        const markerGroup = L.layerGroup();
+
+        expNodes.forEach(node => {
+            let marker;
+            if (node.isHQ) {
+                const icon = L.divIcon({
+                    className: '',
+                    html: `<div style="position:relative;width:20px;height:20px;">
+                        <div class="marker-pulse"></div>
+                        <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:14px;height:14px;background:${node.accent};border-radius:50%;border:2px solid #fff;z-index:2;box-shadow:0 0 12px ${node.accent};"></div>
+                    </div>`,
+                    iconSize: [20, 20], iconAnchor: [10, 10]
+                });
+                marker = L.marker(node.loc, { icon });
+            } else {
+                marker = L.circleMarker(node.loc, {
+                    radius: 8,
+                    fillColor: node.accent,
+                    color: '#fff',
+                    weight: 2,
+                    fillOpacity: 0.9
+                });
+            }
+
+            const lang = () => localStorage.getItem('dgz_lang') || 'en';
+            const content = () => `
+                <div style="min-width:220px; padding:4px;">
+                    <div class="gis-popup-header">SPATIAL_NODE // ${node.attrs.NODO}</div>
+                    <div class="gis-popup-title">${node.attrs.EMPRESA}</div>
+                    <table class="gis-popup-table">
+                        <tr><td>Rol</td><td>${node.attrs.ROL}</td></tr>
+                        <tr><td>Período</td><td>${node.attrs.PERÍODO}</td></tr>
+                        <tr><td>Protocolo</td><td>${node.attrs.PROTOCOLO}</td></tr>
+                        <tr><td>Estado</td><td style="color:${node.attrs.ESTADO==='ACTIVE'?'#4ade80':node.attrs.ESTADO==='ARCHIVED'?'#666':'#ffb400'}">${node.attrs.ESTADO}</td></tr>
+                        <tr><td>Lat,Lng</td><td>${node.loc[0].toFixed(4)}, ${node.loc[1].toFixed(4)}</td></tr>
+                    </table>
+                </div>`;
+
+            marker.bindPopup(L.popup({ closeButton: true, maxWidth: 260 }).setContent(content()));
+            marker.on('click', () => {
+                marker.getPopup().setContent(content());
+                showAttributes(node.attrs, marker, 'PROFESSIONAL_NODES');
+            });
+            window.addEventListener('languageChanged', () => {
+                if (marker.getPopup()) marker.getPopup().setContent(content());
+            });
+            markerGroup.addLayer(marker);
+        });
+
+        // ---- NEURAL SCAN ANIMATION ----
+        let scanRadius = 0, isMapVisible = false;
+        const scanCircle = L.circle(hqCoord, {
+            radius: 0, color: '#00e5ff', weight: 1,
+            fillOpacity: 0.03, fillColor: '#00e5ff', interactive: false
+        });
+
+        const mapObserver = new IntersectionObserver(entries => {
             isMapVisible = entries[0].isIntersecting;
             if (isMapVisible) animateScan();
         }, { threshold: 0.1 });
@@ -388,47 +557,184 @@ document.addEventListener('DOMContentLoaded', () => {
 
         function animateScan() {
             if (!isMapVisible && scanRadius === 0) return;
-            scanRadius += 40;
-            if (scanRadius > 4000) scanRadius = 0;
+            scanRadius += 3000;
+            if (scanRadius > 300000) scanRadius = 0;
             scanCircle.setRadius(scanRadius);
-            scanCircle.setStyle({ opacity: 1 - (scanRadius / 4000) });
+            scanCircle.setStyle({ opacity: 1 - (scanRadius / 300000) });
             if (isMapVisible || scanRadius > 0) requestAnimationFrame(animateScan);
         }
 
-        // Add Secondary Spatial Nodes
-        const experienceNodes = [
-            { loc: [6.2442, -75.5812], key: "node_medellin", accent: "var(--accent-electric)" },
-            { loc: [0.9639, -75.6453], key: "node_solita", accent: "#ff4b2b" },
-            { loc: [10.9685, -74.7813], key: "node_barranquilla", accent: "var(--cv-accent-gold)" },
-            { loc: [8.2753, -76.3773], key: "node_uraba", accent: "var(--accent-electric)" },
-            { loc: [8.8504, -76.4255], key: "node_arboletes", accent: "var(--cv-accent-gold)" },
-            { loc: [4.3134, -72.0811], key: "node_gaitan", accent: "var(--accent-electric)" }
-        ];
+        // ---- ADD ALL LAYERS ----
+        function addAllLayers() {
+            urbanBoundary.addTo(map);
+            cadastralLayer.addTo(map);
+            markerGroup.addTo(map);
+            scanCircle.addTo(map);
+        }
+        addAllLayers();
 
-        experienceNodes.forEach(node => {
-            const marker = L.circleMarker(node.loc, {
-                radius: 8,
-                fillColor: node.accent,
-                color: "#fff",
-                weight: 2,
-                fillOpacity: 1
-            }).addTo(map);
-
-            const updateTooltip = () => {
-                const lang = localStorage.getItem('dgz_lang') || 'en';
-                const content = `<div class="map-tooltip-content">${translations[lang][node.key]}</div>`;
-                marker.bindTooltip(content, {
-                    permanent: false,
-                    direction: 'top',
-                    className: 'custom-map-tooltip',
-                    offset: [0, -10]
-                });
-            };
-
-            updateTooltip();
-            window.addEventListener('languageChanged', updateTooltip);
+        // ---- LAYER TOGGLES (checkboxes) ----
+        document.getElementById('layer-chk-nodes')?.addEventListener('change', e => {
+            e.target.checked ? markerGroup.addTo(map) : map.removeLayer(markerGroup);
         });
+        document.getElementById('layer-chk-parcels')?.addEventListener('change', e => {
+            e.target.checked ? cadastralLayer.addTo(map) : map.removeLayer(cadastralLayer);
+        });
+        document.getElementById('layer-chk-boundary')?.addEventListener('change', e => {
+            e.target.checked ? urbanBoundary.addTo(map) : map.removeLayer(urbanBoundary);
+        });
+        document.getElementById('layer-chk-scan')?.addEventListener('change', e => {
+            e.target.checked ? scanCircle.addTo(map) : map.removeLayer(scanCircle);
+        });
+
+        // ---- BASEMAP SWITCHER (new panel buttons) ----
+        document.querySelectorAll('.gis-basemap-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const lyr = btn.getAttribute('data-layer');
+                document.querySelectorAll('.gis-basemap-btn').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                Object.values(tiles).forEach(t => map.removeLayer(t));
+                tiles[lyr].addTo(map);
+                tiles[lyr].bringToBack();
+                setStatus(`Basemap switched to: ${lyr.toUpperCase()}`);
+            });
+        });
+
+        // ---- COORDINATE HUD (live on mousemove) ----
+        const hudLat = document.getElementById('hud-lat');
+        const hudLng = document.getElementById('hud-lng');
+        const hudZoom = document.getElementById('hud-zoom');
+        const coordLat = document.getElementById('gis-coord-lat');
+        const coordLng = document.getElementById('gis-coord-lng');
+
+        map.on('mousemove', e => {
+            const lat = e.latlng.lat.toFixed(4);
+            const lng = e.latlng.lng.toFixed(4);
+            if (hudLat) hudLat.textContent = lat;
+            if (hudLng) hudLng.textContent = lng;
+            if (coordLat) coordLat.textContent = lat;
+            if (coordLng) coordLng.textContent = lng;
+        });
+
+        map.on('zoomend', () => {
+            if (hudZoom) hudZoom.textContent = map.getZoom();
+            updateScalebar();
+        });
+
+        // ---- SCALE BAR ----
+        function updateScalebar() {
+            const zoom = map.getZoom();
+            const metersPerPixel = 156543.03 * Math.cos(hqCoord[0] * Math.PI / 180) / Math.pow(2, zoom);
+            const barPx = 80;
+            const meters = barPx * metersPerPixel;
+            const label = meters > 1000 ? (meters / 1000).toFixed(1) + ' km' : Math.round(meters) + ' m';
+            const sl = document.getElementById('scalebar-label');
+            if (sl) sl.textContent = label;
+        }
+        updateScalebar();
+
+        // ---- TOOLS ----
+        let activeTool = 'pan';
+        let measurePoints = [], measureLine = null;
+
+        const setStatus = (msg) => {
+            const s = document.getElementById('gis-status-msg');
+            if (s) s.textContent = '● ' + msg;
+        };
+
+        document.querySelectorAll('.gis-tool').forEach(btn => {
+            btn.addEventListener('click', () => {
+                activeTool = btn.getAttribute('data-tool');
+                document.querySelectorAll('.gis-tool').forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+
+                // Handle tool-specific UI
+                const measureWidget = document.getElementById('gis-measure-widget');
+                const identifyHint = document.getElementById('gis-identify-hint');
+
+                if (activeTool === 'measure') {
+                    measureWidget.style.display = 'block';
+                    identifyHint.style.display = 'none';
+                    map.getContainer().style.cursor = 'crosshair';
+                    setStatus('MEASURE_TOOL active — click to add points, double-click to finish');
+                } else if (activeTool === 'identify') {
+                    measureWidget.style.display = 'none';
+                    identifyHint.style.display = 'flex';
+                    map.getContainer().style.cursor = 'help';
+                    setStatus('IDENTIFY_TOOL active — click a feature to inspect attributes');
+                } else if (activeTool === 'zoom') {
+                    measureWidget.style.display = 'none';
+                    identifyHint.style.display = 'none';
+                    map.flyTo(hqCoord, 13, { duration: 2 });
+                    setStatus('Zooming to HQ — Medellín, Colombia');
+                    activeTool = 'pan';
+                    setTimeout(() => {
+                        document.getElementById('tool-pan').classList.add('active');
+                        btn.classList.remove('active');
+                    }, 100);
+                } else if (activeTool === 'scan') {
+                    scanRadius = 0;
+                    animateScan();
+                    setStatus('NEURAL_SCAN triggered from HQ node');
+                    activeTool = 'pan';
+                    setTimeout(() => {
+                        document.getElementById('tool-pan').classList.add('active');
+                        btn.classList.remove('active');
+                    }, 100);
+                } else {
+                    measureWidget.style.display = 'none';
+                    identifyHint.style.display = 'none';
+                    map.getContainer().style.cursor = '';
+                    setStatus('PAN_TOOL active — drag to navigate');
+                }
+            });
+        });
+
+        // ---- MEASURE ON MAP CLICK ----
+        map.on('click', e => {
+            if (activeTool !== 'measure') return;
+            measurePoints.push(e.latlng);
+            document.getElementById('measure-points').textContent = measurePoints.length;
+
+            if (measureLine) map.removeLayer(measureLine);
+            if (measurePoints.length > 1) {
+                let total = 0;
+                for (let i = 1; i < measurePoints.length; i++) {
+                    total += measurePoints[i-1].distanceTo(measurePoints[i]);
+                }
+                const label = total > 1000 ? (total/1000).toFixed(2) + ' km' : Math.round(total) + ' m';
+                document.getElementById('measure-distance').textContent = label;
+                measureLine = L.polyline(measurePoints, { color: '#00e5ff', weight: 2, dashArray: '6 4' }).addTo(map);
+            }
+        });
+
+        document.getElementById('clear-measure')?.addEventListener('click', () => {
+            measurePoints = [];
+            if (measureLine) { map.removeLayer(measureLine); measureLine = null; }
+            document.getElementById('measure-distance').textContent = '—';
+            document.getElementById('measure-points').textContent = '0';
+        });
+
+        // ---- ZOOM CONTROLS ----
+        document.getElementById('map-zoom-in')?.addEventListener('click', () => map.zoomIn());
+        document.getElementById('map-zoom-out')?.addEventListener('click', () => map.zoomOut());
+
+        // Legacy support (recenter/scan if old HTML left)
+        document.getElementById('map-recenter')?.addEventListener('click', () => map.flyTo(hqCoord, 13, { duration: 2 }));
+        document.getElementById('map-scan')?.addEventListener('click', () => { scanRadius = 0; animateScan(); });
+
+        // ---- LIVE CLOCK IN STATUS BAR ----
+        const clockEl = document.getElementById('gis-clock');
+        if (clockEl) {
+            setInterval(() => {
+                const now = new Date();
+                clockEl.textContent = now.toTimeString().slice(0, 8) + ' COT';
+            }, 1000);
+        }
+
+        setStatus('SYSTEM READY — DGZ Territorial Intelligence v6.0 // Nodes: 6 active');
     }
+
 
     // 6. TRANSMISSION FORM (AJAX)
     const form = document.getElementById('dgz-transmission-form');
@@ -786,9 +1092,67 @@ document.addEventListener('keydown', function (e) {
     if (e.ctrlKey && e.shiftKey && (e.key === 'i' || e.key === 'I' || e.key === 'j' || e.key === 'J' || e.key === 'c' || e.key === 'C')) {
         e.preventDefault();
     }
+
+    // Escape to exit fullscreen GIS
+    if (e.key === 'Escape') {
+        const ws = document.getElementById('gis-workstation');
+        if (ws && ws.classList.contains('fullscreen-mode')) {
+            ws.classList.remove('fullscreen-mode');
+            const btn = document.getElementById('gis-fullscreen-btn');
+            if (btn) btn.innerHTML = '<i class="ph ph-arrows-out"></i> FULLSCREEN';
+        }
+    }
 });
 
 // Protect images from drag and drop
 document.querySelectorAll('img').forEach(img => {
     img.addEventListener('dragstart', (e) => e.preventDefault());
 });
+
+// ---- GIS FULLSCREEN BUTTON ----
+document.addEventListener('DOMContentLoaded', () => {
+    const toolbar = document.querySelector('.gis-toolbar-tools');
+    if (toolbar) {
+        const btn = document.createElement('button');
+        btn.id = 'gis-fullscreen-btn';
+        btn.className = 'gis-btn-fullscreen';
+        btn.innerHTML = '<i class="ph ph-arrows-out"></i> FULLSCREEN';
+        btn.title = 'Toggle Fullscreen';
+        toolbar.appendChild(btn);
+
+        btn.addEventListener('click', () => {
+            const ws = document.getElementById('gis-workstation');
+            if (!ws) return;
+            const isFs = ws.classList.toggle('fullscreen-mode');
+            btn.innerHTML = isFs
+                ? '<i class="ph ph-arrows-in"></i> EXIT FULL'
+                : '<i class="ph ph-arrows-out"></i> FULLSCREEN';
+            // Invalidate Leaflet map size
+            setTimeout(() => {
+                if (window.__dgzMap) window.__dgzMap.invalidateSize();
+            }, 200);
+        });
+    }
+
+    // ---- FOOTER CLOCK ----
+    const footerClock = document.getElementById('footer-clock');
+    if (footerClock) {
+        const updateFClock = () => {
+            footerClock.textContent = new Date().toTimeString().slice(0, 8) + ' COT';
+        };
+        updateFClock();
+        setInterval(updateFClock, 1000);
+    }
+
+    // ---- CHANGE DETECTION PIXEL ANIMATION (GeoAI section) ----
+    const pixelContainer = document.getElementById('change-pixels');
+    if (pixelContainer && pixelContainer.children.length === 0) {
+        const types = ['', 'stable', 'detected'];
+        for (let i = 0; i < 81; i++) {
+            const px = document.createElement('div');
+            px.className = 'change-pixel ' + types[Math.floor(Math.random() * types.length)];
+            pixelContainer.appendChild(px);
+        }
+    }
+});
+

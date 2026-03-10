@@ -8,16 +8,16 @@
 
     <link rel="icon" type="image/svg+xml" href="assets/img/logo_icon.svg">
     <meta name="description"
-        content="DGZ Engineering - Professional GIS & Spatial Systems. Expert in ArcGIS Pro, PyQGIS, PostGIS, LADM-COL and high-performance geospatial automation.">
-    <meta property="og:title" content="DGZ Engineering | Advanced Spatial Systems">
+        content="DGZ Engineering - Advanced Geospatial Intelligence & Spatial Systems. Specialist in GIS Automation, PostGIS, LADM-COL and High-Performance Spatial Data Engineering.">
+    <meta property="og:title" content="DGZ Engineering | Advanced Spatial Intelligence">
     <meta property="og:description"
-        content="Professional GIS & Spatial Systems Engineering focused on high-precision data workflows and technical automation.">
+        content="Sovereign Spatial Systems Engineering focused on high-precision GIS automation and territorial intelligence architecture.">
     <meta property="og:type" content="website">
     <meta property="og:url" content="https://gaviriaz.github.io/dgz-engineering">
     <link rel="canonical" href="https://gaviriaz.github.io/dgz-engineering">
     <meta name="theme-color" content="#000000">
     <meta name="keywords"
-        content="GIS, Geospatial, ArcGIS Pro, QGIS, PostGIS, Python, LADM-COL, Catastro, Ingenieria, Cartografia">
+        content="GIS, Geospatial AI, ArcGIS Pro, QGIS Automation, PostGIS Expert, Python GIS, LADM-COL, Spatial Intelligence, Medellín Engineering">
 
     <link rel="stylesheet" href="assets/css/index.css">
     <link rel="stylesheet" href="assets/css/cv.css">
@@ -30,6 +30,7 @@
 
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" crossorigin="anonymous" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
     <style>
         #scroll-progress {
             position: fixed;
@@ -65,37 +66,100 @@
     <div class="cursor-main"></div>
     <div class="cursor-trail"></div>
 
+
     <div id="terminal-intro" class="intro-terminal">
         <div id="terminal-content"></div>
     </div>
 
-    <!-- SOCIAL DOCK (System Devices) -->
-    <aside class="social-dock">
-        <a href="https://www.linkedin.com/in/soyalbertgz/" target="_blank" class="social-item"
-            aria-label="LinkedIn Profile">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
-                <rect x="2" y="9" width="4" height="12"></rect>
-                <circle cx="4" cy="4" r="2"></circle>
-            </svg>
-        </a>
-        <a href="https://github.com/Daga21Gz" target="_blank" class="social-item" aria-label="GitHub Profile">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path
-                    d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
-                </path>
-            </svg>
-        </a>
-        <a href="mailto:Albertg2109@gmail.com" class="social-item" aria-label="Send Email">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
-                aria-hidden="true">
-                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
-                <polyline points="22,6 12,13 2,6"></polyline>
-            </svg>
-        </a>
-    </aside>
+    <!-- DYNAMIC SOCIAL DOCK (Intelligent Reveal) -->
+    <div class="social-dock-wrapper">
+        <div class="social-dock-trigger">
+            <i class="ph-bold ph-share-network"></i>
+        </div>
+        <aside class="social-dock smart-dock">
+            <a href="https://www.linkedin.com/in/soyalbertgz/" target="_blank" class="social-item"
+                aria-label="LinkedIn Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path>
+                    <rect x="2" y="9" width="4" height="12"></rect>
+                    <circle cx="4" cy="4" r="2"></circle>
+                </svg>
+            </a>
+            <a href="https://github.com/Daga21Gz" target="_blank" class="social-item" aria-label="GitHub Profile">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path
+                        d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22">
+                    </path>
+                </svg>
+            </a>
+            <a href="mailto:Albertg2109@gmail.com" class="social-item" aria-label="Send Email">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    aria-hidden="true">
+                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                    <polyline points="22,6 12,13 2,6"></polyline>
+                </svg>
+            </a>
+        </aside>
+    </div>
+    <style>
+        .social-dock-wrapper {
+            position: fixed;
+            top: 50%;
+            right: 0;
+            transform: translateY(-50%);
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+        }
+        .social-dock-trigger {
+            background: rgba(10, 10, 15, 0.5);
+            border: 1px solid rgba(0, 229, 255, 0.4);
+            border-right: none;
+            color: rgba(255, 255, 255, 0.6);
+            padding: 15px 10px;
+            border-radius: 12px 0 0 12px;
+            cursor: pointer;
+            backdrop-filter: blur(4px);
+            box-shadow: -2px 0 10px rgba(0, 0, 0, 0.5);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .smart-dock {
+            position: absolute;
+            right: -100px;
+            opacity: 0;
+            pointer-events: none;
+            flex-direction: column;
+            gap: 15px;
+            background: rgba(10, 10, 15, 0.85);
+            padding: 15px;
+            border-radius: 12px 0 0 12px;
+            border: 1px solid rgba(0,229,255,0.3);
+            border-right: none;
+            backdrop-filter: blur(15px);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: -5px 0 20px rgba(0, 229, 255, 0.2);
+        }
+        .social-dock-wrapper:hover .social-dock-trigger {
+            opacity: 0;
+            transform: translateX(20px);
+        }
+        .social-dock-wrapper:hover .smart-dock {
+            right: 0;
+            opacity: 1;
+            pointer-events: auto;
+        }
+        .smart-dock .social-item {
+            color: #fff;
+            transition: all 0.3s;
+        }
+        .smart-dock .social-item:hover {
+            color: var(--accent-electric);
+            transform: scale(1.1) translateX(-5px);
+            filter: drop-shadow(0 0 10px var(--accent-electric));
+        }
+    </style>
 
     <!-- MASTER BIO-NEURAL CV MODAL (V5.2 Sovereign) -->
     <div id="cv-neural-overlay" class="cv-overlay">
@@ -358,10 +422,7 @@
         <!-- HERO V6 -->
         <section class="hero">
             <div class="hero-content reveal">
-                <div class="hero-identity-badge">
-                    <div class="hero-badge-dot"></div>
-                    Spatial Systems Engineer — Latin America
-                </div>
+
                 <span class="section-label" data-i18n="hero_tag" style="margin-bottom: 1.5rem;">//
                     SPATIAL_SYSTEMS_ENGINEERING</span>
                 <h1 style="margin-bottom: 1rem;">ALBERT GAVIRIA ZAPATA</h1>
@@ -369,22 +430,68 @@
                     data-i18n="hero_h1">
                     Automating Multipurpose Cadastre &amp;<br>Territorial Intelligence Systems
                 </p>
-                <p data-i18n="hero_desc" style="font-size: 1rem; margin-bottom: 2.5rem;">High-Performance Geospatial
-                    Engineering &amp; Automated Systems Architecture.</p>
-                <div style="display: flex; gap: 2rem; justify-content: center; flex-wrap: wrap;">
-                    <a href="#lab" class="btn-premium">⭐ Explore Spatial Lab</a>
+                <p data-i18n="hero_desc" style="font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 600px; line-height: 1.8;">High-Performance Geospatial Engineering &amp; Automated Systems for Multipurpose Cadastre, GovTech, and Territorial Intelligence.</p>
+                <div style="display: flex; gap: 1.5rem; justify-content: center; flex-wrap: wrap; margin-bottom: 1.5rem;">
+                    <a href="#lab" class="btn-premium" data-i18n="hero_btn_lab">⭐ Explore Spatial Lab</a>
                     <a href="#contact" class="btn-premium btn-outline" data-i18n="hero_btn_contact">Link_Direct</a>
+                    <a href="#map" class="btn-premium" style="background: transparent; border: 1px solid rgba(0,229,255,0.2); color: rgba(255,255,255,0.6); font-size: 0.65rem;" data-i18n="hero_btn_map">🗺️ Intel Map</a>
                 </div>
-                <div class="hero-tech-badges">
-                    <span class="hero-badge-pill">Python</span>
-                    <span class="hero-badge-pill">PostGIS</span>
-                    <span class="hero-badge-pill">GIS Automation</span>
-                    <span class="hero-badge-pill">LADM-COL</span>
-                    <span class="hero-badge-pill">FastAPI</span>
-                    <span class="hero-badge-pill">MapLibre GL</span>
-                    <span class="hero-badge-pill">PyQGIS</span>
-                    <span class="hero-badge-pill">GeoPandas</span>
+                <div class="hero-tech-badges dynamic">
+                    <span class="hero-badge-pill hero-float-1">Python</span>
+                    <span class="hero-badge-pill hero-float-2">PostGIS</span>
+                    <span class="hero-badge-pill hero-float-3">GIS Automation</span>
+                    <span class="hero-badge-pill hero-float-1">LADM-COL</span>
+                    <span class="hero-badge-pill hero-float-3">FastAPI</span>
+                    <span class="hero-badge-pill hero-float-2">MapLibre GL</span>
+                    <span class="hero-badge-pill hero-float-1">PyQGIS</span>
+                    <span class="hero-badge-pill hero-float-2">GeoPandas</span>
                 </div>
+                <style>
+                    .hero-tech-badges.dynamic {
+                        display: flex;
+                        gap: 1rem;
+                        flex-wrap: wrap;
+                        justify-content: center;
+                        perspective: 1000px;
+                    }
+                    .hero-tech-badges.dynamic .hero-badge-pill {
+                        background: rgba(10, 10, 15, 0.7);
+                        border: 1px solid rgba(0, 229, 255, 0.15);
+                        color: rgba(255, 255, 255, 0.8);
+                        padding: 0.5rem 1.2rem;
+                        border-radius: 50px;
+                        font-family: var(--font-mono);
+                        font-size: 0.8rem;
+                        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        position: relative;
+                        overflow: hidden;
+                        backdrop-filter: blur(5px);
+                        cursor: crosshair;
+                    }
+                    .hero-tech-badges.dynamic .hero-badge-pill::before {
+                        content: '';
+                        position: absolute;
+                        top: 0; left: -100%; width: 50%; height: 100%;
+                        background: linear-gradient(90deg, transparent, rgba(0, 229, 255, 0.4), transparent);
+                        transform: skewX(-20deg);
+                        transition: 0.5s;
+                    }
+                    .hero-tech-badges.dynamic .hero-badge-pill:hover::before {
+                        left: 150%;
+                    }
+                    .hero-tech-badges.dynamic .hero-badge-pill:hover {
+                        transform: translateY(-5px) scale(1.05);
+                        border-color: var(--accent-electric);
+                        box-shadow: 0 10px 20px rgba(0, 229, 255, 0.2), inset 0 0 10px rgba(0,229,255,0.1);
+                        color: #fff;
+                    }
+                    @keyframes floatPill1 { 0% { transform: translateY(0); } 50% { transform: translateY(-6px); } 100% { transform: translateY(0); } }
+                    @keyframes floatPill2 { 0% { transform: translateY(-4px); } 50% { transform: translateY(4px); } 100% { transform: translateY(-4px); } }
+                    @keyframes floatPill3 { 0% { transform: translateY(3px); } 50% { transform: translateY(-4px); } 100% { transform: translateY(3px); } }
+                    .hero-float-1 { animation: floatPill1 4s ease-in-out infinite; }
+                    .hero-float-2 { animation: floatPill2 5s ease-in-out infinite; }
+                    .hero-float-3 { animation: floatPill3 3.5s ease-in-out infinite; }
+                </style>
             </div>
         </section>
 
@@ -478,41 +585,106 @@
         </section>
 
         <!-- BENTO ABOUT -->
-        <section id="about" style="padding: 10rem 5%;">
-            <div class="reveal">
-                <span class="section-label" data-i18n="about_label">// ARCHITECTURE</span>
+        <!-- CYBER ABOUT SECTION -->
+        <section id="about" style="padding: 10rem 5%; position: relative;">
+            <div style="position: absolute; top: 10%; left: 50%; transform: translateX(-50%); width: 600px; height: 600px; background: radial-gradient(circle, rgba(0, 229, 255, 0.05) 0%, transparent 70%); pointer-events: none;"></div>
+            <div class="reveal" style="position: relative; z-index: 2;">
+                <span class="section-label" data-i18n="about_label">// ARCHITECTURAL_CORE</span>
                 <h2 class="section-title" data-i18n="about_title">The Engineering Core</h2>
-                <div class="bento-grid">
-                    <div class="bento-item large reveal" data-tilt>
-                        <h3 style="font-size: 2.5rem; margin-bottom: 2rem; letter-spacing: -0.04em;">GIS
-                            EXCELLENCE &
-                            SOFTWARE ARCHITECTURE.</h3>
-                        <p style="color: var(--text-secondary); line-height: 2;" data-i18n="about_p1">We bridge
-                            the gap
-                            between traditional GIS mapping and scalable software architecture. Focused on
-                            high-precision data workflows and technical automation.</p>
+                <div class="bento-grid" style="grid-template-columns: 1.8fr 1.2fr; gap: 2.5rem;">
+                    
+                    <div class="bento-item large reveal hover-lift" data-tilt style="position: relative; overflow: hidden; background: linear-gradient(145deg, rgba(10,10,15,0.9), rgba(5,5,8,0.95)); border: 1px solid rgba(255,255,255,0.05); border-radius: 20px;">
+                        <div style="position: absolute; top:0; left:0; width:100%; height:3px; background: linear-gradient(90deg, transparent, var(--accent-electric), transparent);"></div>
+                        <h3 style="font-size: 2.8rem; margin-bottom: 2rem; letter-spacing: -0.04em; background: linear-gradient(to right, #fff, rgba(255,255,255,0.6)); -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;">
+                            GIS EXCELLENCE &<br>SOFTWARE ARCHITECTURE.</h3>
+                        <p style="color: var(--text-secondary); line-height: 2; font-size: 1.1rem;" data-i18n="about_p1">
+                            Cerramos la brecha entre el mapeo SIG tradicional y la arquitectura de software escalable. Enfocados en flujos de datos de alta precisión y automatización técnica. Nuestro núcleo transforma datos geográficos sin estructura en inteligencia territorial automatizada y soberana.
+                        </p>
+                        <i class="ph-fill ph-cpu" style="position: absolute; bottom: -20px; right: -20px; font-size: 12rem; color: rgba(255,255,255,0.02); transform: rotate(-15deg);"></i>
                     </div>
-                    <div class="bento-item medium reveal"
-                        style="background: rgba(0, 229, 255, 0.05); border-color: rgba(0, 229, 255, 0.2);" data-tilt>
-                        <div
-                            style="font-family: var(--font-mono); color: var(--accent-electric); font-size: 0.8rem; line-height: 2.2;">
-                            <span style="opacity: 0.5;">[sys_init]</span> DGZ_ENGINEERING_V5.2<br>
-                            <span style="color: #4ade80;">[status]</span> NODE_V5.2_ACTIVE<br>
-                            <span style="color: #4ade80;">[status]</span> PERSPECTIVE_RENDER: OK<br>
-                            <span style="color: #ffb400;">[telemetry]</span> MANUAL_WORK: -70%<br>
+
+                    <div class="bento-item medium reveal terminal-card" data-tilt style="background: rgba(5, 5, 8, 0.8); border: 1px solid rgba(0, 229, 255, 0.2); box-shadow: inset 0 0 50px rgba(0,0,0,0.8), 0 10px 30px rgba(0, 229, 255, 0.05); padding: 2rem; position: relative;">
+                        <!-- Terminal header -->
+                        <div style="display: flex; gap: 8px; margin-bottom: 1.5rem; border-bottom: 1px solid rgba(0, 229, 255, 0.1); padding-bottom: 1rem;">
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background: #ff4b4b; box-shadow: 0 0 5px #ff4b4b;"></span>
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background: #ffb400; box-shadow: 0 0 5px #ffb400;"></span>
+                            <span style="width: 12px; height: 12px; border-radius: 50%; background: #4ade80; box-shadow: 0 0 5px #4ade80;"></span>
+                            <span style="margin-left:auto; font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-electric);">SYS_TERMINAL_V5.5</span>
                         </div>
+                        <div style="font-family: var(--font-mono); color: var(--accent-electric); font-size: 0.85rem; line-height: 2.8;">
+                            <span style="opacity: 0.5;">[sys_init]</span> DGZ_ENGINEERING_V5.5 <span style="font-size: 0.65rem; opacity: 0.8; border: 1px solid rgba(0,229,255,0.3); padding: 2px 8px; border-radius: 12px; margin-left:10px; background: rgba(0,229,255,0.1);">SOVEREIGN_EDITION</span><br>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); padding-bottom: 8px;">
+                                <span><span style="color: #4ade80;">[status]</span> CORE_MATRIX:</span> <span style="color:#fff; text-shadow: 0 0 5px rgba(255,255,255,0.5);">ACTIVE</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); border-top: 1px dashed rgba(0,0,0,1); padding: 8px 0; margin-top: -1px;">
+                                <span><span style="color: #4ade80;">[status]</span> SPATIAL_QUERY_ENGINE:</span> <span style="color:#fff;">READY</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); border-top: 1px dashed rgba(0,0,0,1); padding: 8px 0; margin-top: -1px;">
+                                <span><span style="color: #ffb400;">[telemetry]</span> MANUAL_LATENCY:</span> <span style="color:#fff;">0.00ms</span>
+                            </div>
+                            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px dashed rgba(255,255,255,0.1); border-top: 1px dashed rgba(0,0,0,1); padding: 8px 0; margin-top: -1px;">
+                                <span><span style="color: var(--accent-purple);">[inference]</span> URBAN_CHANGE_NODE:</span> <span style="color:#fff; border-bottom: 1px solid var(--accent-purple);">DETECTED</span>
+                            </div>
+                        </div>
+                        <!-- Scanning line -->
+                        <div class="scan-line" style="position: absolute; top:0; left:0; width:100%; height:2px; background: rgba(0,229,255,0.5); box-shadow: 0 0 15px rgba(0,229,255,1); animation: scan 3s linear infinite; opacity: 0.5;"></div>
                     </div>
-                    <!-- Additional Information Items -->
-                    <div class="bento-item small reveal" data-tilt>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem;">SPATIAL_INTEL</h3>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Advanced integration of LADM-COL
-                            standards and high-fidelity geospatial telemetry.</p>
+
+                </div>
+            </div>
+            <style>
+                @keyframes scan {
+                    0% { top: 0; opacity: 0; }
+                    10% { opacity: 0.5; }
+                    90% { opacity: 0.5; }
+                    100% { top: 100%; opacity: 0; }
+                }
+                .terminal-card {
+                    transition: all 0.4s var(--ease-spring) !important;
+                }
+                .terminal-card:hover {
+                    box-shadow: inset 0 0 30px rgba(0,0,0,0.8), 0 10px 40px rgba(0, 229, 255, 0.2) !important;
+                    border-color: rgba(0, 229, 255, 0.6) !important;
+                    transform: scale(1.02) !important;
+                }
+            </style>
+        </section>
+
+        <!-- TECHNICAL DNA (Evolved Stack) -->
+        <section id="tech-dna" style="padding: 10rem 5% 0;">
+            <div class="reveal">
+                <span class="section-label">// TECHNICAL_DNA [V5.5]</span>
+                <h2 class="section-title">The Engineering Matrix</h2>
+                <div class="tech-dna-container">
+                    <div class="tech-group-modern reveal" data-tilt>
+                        <div class="tech-group-header">
+                            <i class="ph ph-globe-hemisphere-west"></i>
+                            <h3>GIS_SPATIAL_INFRA</h3>
+                        </div>
+                        <div class="tech-icons-modern">
+                            <img src="https://skillicons.dev/icons?i=postgis,qgis,supabase,pydantic" alt="GIS Tech" title="PostGIS, QGIS, Supabase, Pydantic">
+                        </div>
+                        <p class="tech-group-desc">PostGIS topology matrix, LADM-COL V3 compliance, and high-fidelity vector architecture.</p>
                     </div>
-                    <div class="bento-item small reveal" style="border-color: var(--accent-gold);" data-tilt>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 1rem; color: var(--accent-gold);">SYSTEM_AUTOMATION
-                        </h3>
-                        <p style="font-size: 0.8rem; color: var(--text-secondary);">Developing custom PyQGIS frameworks
-                            and PostGIS logic to bypass manual limitations.</p>
+                    <div class="tech-group-modern reveal" data-tilt>
+                        <div class="tech-group-header">
+                            <i class="ph ph-code"></i>
+                            <h3>SYSTEMS_ENGINEERING</h3>
+                        </div>
+                        <div class="tech-icons-modern">
+                            <img src="https://skillicons.dev/icons?i=python,fastapi,js,ts" alt="Language Stack" title="Python, FastAPI, JS, TypeScript">
+                        </div>
+                        <p class="tech-group-desc">Backend systems for spatial intelligence, RESTful Node architecture, and automated logic.</p>
+                    </div>
+                    <div class="tech-group-modern reveal" data-tilt>
+                        <div class="tech-group-header">
+                            <i class="ph ph-rocket-launch"></i>
+                            <h3>AUTOMATION_DEVOPS</h3>
+                        </div>
+                        <div class="tech-icons-modern">
+                            <img src="https://skillicons.dev/icons?i=github,docker,vercel,linux" alt="DevOps Tech" title="GitHub, Docker, Vercel, Linux">
+                        </div>
+                        <p class="tech-group-desc">CI/CD pipelines for geospatial assets, containerized spatial nodes, and kernel optimization.</p>
                     </div>
                 </div>
             </div>
@@ -564,12 +736,19 @@
         <!-- DGZ SPATIAL LAB ⭐ -->
         <section id="lab" class="spatial-lab-section">
             <div class="lab-header reveal">
-                <div class="lab-badge"><span class="lab-star">⭐</span> DGZ SPATIAL LAB — LIVE DEMOS</div>
-                <h2 class="section-title" data-i18n="lab_title">Laboratorio de Inteligencia Espacial</h2>
+                <div class="lab-badge"><span class="lab-star">⭐</span> DGZ SPATIAL LAB // LIVE_DEMOS</div>
+                <h2 class="section-title" data-i18n="lab_title">Spatial Intelligence Laboratory</h2>
                 <p data-i18n="lab_desc"
-                    style="color: var(--text-secondary); max-width: 700px; font-size: 1rem; line-height: 1.7;">Proyectos
-                    reales demostrando capacidades GIS, automatización catastral y arquitectura de sistemas espaciales.
-                    Esto NO es un portafolio — es un laboratorio activo.</p>
+                    style="color: var(--text-secondary); max-width: 800px; font-size: 1.1rem; line-height: 1.8;">
+                    High-performance geospatial nodes demonstrating territorial automation, 
+                    multipurpose cadastral engines, and advanced spatial systems engineering. 
+                    <span style="color: var(--accent-cyan);">The following assets are active demonstrations, not mere placeholders.</span>
+                </p>
+                <div style="margin-top: 2rem;">
+                    <a href="lab/gesture_sandbox.html" class="btn-premium" style="background: linear-gradient(135deg, var(--accent-purple) 0%, #3C096C 100%); display: inline-flex; align-items: center; gap: 8px;">
+                        <i class="ph-bold ph-hand-pointing" style="font-size: 1.2rem;"></i> Prueba Gratuita: Vision Sandbox (IA Gestual)
+                    </a>
+                </div>
             </div>
 
             <div class="lab-projects-grid">
@@ -577,14 +756,11 @@
                 <div class="lab-project-card reveal" data-tilt>
                     <div class="lab-card-id">SYSTEM_ID: SPATIAL_VIEWER_01</div>
                     <div class="lab-card-icon">🗺️</div>
-                    <h3 class="lab-card-title">Spatial Viewer</h3>
-                    <p class="lab-card-desc">Visor GIS interactivo con capas de predios, límites urbanos y atributos
-                        catastrales. Datos reales exportados desde QGIS en formato GeoJSON con popups de información
-                        predial.</p>
+                    <h3 class="lab-card-title" data-i18n="lab_p1_title">Interactive Spatial Node</h3>
+                    <p class="lab-card-desc" data-i18n="lab_p1_desc">High-precision GIS viewer with real-time parcel rendering. Interacting with local datasets exported from QGIS with deep topology attributes.</p>
                     <div class="lab-tech-stack">
-                        <span class="lab-tech-pill">MapLibre GL JS</span>
-                        <span class="lab-tech-pill">GeoJSON</span>
-                        <span class="lab-tech-pill">QGIS Export</span>
+                        <span class="lab-tech-pill">MapLibre GL</span>
+                        <span class="lab-tech-pill">Vector Tiles</span>
                         <span class="lab-tech-pill">PostGIS</span>
                     </div>
                     <div class="map-preview-mini">
@@ -593,20 +769,13 @@
                             <div class="mini-polygon" style="width:55px;height:40px;top:30px;left:40px;"></div>
                             <div class="mini-polygon" style="width:40px;height:55px;top:25px;left:105px;"></div>
                             <div class="mini-polygon" style="width:50px;height:35px;top:80px;left:60px;"></div>
-                            <div class="mini-polygon" style="width:35px;height:45px;top:70px;left:120px;"></div>
-                            <div class="mini-polygon" style="width:60px;height:30px;top:50px;left:180px;"></div>
                         </div>
-                        <div class="map-preview-hud">PREDIOS_LAYER: 247 FEATURES</div>
+                        <div class="map-preview-hud">DATA_SOURCE: SOVEREIGN_LOCAL</div>
                         <div class="map-preview-pulse"></div>
                     </div>
                     <a href="lab/map.html" class="lab-launch-btn">
-                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2.5">
-                            <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6" />
-                            <polyline points="15,3 21,3 21,9" />
-                            <line x1="10" y1="14" x2="21" y2="3" />
-                        </svg>
-                        Launch Spatial Viewer
+                        <i class="ph ph-arrow-square-out"></i>
+                        EXECUTE_VIEWER
                     </a>
                 </div>
 
@@ -614,15 +783,12 @@
                 <div class="lab-project-card reveal gold-accent" data-tilt>
                     <div class="lab-card-id">SYSTEM_ID: CADASTRAL_VALIDATOR_02</div>
                     <div class="lab-card-icon gold">⚙️</div>
-                    <h3 class="lab-card-title">Cadastral Validator</h3>
-                    <p class="lab-card-desc">Motor automático de validación catastral. Detecta overlaps, geometrías
-                        inválidas y áreas inconsistentes en tiempo real. Simula un endpoint FastAPI /validate_parcel.
-                    </p>
+                    <h3 class="lab-card-title" data-i18n="lab_p2_title">Cadastral Intelligence Engine</h3>
+                    <p class="lab-card-desc" data-i18n="lab_p2_desc">Automated LADM-COL V3 validator. Detecting overlaps, slivers, and topological inconsistencies using high-fidelity Python kernels.</p>
                     <div class="lab-tech-stack">
-                        <span class="lab-tech-pill gold">JavaScript</span>
                         <span class="lab-tech-pill gold">FastAPI</span>
-                        <span class="lab-tech-pill gold">Topology Check</span>
-                        <span class="lab-tech-pill gold">Python</span>
+                        <span class="lab-tech-pill gold">Shapely</span>
+                        <span class="lab-tech-pill gold">Topology</span>
                     </div>
                     <div class="validator-demo">
                         <div class="validator-parcels" id="validator-parcels">
@@ -632,29 +798,18 @@
                             <div class="parcel-cell"></div>
                             <div class="parcel-cell"></div>
                             <div class="parcel-cell"></div>
-                            <div class="parcel-cell"></div>
-                            <div class="parcel-cell"></div>
-                            <div class="parcel-cell"></div>
                         </div>
                         <button class="validator-run-btn" id="run-validator" onclick="runCadastralValidation()"
-                            style="margin-bottom: 0.5rem;">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <polygon points="5,3 19,12 5,21"></polygon>
-                            </svg>
-                            RUN_VALIDATION (Demo)
+                            style="margin-bottom: 0.5rem; transition: all 0.3s var(--ease-spring);">
+                            <i class="ph ph-play"></i>
+                            INITIALIZE_VAL_ENGINE
                         </button>
                         <a href="lab/validator.html" class="lab-launch-btn"
                             style="margin-top: 0; width: 100%; border-color: var(--accent-gold); color: var(--accent-gold);">
-                            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="2.5">
-                                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"></path>
-                                <polyline points="15,3 21,3 21,9"></polyline>
-                                <line x1="10" y1="14" x2="21" y2="3"></line>
-                            </svg>
-                            Launch Full Validator App
+                            <i class="ph ph-layout"></i>
+                            ACCESS_FULL_INTERFACE
                         </a>
-                        <div class="validator-output" id="validator-output" style="margin-top: 0.5rem;"></div>
+                        <div class="validator-output" id="validator-output" style="margin-top: 0.5rem; font-family: var(--font-mono); font-size: 0.65rem;"></div>
                     </div>
                 </div>
 
@@ -662,41 +817,33 @@
                 <div class="lab-project-card reveal" data-tilt>
                     <div class="lab-card-id">SYSTEM_ID: AUTOMATION_PIPELINE_03</div>
                     <div class="lab-card-icon">🔄</div>
-                    <h3 class="lab-card-title">Automation Pipeline</h3>
-                    <p class="lab-card-desc">Visualización del flujo completo de automatización territorial: desde
-                        captura en campo hasta actualización de base de datos catastral con validación topológica
-                        integrada.</p>
+                    <h3 class="lab-card-title" data-i18n="lab_p3_title">Sovereign Data Pipelines</h3>
+                    <p class="lab-card-desc" data-i18n="lab_p3_desc">Unattended ETL architecture for massive geospatial ingestion, ensuring data integrity across distributed GIS nodes.</p>
                     <div class="lab-tech-stack">
-                        <span class="lab-tech-pill">ETL Pipeline</span>
-                        <span class="lab-tech-pill">GDAL</span>
-                        <span class="lab-tech-pill">PostGIS</span>
-                        <span class="lab-tech-pill">PyQGIS</span>
+                        <span class="lab-tech-pill">GDAL/OGR</span>
+                        <span class="lab-tech-pill">ETL</span>
+                        <span class="lab-tech-pill">CI/CD</span>
                     </div>
                     <div class="pipeline-demo" id="pipeline-demo">
                         <div class="pipeline-step active-step" data-step="0">
                             <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">📡 Field Survey Capture</span>
+                            <span class="pipeline-step-label">📡 Field Survey</span>
                             <span class="pipeline-step-icon">✅</span>
                         </div>
                         <div class="pipeline-step" data-step="1">
                             <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🔄 ETL Transform</span>
+                            <span class="pipeline-step-label">🔄 ETL_TRANSFORM</span>
                             <span class="pipeline-step-icon" id="step-icon-1">⏳</span>
                         </div>
                         <div class="pipeline-step" data-step="2">
                             <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🔍 Topology Check</span>
+                            <span class="pipeline-step-label">🔍 QA_QC_VALIDATION</span>
                             <span class="pipeline-step-icon" id="step-icon-2">⏳</span>
                         </div>
                         <div class="pipeline-step" data-step="3">
                             <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🗄️ PostGIS Update</span>
+                            <span class="pipeline-step-label">🗄️ GEODB_SYNC</span>
                             <span class="pipeline-step-icon" id="step-icon-3">⏳</span>
-                        </div>
-                        <div class="pipeline-step" data-step="4">
-                            <div class="pipeline-step-dot"></div>
-                            <span class="pipeline-step-label">🌐 Web GIS Publish</span>
-                            <span class="pipeline-step-icon" id="step-icon-4">⏳</span>
                         </div>
                     </div>
                 </div>
@@ -797,13 +944,13 @@
                             </div>
                         </a>
 
-                        <!-- RESEARCH -->
-                        <a href="projects/research/index.html" class="bento-item reveal gold-accent hover-lift"
+                        <!-- RESEARCH (GeoAI Node) -->
+                        <a href="lab/geoai.html" class="bento-item reveal gold-accent hover-lift"
                             style="text-decoration:none; display:flex; flex-direction:column; border-color: rgba(255, 180, 0, 0.4);"
                             data-tilt>
                             <div
                                 style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-gold); margin-bottom: 0.8rem;">
-                                SYSTEM_ID: RESEARCH_R01</div>
+                                SYSTEM_ID: GEO_AI_NODE_01</div>
                             <h3 style="color:#fff; font-size: 1.5rem; margin-bottom: 1rem;">GeoAI Experimental</h3>
                             <p
                                 style="color:var(--text-secondary); font-size: 0.9rem; margin-bottom: 1.5rem; flex-grow:1; line-height:1.6;">
@@ -1004,277 +1151,639 @@
             </div>
         </section>
 
-        <!-- INTERACTIVE TIMELINE (New Section) -->
+        <!-- PROFESSIONAL TIMELINE V2 — CV ACCURATE -->
         <section id="timeline" style="padding: 10rem 5%; background: rgba(0,0,0,0.3);">
             <div class="reveal">
-                <span class="section-label">// TEMPORAL_NODES</span>
-                <h2 class="section-title">Trayectoria Profesional</h2>
+                <span class="section-label" data-i18n="timeline_label">// TEMPORAL_NODES</span>
+                <h2 class="section-title" data-i18n="timeline_title">Professional Trajectory</h2>
+                <p style="color: var(--text-secondary); max-width: 600px; font-size: 1rem; line-height: 1.7; margin-bottom: 4rem;" data-i18n="timeline_desc">6+ years of specialized GIS and territorial engineering across Colombia's most complex cadastral projects.</p>
 
-                <div class="timeline-wrapper">
-                    <div class="timeline-line"></div>
+                <div class="timeline-v2">
 
-                    <div class="timeline-items">
-                        <div class="timeline-node active" data-year="2025 (Q4)"
-                            data-desc="Analista Geográfico - GEOSAT S.A.S. Procesamiento avanzado 360° y restitución vectorial.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2025 (Q4)</div>
-                        </div>
-                        <div class="timeline-node" data-year="2025 (Q2)"
-                            data-desc="QA/QC Calidad Predial - ACCION DEL CAUCA. Auditorías técnicas de calidad IGAC.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2025 (Q2)</div>
-                        </div>
-                        <div class="timeline-node" data-year="2024 - 2025"
-                            data-desc="Coordinador de Campo & SIG - ARBIRTRIUM S.A.S. Levantamientos y digitalización urbana/rural.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2024 - 25</div>
-                        </div>
-                        <div class="timeline-node" data-year="2024 - Act"
-                            data-desc="Coordinador Profesional SIG - UT SMART CITY. Estándares LADM-COL e digitalización masiva.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2024 - Act</div>
-                        </div>
-                        <div class="timeline-node" data-year="2023 - 24"
-                            data-desc="Profesional SIG - GRUPO EMPRESARIAL OD. Geomática y gestión predial con drones.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2023 - 24</div>
-                        </div>
-                        <div class="timeline-node" data-year="2021 - 22"
-                            data-desc="Digitalizador / Topógrafo - CINTELI / Consorcio Vial BAQ. Topografía vial y digitalización.">
-                            <div class="node-dot"></div>
-                            <div class="node-year">2021 - 22</div>
+                    <div class="tlv2-item active-node">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div><div class="tlv2-line"></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2025 Q4 — Actual</div>
+                                <div class="tlv2-badge active">● ACTIVE</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_1">Analista Geográfico</h3>
+                            <div class="tlv2-company">GEOGRAFÍA SATELITAL GEOSAT S.A.S. <span class="tlv2-city">// Medellín</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_1">Advanced geospatial processing via photointerpretation, 360° input analysis and vector restitution. Mass digitization for cadastral update with topological validation under LADM-COL V3.</p>
+                            <div class="tlv2-pills"><span>LADM-COL V3</span><span>360° Survey</span><span>PyQGIS</span><span>Restitución</span></div>
                         </div>
                     </div>
 
-                    <div class="timeline-content-display">
-                        <div id="timeline-text" class="timeline-text">
-                            <h3 id="timeline-title">Analista Geográfico</h3>
-                            <p id="timeline-subtitle">GEOSAT S.A.S | Medellín</p>
-                            <p id="timeline-description">Procesamiento avanzado de información geoespacial mediante
-                                fotointerpretación y restitución vectorial.</p>
+                    <div class="tlv2-item">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div><div class="tlv2-line"></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2025 Q2</div>
+                                <div class="tlv2-badge done">✓ COMPLETADO</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_2">Control de Calidad Catastral (QA/QC)</h3>
+                            <div class="tlv2-company">ACCION DEL CAUCA S.A.S. <span class="tlv2-city">// Solita, Caquetá</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_2">Technical quality audits for predial recognition. IGAC QA standards enforcement, topological consistency checks, and field report validation.</p>
+                            <div class="tlv2-pills"><span>IGAC QA</span><span>Audit</span><span>Topología</span><span>Predios</span></div>
                         </div>
                     </div>
+
+                    <div class="tlv2-item">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div><div class="tlv2-line"></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2024 — 2025</div>
+                                <div class="tlv2-badge done">✓ COMPLETADO</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_3">Coordinador &amp; Líder de Campo SIG</h3>
+                            <div class="tlv2-company">ARBIRTRIUM S.A.S. <span class="tlv2-city">// Urabá, Antioquia</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_3">Co-leader of field survey teams. Urban/rural topographic leveling, mass digitization, and GIS coordination for multipurpose cadastre missions in complex terrain.</p>
+                            <div class="tlv2-pills"><span>Barrido Predial</span><span>Coordinación</span><span>QGIS</span><span>GPS RTK</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tlv2-item">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div><div class="tlv2-line"></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2024 — Actual</div>
+                                <div class="tlv2-badge active">● ACTIVE</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_4">Coordinador Profesional SIG</h3>
+                            <div class="tlv2-company">UT SMART CITY <span class="tlv2-city">// Barranquilla</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_4">LADM-COL standards implementation, mass digitization and GIS coordination for Smart City multipurpose cadastre deployment. QA/QC across distributed field nodes.</p>
+                            <div class="tlv2-pills"><span>LADM-COL</span><span>Smart City</span><span>Mass Digit.</span><span>QA/QC</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tlv2-item">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div><div class="tlv2-line"></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2023 — 2024</div>
+                                <div class="tlv2-badge done">✓ COMPLETADO</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_5">Profesional SIG — Drones &amp; Geomática</h3>
+                            <div class="tlv2-company">GRUPO EMPRESARIAL OD <span class="tlv2-city">// Colombia</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_5">Drone-based photogrammetric surveys, predial management, and vector GIS production. Spatial analysis and cartographic outputs for real estate and environmental projects.</p>
+                            <div class="tlv2-pills"><span>Drones</span><span>Fotogrametría</span><span>PostGIS</span><span>GeoPandas</span></div>
+                        </div>
+                    </div>
+
+                    <div class="tlv2-item">
+                        <div class="tlv2-marker"><div class="tlv2-dot-outer"><div class="tlv2-dot-inner"></div></div></div>
+                        <div class="tlv2-card">
+                            <div class="tlv2-header">
+                                <div class="tlv2-period gis-mono">2021 — 2022</div>
+                                <div class="tlv2-badge done">✓ COMPLETADO</div>
+                            </div>
+                            <h3 class="tlv2-role" data-i18n="tl_role_6">Digitalizador / Topógrafo</h3>
+                            <div class="tlv2-company">CINTELI / Consorcio Vial BAQ <span class="tlv2-city">// Barranquilla</span></div>
+                            <p class="tlv2-desc" data-i18n="tl_desc_6">Road topography surveys and GIS digitization for vial infrastructure projects. GPS field surveys and cartographic production under professional standards.</p>
+                            <div class="tlv2-pills"><span>Topografía</span><span>GPS</span><span>AutoCAD</span><span>Infraestructura</span></div>
+                        </div>
+                    </div>
+
                 </div>
             </div>
         </section>
 
-        <!-- INTEL MAP (Neural Network Representation) -->
+        <!-- INTEL MAP — ENTERPRISE GIS WORKSTATION -->
         <section id="map" style="padding: 0; margin-top: 10rem; position: relative;">
-            <div style="height: 750px; width: 100%; position: relative;">
-                <div id="interactive-map" style="height: 100%; width: 100%; background: #000;"></div>
-                <div class="map-scan-overlay"></div>
 
-                <div class="map-label-hud">
-                    <div
-                        style="color: var(--accent-electric); font-size: 0.7rem; margin-bottom: 1rem; font-weight: 800; border-bottom: 1px solid var(--accent-electric); padding-bottom: 0.5rem;">
-                        [SPATIAL_INTEL_V5.2]</div>
-                    <div class="hud-line"><span>LATITUDE:</span> <span class="hud-value" id="hud-lat">6.2442° N</span>
-                    </div>
-                    <div class="hud-line"><span>LONGITUDE:</span> <span class="hud-value" id="hud-lng">75.5812° W</span>
-                    </div>
-                    <div class="hud-line"><span>ZOOM_LVL:</span> <span class="hud-value" id="hud-zoom">13.00</span>
-                    </div>
-                    <div class="hud-line"><span>STATUS:</span> <span class="hud-value"
-                            style="color: #4ade80;">SYNC_OK</span></div>
-
-                    <div style="margin-top: 1.5rem; opacity: 0.6; font-size: 0.5rem; font-family: var(--font-mono);">
-                        >>> PROTOCOL: LADM-COL_SYNC_ACTIVE<br>
-                        >>> KERNEL: 0x8BF2A72B
-                    </div>
-                </div>
-
-                <div class="map-layer-selector">
-                    <div class="layer-opt active" data-layer="dark">VOID_DARK</div>
-                    <div class="layer-opt" data-layer="satellite">GEO_SAT</div>
-                    <div class="layer-opt" data-layer="topo">TOPOGRAPHIC</div>
-                </div>
-
-                <div class="map-controls-panel">
-                    <button class="map-control-btn" id="map-recenter" title="Recenter Hub"
-                        aria-label="Recenter Map to Headquarters">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" aria-hidden="true">
-                            <circle cx="12" cy="12" r="10"></circle>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </button>
-                    <button class="map-control-btn" id="map-scan" title="Force Neural Scan"
-                        aria-label="Trigger Neural Network Scan">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                            stroke-width="2" aria-hidden="true">
-                            <path d="M2 12s3-7 10-7 10 7 10 7-3 7-10 7-10-7-10-7Z"></path>
-                            <circle cx="12" cy="12" r="3"></circle>
-                        </svg>
-                    </button>
-                </div>
+            <!-- GIS Workstation Header -->
+            <div style="padding: 0 5%; margin-bottom: 2rem;" class="reveal">
+                <span class="section-label" data-i18n="map_label">// SPATIAL_INTEL_WORKSTATION_V6</span>
+                <h2 class="section-title" data-i18n="map_title">Territorial Intelligence Hub</h2>
+                <p style="color: var(--text-secondary); max-width: 700px; font-size: 1rem; line-height: 1.7; margin-top: 0.5rem;" data-i18n="map_desc">
+                    Full-stack GIS workstation — interactive parcel data, toggleable layers, real coordinate intelligence, and live attribute queries. Click any map node to inspect its LADM-COL attributes.
+                </p>
             </div>
-        </section>
 
-        <!-- SAAS MONETIZATION (DGZ SPATIAL OS SUBSCRIPTIONS) -->
-        <section id="pricing" style="padding: 10rem 5%; background: var(--bg-base); position: relative;">
-            <div class="reveal">
-                <div style="text-align: center; margin-bottom: 5rem;">
-                    <span class="section-label" style="justify-content: center; margin-bottom: 1rem;"><span
-                            class="badge-dot" style="background: var(--accent-electric);"></span>
-                        ACQUIRE_OS_LICENSE</span>
-                    <h2 class="section-title" style="margin-bottom: 1rem;">DGZ SPATIAL OS</h2>
-                    <p
-                        style="color: var(--text-secondary); max-width: 600px; margin: 0 auto; font-size: 1.1rem; line-height: 1.6;">
-                        Desbloquea el poder del motor de calidad LADM-COL V2.0. Diseñado para interventorías
-                        catastrales, contratistas independientes y gerencias municipales.
-                    </p>
-                </div>
+            <!-- GIS Interface Wrapper -->
+            <div class="gis-workstation" id="gis-workstation">
 
-                <div
-                    style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; max-width: 1200px; margin: 0 auto;">
-
-                    <!-- Freelance / Student Plan -->
-                    <div class="card glass-card"
-                        style="padding: 3rem 2rem; border-color: rgba(255,255,255,0.05); text-align: left; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Starter Core</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Para
-                            profesionales GIS y estudiantes.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">$0 <span
-                                style="font-size: 1rem; font-weight: 400; color: var(--text-secondary);">/mes</span>
-                        </div>
-
-                        <ul
-                            style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Topología LADM-COL Básica</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Max 5,000 predios por capa</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> 5 Reportes Geo-LLM diarios</li>
-                            <li style="display: flex; gap: 10px; align-items: center; color: #555;"><i class="ph ph-x"
-                                    style="color: #444;"></i> Cruce Físico-Jurídico SNR</li>
-                        </ul>
-                        <div style="margin-top: auto;">
-                            <a href="#contact" class="btn"
-                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff;">Get Started</a>
-                        </div>
+                <!-- TOP TOOLBAR -->
+                <div class="gis-toolbar">
+                    <!-- Fullscreen button injected at end of toolbar-tools via JS -->
+                    <div class="gis-toolbar-brand">
+                        <span class="gis-status-dot"></span>
+                        <span class="gis-mono">DGZ_SPATIAL_OS // KERNEL_V6 // LADM-COL</span>
                     </div>
-
-                    <!-- Pro / Interventoria Plan -->
-                    <div class="card glass-card"
-                        style="padding: 3rem 2rem; border-color: var(--accent-electric); text-align: left; position: relative; display: flex; flex-direction: column; transform: scale(1.05); z-index: 10; background: rgba(0, 229, 255, 0.03);">
-                        <div
-                            style="position: absolute; top: -15px; left: 50%; transform: translateX(-50%); background: var(--accent-electric); color: #000; font-family: var(--font-mono); font-size: 0.7rem; font-weight: bold; padding: 5px 15px; border-radius: 20px;">
-                            MOST POPULAR</div>
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Interventoría Pro</h3>
-                        <p style="color: var(--accent-electric); font-size: 0.85rem; margin-bottom: 2rem;">Para
-                            Contratos de Empalme y QA/QC Masivo.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">$49 <span
-                                style="font-size: 1rem; font-weight: 400; color: var(--text-secondary);">/mes</span>
-                        </div>
-
-                        <ul
-                            style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> <b>Predios Ilimitados</b> (.shp/.gpkg)
-                            </li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> <b>Cruce Matricular Automático</b>
-                                (Excel)</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> Reportes Financieros en PDF</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-electric);"></i> Acceso API FastAPI para automatización
-                            </li>
-                        </ul>
-                        <div style="margin-top: auto;">
-                            <a href="https://buy.stripe.com/test_7sYeVffECdK99xIb2R5Rm00" target="_blank"
-                                class="btn-primary"
-                                style="width: 100%; text-align: center; text-decoration: none;">Adquirir Licencia
-                                Pro</a>
-                        </div>
-                    </div>
-
-                    <!-- Government Plan -->
-                    <div class="card glass-card"
-                        style="padding: 3rem 2rem; border-color: rgba(255,255,255,0.05); text-align: left; display: flex; flex-direction: column;">
-                        <h3 style="font-size: 1.2rem; margin-bottom: 0.5rem; color: #fff;">Government_Node</h3>
-                        <p style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 2rem;">Para Oficinas
-                            de Catastro y Alcaldías.</p>
-                        <div style="font-size: 3rem; font-weight: 800; color: #fff; margin-bottom: 2rem;">Custom</div>
-
-                        <ul
-                            style="list-style: none; padding: 0; margin: 0 0 2rem 0; color: var(--text-tertiary); font-size: 0.9rem; line-height: 2;">
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Despliegue en Servidores Propios (On-Prem)
-                            </li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Capacitación de Personal</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Modelos Geo-LLM Fine-Tuneados</li>
-                            <li style="display: flex; gap: 10px; align-items: center;"><i class="ph ph-check"
-                                    style="color: var(--accent-golden);"></i> Conexión a Base de Datos de Rentas</li>
-                        </ul>
-                        <div style="margin-top: auto;">
-                            <a href="#contact" class="btn"
-                                style="width: 100%; border-color: rgba(255,255,255,0.1); color: #fff;">Contact
-                                Architect</a>
-                        </div>
-                    </div>
-
-                </div>
-            </div>
-        </section>
-
-        <!-- CONTACT PORTAL (Handshake Evolution) -->
-        <section id="contact" style="padding: 15rem 5%;">
-            <div class="reveal">
-                <span class="section-label" data-i18n="contact_label">PROJECT_INITIATION</span>
-
-                <div class="contact-portal">
-                    <div>
-                        <h2 style="font-size: 5rem; margin-bottom: 2rem; letter-spacing: -0.06em; line-height: 0.85;"
-                            data-i18n="contact_title">
-                            HANDSHAKE PROTOCOL.</h2>
-                        <p style="color: var(--text-secondary); line-height: 2; font-size: 1.1rem; max-width: 450px;"
-                            data-i18n="contact_desc">
-                            Architecting the next generation of spatial intelligence. Establish your secure link to
-                            initiate technical consultation.</p>
-
-                        <div style="margin-top: 4rem; display: flex; flex-direction: column; gap: 1rem;">
-                            <div style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--accent-electric);"
-                                data-i18n="contact_secure">
-                                >>> CH_SECURE: ALBERT_GAVIRIA</div>
-                            <div style="font-family: var(--font-mono); font-size: 0.6rem; color: var(--text-tertiary);"
-                                data-i18n="contact_loc">
-                                >>> LOC_SYNC: 6.2442° N, 75.5812° W</div>
-                        </div>
-                    </div>
-
-                    <form action="https://formspree.io/f/mdalbeyk" method="POST" id="dgz-transmission-form">
-                        <div class="portal-field">
-                            <label data-i18n="form_name">Full_Name</label>
-                            <input type="text" name="name" class="portal-input"
-                                placeholder="Organization / Lead Architect" data-i18n="form_placeholder_name" required>
-                        </div>
-                        <div class="portal-field">
-                            <label data-i18n="form_email">Email_Uplink</label>
-                            <input type="email" name="email" class="portal-input" placeholder="user@secure-domain.com"
-                                required>
-                        </div>
-                        <div class="portal-field">
-                            <label data-i18n="form_msg">Mission_Brief</label>
-                            <textarea name="message" class="portal-input" rows="5"
-                                placeholder="Define mission parameters & objectives..." data-i18n="form_placeholder_msg"
-                                required></textarea>
-                        </div>
-                        <button type="submit" class="btn-transmit" id="submit-btn" style="border: none;">
-                            <span id="btn-text" data-i18n="form_btn">INITIATE_HANDSHAKE</span>
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                stroke-width="3">
-                                <line x1="22" y1="2" x2="11" y2="13"></line>
-                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
-                            </svg>
+                    <div class="gis-toolbar-tools">
+                        <button class="gis-tool active" id="tool-pan" data-tool="pan" title="Pan Tool">
+                            <i class="ph ph-hand"></i><span>Pan</span>
                         </button>
-                        <div id="form-feedback"
-                            style="margin-top: 2rem; font-family: var(--font-mono); font-size: 0.7rem; text-align: center;">
+                        <button class="gis-tool" id="tool-identify" data-tool="identify" title="Identify Features">
+                            <i class="ph ph-cursor-click"></i><span>Identify</span>
+                        </button>
+                        <button class="gis-tool" id="tool-measure" data-tool="measure" title="Measure Distance">
+                            <i class="ph ph-ruler"></i><span>Measure</span>
+                        </button>
+                        <button class="gis-tool" id="tool-zoom-medellin" data-tool="zoom" title="Zoom to Medellín">
+                            <i class="ph ph-magnifying-glass-plus"></i><span>Zoom HQ</span>
+                        </button>
+                        <button class="gis-tool" id="tool-scan" data-tool="scan" title="Neural Scan">
+                            <i class="ph ph-circles-three"></i><span>Scan</span>
+                        </button>
+                    </div>
+                    <div class="gis-toolbar-coords">
+                        <span class="gis-mono" style="color: rgba(255,255,255,0.3);">X:</span>
+                        <span class="gis-coord-val" id="gis-coord-lng">-75.5812</span>
+                        <span class="gis-mono" style="color: rgba(255,255,255,0.3);">Y:</span>
+                        <span class="gis-coord-val" id="gis-coord-lat">6.2442</span>
+                        <span class="gis-mono" style="color: rgba(255,255,255,0.3);">EPSG:</span>
+                        <span class="gis-coord-val">4326</span>
+                    </div>
+                </div>
+
+                <!-- MAIN MAP AREA -->
+                <div class="gis-main">
+
+                    <!-- LEFT: LAYER PANEL -->
+                    <div class="gis-panel gis-panel-left" id="gis-layer-panel">
+                        <div class="gis-panel-header">
+                            <i class="ph ph-stack"></i>
+                            <span>LAYER_MANAGER</span>
+                            <button class="gis-panel-toggle" id="toggle-layer-panel" title="Collapse panel">‹</button>
                         </div>
-                    </form>
+
+                        <div class="gis-panel-section">
+                            <div class="gis-panel-label">BASEMAP</div>
+                            <div class="gis-basemap-btns">
+                                <button class="gis-basemap-btn active" data-layer="dark">
+                                    <div class="basemap-preview dark-preview"></div>
+                                    <span>VOID_DARK</span>
+                                </button>
+                                <button class="gis-basemap-btn" data-layer="satellite">
+                                    <div class="basemap-preview sat-preview"></div>
+                                    <span>GEO_SAT</span>
+                                </button>
+                                <button class="gis-basemap-btn" data-layer="topo">
+                                    <div class="basemap-preview topo-preview"></div>
+                                    <span>TOPOGRAPHIC</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="gis-panel-section">
+                            <div class="gis-panel-label">VECTOR_LAYERS</div>
+                            <div class="gis-layer-list" id="gis-layer-list">
+
+                                <div class="gis-layer-item" data-layer-id="experience-nodes">
+                                    <label class="gis-layer-toggle">
+                                        <input type="checkbox" checked id="layer-chk-nodes">
+                                        <div class="gis-layer-icon" style="background: #00e5ff;"></div>
+                                        <span>Professional Nodes</span>
+                                    </label>
+                                    <div class="gis-layer-actions">
+                                        <button class="gis-layer-btn" data-action="zoom" data-layer="nodes" title="Zoom to layer">⊕</button>
+                                    </div>
+                                </div>
+
+                                <div class="gis-layer-item" data-layer-id="cadastral-parcels">
+                                    <label class="gis-layer-toggle">
+                                        <input type="checkbox" checked id="layer-chk-parcels">
+                                        <div class="gis-layer-icon" style="background: rgba(255,180,0,0.7); border: 1px solid #ffb400;"></div>
+                                        <span>Cadastral Parcels</span>
+                                    </label>
+                                    <div class="gis-layer-actions">
+                                        <button class="gis-layer-btn" data-action="zoom" data-layer="parcels" title="Zoom to layer">⊕</button>
+                                    </div>
+                                </div>
+
+                                <div class="gis-layer-item" data-layer-id="urban-boundary">
+                                    <label class="gis-layer-toggle">
+                                        <input type="checkbox" checked id="layer-chk-boundary">
+                                        <div class="gis-layer-icon" style="background: transparent; border: 2px solid #4ade80;"></div>
+                                        <span>Urban Boundary</span>
+                                    </label>
+                                    <div class="gis-layer-actions">
+                                        <button class="gis-layer-btn" data-action="zoom" data-layer="boundary" title="Zoom to layer">⊕</button>
+                                    </div>
+                                </div>
+
+                                <div class="gis-layer-item" data-layer-id="scan-circle">
+                                    <label class="gis-layer-toggle">
+                                        <input type="checkbox" checked id="layer-chk-scan">
+                                        <div class="gis-layer-icon" style="background: rgba(0,229,255,0.1); border: 1px dashed #00e5ff;"></div>
+                                        <span>Neural Scan Radius</span>
+                                    </label>
+                                    <div class="gis-layer-actions">
+                                        <button class="gis-layer-btn" data-action="info" data-layer="scan" title="Layer info">ℹ</button>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+
+                        <div class="gis-panel-section">
+                            <div class="gis-panel-label">LEGEND</div>
+                            <div class="gis-legend">
+                                <div class="legend-item">
+                                    <div class="legend-symbol" style="background: #00e5ff; border-radius: 50%;"></div>
+                                    <span>HQ Node — Active</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-symbol" style="background: #ff4b2b; border-radius: 50%;"></div>
+                                    <span>Field Node — Remote</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-symbol" style="background: rgba(255,180,0,0.5); border: 1px solid #ffb400;"></div>
+                                    <span>Parcel — Validated</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-symbol" style="background: rgba(255,75,43,0.3); border: 1px solid #ff4b2b;"></div>
+                                    <span>Parcel — Error</span>
+                                </div>
+                                <div class="legend-item">
+                                    <div class="legend-symbol" style="background: transparent; border: 2px solid #4ade80;"></div>
+                                    <span>Urban Perimeter</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="gis-panel-section" style="margin-top: auto;">
+                            <div class="gis-panel-label">PROJECTION INFO</div>
+                            <div class="gis-proj-info gis-mono">
+                                <div>CRS: <span style="color:#00e5ff;">WGS84 EPSG:4326</span></div>
+                                <div>Units: <span style="color:#00e5ff;">Decimal Degrees</span></div>
+                                <div>Datum: <span style="color:#00e5ff;">GRS 1980</span></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- CENTER: MAP -->
+                    <div class="gis-map-container" id="gis-map-container">
+                        <div id="interactive-map" style="height: 100%; width: 100%;"></div>
+                        <div class="map-scan-overlay"></div>
+
+                        <!-- Zoom Controls -->
+                        <div class="gis-zoom-controls">
+                            <button class="gis-zoom-btn" id="map-zoom-in" title="Zoom In">+</button>
+                            <div class="gis-zoom-sep"></div>
+                            <button class="gis-zoom-btn" id="map-zoom-out" title="Zoom Out">−</button>
+                        </div>
+
+                        <!-- Scale Bar -->
+                        <div class="gis-scalebar" id="gis-scalebar">
+                            <div class="scalebar-line" id="scalebar-line"></div>
+                            <div class="scalebar-label gis-mono" id="scalebar-label">1 km</div>
+                        </div>
+
+                        <!-- Measure Widget (shown when measure tool active) -->
+                        <div class="gis-measure-widget" id="gis-measure-widget" style="display:none;">
+                            <div class="gis-mono" style="color:#00e5ff; font-size:0.6rem; margin-bottom:0.5rem;">MEASURE_TOOL // CLICK POINTS</div>
+                            <div class="gis-mono" style="font-size:0.7rem;">Distance: <span id="measure-distance" style="color:#4ade80;">—</span></div>
+                            <div class="gis-mono" style="font-size:0.7rem; margin-top:0.3rem;">Points: <span id="measure-points" style="color:#ffb400;">0</span></div>
+                            <button class="gis-clear-measure gis-mono" id="clear-measure">CLEAR</button>
+                        </div>
+
+                        <!-- Identify Hint -->
+                        <div class="gis-identify-hint" id="gis-identify-hint" style="display:none;">
+                            <i class="ph ph-cursor-click"></i> IDENTIFY MODE — Click a feature to inspect
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: ATTRIBUTE PANEL -->
+                    <div class="gis-panel gis-panel-right" id="gis-attr-panel">
+                        <div class="gis-panel-header">
+                            <i class="ph ph-table"></i>
+                            <span>ATTRIBUTE_TABLE</span>
+                        </div>
+
+                        <div id="attr-default-state" style="padding: 1.5rem; text-align: center; margin-top: 2rem;">
+                            <div style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.3;">🗺️</div>
+                            <div class="gis-mono" style="font-size: 0.55rem; color: var(--text-tertiary); line-height: 1.8;">
+                                SELECT A FEATURE<br>TO DISPLAY<br>ATTRIBUTES
+                            </div>
+                        </div>
+
+                        <div id="attr-panel-content" style="display:none; padding: 1rem;">
+                            <div class="attr-system-id gis-mono" id="attr-system-id">SYSTEM_ID: —</div>
+                            <div class="attr-table" id="attr-table">
+                                <!-- Populated by JS -->
+                            </div>
+                            <div class="attr-actions">
+                                <button class="attr-action-btn" id="attr-zoom-btn">
+                                    <i class="ph ph-magnifying-glass-plus"></i> Zoom To
+                                </button>
+                                <button class="attr-action-btn" id="attr-copy-btn">
+                                    <i class="ph ph-copy"></i> Copy
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Map Stats Footer -->
+                        <div class="gis-map-stats">
+                            <div class="gis-panel-label">LIVE_TELEMETRY</div>
+                            <div class="gis-stat-row gis-mono">
+                                <span>LAT</span><span id="hud-lat" style="color:#00e5ff;">6.2442</span>
+                            </div>
+                            <div class="gis-stat-row gis-mono">
+                                <span>LNG</span><span id="hud-lng" style="color:#00e5ff;">-75.5812</span>
+                            </div>
+                            <div class="gis-stat-row gis-mono">
+                                <span>ZOOM</span><span id="hud-zoom" style="color:#00e5ff;">13</span>
+                            </div>
+                            <div class="gis-stat-row gis-mono">
+                                <span>STATUS</span><span style="color:#4ade80;">SYNC_OK ●</span>
+                            </div>
+                            <div class="gis-stat-row gis-mono">
+                                <span>NODES</span><span style="color:#ffb400;">6_ACTIVE</span>
+                            </div>
+                        </div>
+                    </div>
+
+                </div><!-- end gis-main -->
+
+                <!-- BOTTOM STATUS BAR -->
+                <div class="gis-statusbar gis-mono">
+                    <span id="gis-status-msg" style="color:#00e5ff;">● SYSTEM READY — DGZ Territorial Intelligence v6.0</span>
+                    <span style="color: rgba(255,255,255,0.2);">|</span>
+                    <span>Features: <span style="color:#fff;" id="gis-feature-count">6</span></span>
+                    <span style="color: rgba(255,255,255,0.2);">|</span>
+                    <span>Protocol: <span style="color:#ffb400;">LADM-COL V3</span></span>
+                    <span style="color: rgba(255,255,255,0.2);">|</span>
+                    <span>CRS: <span style="color:#4ade80;">WGS84</span></span>
+                    <span style="color: rgba(255,255,255,0.2); margin-left:auto;">|</span>
+                    <span id="gis-clock" class="gis-clock">00:00:00</span>
+                </div>
+
+            </div><!-- end gis-workstation -->
+        </section>
+
+        <!-- PRICING — DGZ SPATIAL OS COMMERCIAL ENGINE -->
+        <section id="pricing" class="pricing-section">
+
+            <!-- Background grid decoration -->
+            <div class="pricing-bg-deco"></div>
+
+            <div class="reveal" style="position:relative; z-index:1;">
+
+                <!-- Header -->
+                <div class="pricing-header">
+                    <div class="pricing-header-tag">
+                        <span class="badge-dot" style="background: #00e5ff; animation: pulse 1.5s infinite;"></span>
+                        ACQUIRE_OS_LICENSE // SPATIAL_INTELLIGENCE_SaaS
+                    </div>
+                    <h2 class="section-title pricing-title">DGZ <span style="background: linear-gradient(90deg, #00e5ff, #9D4EDD); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">SPATIAL OS</span></h2>
+                    <p class="pricing-subtitle">
+                        El motor de validación catastral más avanzado de Latinoamérica.<br>
+                        Diseñado para <strong style="color:#fff;">interventorías, municipios y contratistas GIS</strong> que necesitan resultados reales.
+                    </p>
+
+                    <!-- ROI Strip -->
+                    <div class="pricing-roi-strip">
+                        <div class="roi-stat">
+                            <div class="roi-val" id="roi-counter-1">800%</div>
+                            <div class="roi-label">Faster than manual QA</div>
+                        </div>
+                        <div class="roi-divider"></div>
+                        <div class="roi-stat">
+                            <div class="roi-val" style="color: #4ade80;">-30%</div>
+                            <div class="roi-label">Error Reduction</div>
+                        </div>
+                        <div class="roi-divider"></div>
+                        <div class="roi-stat">
+                            <div class="roi-val" style="color: #ffb400;">50k+</div>
+                            <div class="roi-label">Parcels Processed</div>
+                        </div>
+                        <div class="roi-divider"></div>
+                        <div class="roi-stat">
+                            <div class="roi-val" style="color: #9D4EDD;">LADM-COL</div>
+                            <div class="roi-label">V3 Certified Engine</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Comparison: Manual vs DGZ -->
+                <div class="pricing-compare reveal">
+                    <div class="compare-col compare-before">
+                        <div class="compare-header">
+                            <span class="compare-badge bad">⛔ WITHOUT DGZ SPATIAL OS</span>
+                        </div>
+                        <ul class="compare-list">
+                            <li><span class="cmp-x">✗</span> QA manual: 3-5 días por municipio</li>
+                            <li><span class="cmp-x">✗</span> Errores topológicos sin detectar</li>
+                            <li><span class="cmp-x">✗</span> Cruce SNR manual (propenso a error)</li>
+                            <li><span class="cmp-x">✗</span> Reportes en Excel sin estándar</li>
+                            <li><span class="cmp-x">✗</span> Sin trazabilidad sobre mutaciones</li>
+                        </ul>
+                    </div>
+                    <div class="compare-vs">VS</div>
+                    <div class="compare-col compare-after">
+                        <div class="compare-header">
+                            <span class="compare-badge good">✅ WITH DGZ SPATIAL OS</span>
+                        </div>
+                        <ul class="compare-list">
+                            <li><span class="cmp-ok">✓</span> Validación automática en minutos</li>
+                            <li><span class="cmp-ok">✓</span> Motor topológico LADM-COL V3</li>
+                            <li><span class="cmp-ok">✓</span> Cruce matricular automático con SNR</li>
+                            <li><span class="cmp-ok">✓</span> PDF Técnico y GeoJSON certificado</li>
+                            <li><span class="cmp-ok">✓</span> Trazabilidad completa de cada predio</li>
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- PLAN CARDS -->
+                <div class="pricing-plans">
+
+                    <!-- FREE PLAN -->
+                    <div class="plan-card">
+                        <div class="plan-tier">STARTER_CORE</div>
+                        <h3 class="plan-name">Spatial Explorer</h3>
+                        <p class="plan-for">Para profesionales GIS, técnicos y estudiantes avanzados.</p>
+                        <div class="plan-price">
+                            <span class="price-amount">$0</span>
+                            <span class="price-period">/mes · Forever Free</span>
+                        </div>
+                        <div class="plan-capacity">
+                            <div class="capacity-label">Capacidad: 5,000 predios/capa</div>
+                            <div class="capacity-bar"><div class="capacity-fill" style="width:20%; background: rgba(255,255,255,0.3);"></div></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li class="feat-ok"><i class="ph ph-check-circle"></i> Validación topológica LADM-COL básica</li>
+                            <li class="feat-ok"><i class="ph ph-check-circle"></i> Hasta 5,000 predios por capa</li>
+                            <li class="feat-ok"><i class="ph ph-check-circle"></i> 5 Reportes Geo-LLM / día</li>
+                            <li class="feat-ok"><i class="ph ph-check-circle"></i> Visor GIS interactivo embebido</li>
+                            <li class="feat-no"><i class="ph ph-x-circle"></i> Cruce Físico-Jurídico SNR</li>
+                            <li class="feat-no"><i class="ph ph-x-circle"></i> API FastAPI para automatización</li>
+                            <li class="feat-no"><i class="ph ph-x-circle"></i> Soporte técnico premium</li>
+                        </ul>
+                        <a href="#contact" class="plan-btn plan-btn-ghost">
+                            <i class="ph ph-rocket-launch"></i> Comenzar Gratis
+                        </a>
+                        <div class="plan-trust gis-mono">No credit card · Zero commitment</div>
+                    </div>
+
+                    <!-- PRO PLAN (FEATURED) -->
+                    <div class="plan-card plan-featured">
+                        <div class="plan-beam"></div>
+                        <div class="plan-popular-badge">⭐ MOST POPULAR</div>
+                        <div class="plan-tier" style="color:#00e5ff;">INTERVENTORÍA_PRO</div>
+                        <h3 class="plan-name">Spatial Pro</h3>
+                        <p class="plan-for" style="color:rgba(0,229,255,0.7);">Para contratos de empalme, QA/QC masivo y equipos técnicos.</p>
+                        <div class="plan-price">
+                            <span class="price-amount" style="background: linear-gradient(135deg, #00e5ff, #9D4EDD); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent;">$49</span>
+                            <span class="price-period">/mes · por usuario</span>
+                        </div>
+                        <div class="plan-capacity">
+                            <div class="capacity-label" style="color:#00e5ff;">Capacidad: Ilimitada ∞</div>
+                            <div class="capacity-bar"><div class="capacity-fill" style="width:100%; background: linear-gradient(90deg, #00e5ff, #9D4EDD);"></div></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> <strong>Predios ilimitados</strong> (.shp / .gpkg)</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> <strong>Cruce Matricular SNR</strong> automático (Excel)</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> Reportes PDF técnicos certificados</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> API FastAPI para automatización full</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> Export GeoJSON + PostGIS ready</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> Dashboard analytics en tiempo real</li>
+                            <li class="feat-ok feat-cyan"><i class="ph ph-check-circle"></i> Soporte técnico prioritario 48h</li>
+                        </ul>
+                        <a href="https://buy.stripe.com/test_7sYeVffECdK99xIb2R5Rm00" target="_blank" class="plan-btn plan-btn-primary">
+                            <i class="ph ph-shield-check"></i> Adquirir Licencia Pro
+                        </a>
+                        <div class="plan-trust gis-mono" style="color:rgba(0,229,255,0.5);">🔒 Pago seguro · Cancela cuando quieras</div>
+                    </div>
+
+                    <!-- GOVERNMENT PLAN -->
+                    <div class="plan-card plan-gold">
+                        <div class="plan-tier" style="color:#ffb400;">GOVERNMENT_NODE</div>
+                        <h3 class="plan-name">Sovereign Tier</h3>
+                        <p class="plan-for">Para Oficinas de Catastro, IGAC, Alcaldías y grandes contratistas.</p>
+                        <div class="plan-price">
+                            <span class="price-amount" style="color:#ffb400;">Custom</span>
+                            <span class="price-period">/proyecto · On-prem available</span>
+                        </div>
+                        <div class="plan-capacity">
+                            <div class="capacity-label" style="color:#ffb400;">Enterprise-Scale · Dedicated Infra</div>
+                            <div class="capacity-bar"><div class="capacity-fill" style="width:100%; background: linear-gradient(90deg, #ffb400, #ff6b00);"></div></div>
+                        </div>
+                        <ul class="plan-features">
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> Despliegue On-Premises (servidores propios)</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> Integración SGDEA / Rentas municipales</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> Modelos Geo-LLM fine-tuneados al municipio</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> Capacitación presencial del equipo GIS</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> SLA técnico garantizado (72h response)</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> White-label: marca propia del municipio</li>
+                            <li class="feat-ok feat-gold"><i class="ph ph-check-circle"></i> Acceso full al source code (licencia)</li>
+                        </ul>
+                        <a href="#contact" class="plan-btn plan-btn-gold">
+                            <i class="ph ph-buildings"></i> Contactar Arquitecto
+                        </a>
+                        <div class="plan-trust gis-mono" style="color:rgba(255,180,0,0.4);">Respuesta en &lt; 24h · NDA disponible</div>
+                    </div>
+
+                </div>
+
+                <!-- TRUST STRIP -->
+                <div class="trust-strip reveal">
+                    <div class="trust-item">
+                        <i class="ph ph-seal-check" style="color:#4ade80; font-size:1.3rem;"></i>
+                        <span>LADM-COL V3 Certified</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <i class="ph ph-database" style="color:#00e5ff; font-size:1.3rem;"></i>
+                        <span>PostGIS Native Engine</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <i class="ph ph-lock-key" style="color:#ffb400; font-size:1.3rem;"></i>
+                        <span>Pago 100% Seguro</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <i class="ph ph-git-fork" style="color:#9D4EDD; font-size:1.3rem;"></i>
+                        <span>Open Architecture</span>
+                    </div>
+                    <div class="trust-divider"></div>
+                    <div class="trust-item">
+                        <i class="ph ph-globe-hemisphere-west" style="color:#00e5ff; font-size:1.3rem;"></i>
+                        <span>Latin America First</span>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- CONTACT PORTAL V2 — ENTERPRISE -->
+        <section id="contact" class="contact-section-v2">
+            <div class="reveal">
+                <span class="section-label" data-i18n="contact_label">// PROJECT_INITIATION</span>
+
+                <div class="contact-portal-v2">
+                    <!-- LEFT: Info + Contact Cards -->
+                    <div class="contact-info-col">
+                        <h2 class="contact-big-title" data-i18n="contact_title">INITIATE<br>CONNECTION.</h2>
+                        <p class="contact-lead" data-i18n="contact_desc">Architecting the next generation of spatial intelligence. Let's discuss your project, municipality, or enterprise GIS challenge.</p>
+
+                        <div class="contact-cards-grid">
+                            <a href="https://www.linkedin.com/in/soyalbertgz/" target="_blank" class="contact-card">
+                                <div class="cc-icon" style="color:#0077b5;"><i class="ph ph-linkedin-logo"></i></div>
+                                <div class="cc-label">LinkedIn</div>
+                                <div class="cc-value">soyalbertgz</div>
+                            </a>
+                            <a href="mailto:Albertg2109@gmail.com" class="contact-card">
+                                <div class="cc-icon" style="color:#00e5ff;"><i class="ph ph-envelope"></i></div>
+                                <div class="cc-label" data-i18n="contact_email_label">Email</div>
+                                <div class="cc-value">Albertg2109@gmail.com</div>
+                            </a>
+                            <a href="https://github.com/Daga21Gz" target="_blank" class="contact-card">
+                                <div class="cc-icon" style="color:#fff;"><i class="ph ph-github-logo"></i></div>
+                                <div class="cc-label">GitHub</div>
+                                <div class="cc-value">Daga21Gz</div>
+                            </a>
+                            <div class="contact-card">
+                                <div class="cc-icon" style="color:#4ade80;"><i class="ph ph-map-pin"></i></div>
+                                <div class="cc-label" data-i18n="contact_loc_label">Location</div>
+                                <div class="cc-value">Medellín, Colombia</div>
+                            </div>
+                        </div>
+
+                        <div class="contact-meta gis-mono">
+                            <div>>> COORD: 6.2442°N, 75.5812°W</div>
+                            <div>>> PROTOCOL: LADM-COL_V3</div>
+                            <div>>> STATUS: <span style="color:#4ade80;">AVAILABLE_FOR_PROJECTS</span></div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Form -->
+                    <div class="contact-form-col">
+                        <div class="contact-form-header gis-mono">TRANSMISSION_FORM // ENCRYPTED_CHANNEL</div>
+                        <form action="https://formspree.io/f/mdalbeyk" method="POST" id="dgz-transmission-form">
+                            <div class="portal-field">
+                                <label data-i18n="form_name">Full_Name</label>
+                                <input type="text" name="name" class="portal-input" placeholder="Organization / Lead Architect" data-i18n="form_placeholder_name" required>
+                            </div>
+                            <div class="portal-field">
+                                <label data-i18n="form_email">Email_Uplink</label>
+                                <input type="email" name="email" class="portal-input" placeholder="user@secure-domain.com" required>
+                            </div>
+                            <div class="portal-field">
+                                <label data-i18n="form_service">Service_Type</label>
+                                <select name="service" class="portal-input">
+                                    <option value="" data-i18n="form_service_select">— Select Service —</option>
+                                    <option data-i18n="form_svc_1">GIS Automation &amp; ETL Pipeline</option>
+                                    <option data-i18n="form_svc_2">Cadastral QA/QC (LADM-COL)</option>
+                                    <option data-i18n="form_svc_3">Enterprise GIS Dashboard</option>
+                                    <option data-i18n="form_svc_4">GeoAI / Satellite Analysis</option>
+                                    <option data-i18n="form_svc_5">Government / Municipal Project</option>
+                                    <option data-i18n="form_svc_6">Other / Consulting</option>
+                                </select>
+                            </div>
+                            <div class="portal-field">
+                                <label data-i18n="form_msg">Mission_Brief</label>
+                                <textarea name="message" class="portal-input" rows="5" placeholder="Define mission parameters & objectives..." data-i18n="form_placeholder_msg" required></textarea>
+                            </div>
+                            <button type="submit" class="btn-transmit" id="submit-btn" style="border: none;">
+                                <span id="btn-text" data-i18n="form_btn">INITIATE_HANDSHAKE</span>
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><line x1="22" y1="2" x2="11" y2="13"></line><polygon points="22 2 15 22 11 13 2 9 22 2"></polygon></svg>
+                            </button>
+                            <div id="form-feedback" style="margin-top: 2rem; font-family: var(--font-mono); font-size: 0.7rem; text-align: center;"></div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </section>
@@ -1317,10 +1826,26 @@
             </div>
         </div>
 
-        <div class="footer-bottom">
-            <div data-i18n="footer_copy">© 2026 ALBERT DANIEL GAVIRIA ZAPATA. ALL RIGHTS RESERVED.</div>
-            <div style="font-family: var(--font-mono); letter-spacing: 0.2em;">DGZ_SPATIAL_INTELLIGENCE_V6.0 // STATUS:
-                ACTIVE</div>
+        <div class="footer-bottom-v2">
+            <div class="footer-bottom-left">
+                <div class="fb-logo-mark">DGZ</div>
+                <div class="fb-legal">
+                    <span data-i18n="footer_copy">© 2026 ALBERT DANIEL GAVIRIA ZAPATA. ALL RIGHTS RESERVED.</span>
+                    <span class="fb-sep">·</span>
+                    <span class="gis-mono" style="font-size:0.5rem;">LADM-COL V3 CERTIFIED ENGINE</span>
+                </div>
+            </div>
+            <div class="footer-bottom-center">
+                <div class="fb-status-pill">
+                    <span class="fb-status-dot"></span>
+                    <span class="gis-mono" style="font-size:0.5rem;">DGZ_SPATIAL_OS_V6.0 // ALL_SYSTEMS_NOMINAL</span>
+                </div>
+            </div>
+            <div class="footer-bottom-right gis-mono">
+                <span id="footer-clock" style="color: rgba(255,255,255,0.3); font-size:0.5rem;">00:00:00 COT</span>
+                <span style="color:rgba(255,255,255,0.1);">//</span>
+                <span style="color:rgba(0,229,255,0.4); font-size:0.5rem;">EPSG:4326</span>
+            </div>
         </div>
     </footer>
 
